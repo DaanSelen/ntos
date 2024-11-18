@@ -1,2 +1,2 @@
-# neos
+# NTOS
 Nerthus Thin Operating System
