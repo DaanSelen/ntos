@@ -1,2 +1,2 @@
 # neos
-Nerthus Edge Operating System
+Nerthus Thin Operating System
