@@ -44,7 +44,7 @@ check_installed_webserver() {
 copy_ntos_files() {
 	if [ "$preflight_check" -eq 1 ]; then
 		echo "Copying files to their respective places..."
-		cp -rv ./assets ./credcon ./setups "$web_file_path"
+		cp -rv ./assets ./credcon ./configs "$web_file_path"
                 echo "Done copying."
         fi
 }
