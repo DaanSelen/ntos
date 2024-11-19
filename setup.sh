@@ -10,7 +10,7 @@ check_installed_webserver() {
                 echo "Apache2 is not installed"
 		preflight_check=0
         else
-                echo "Apache2 looks to be installed"
+                echo "Apache2 looks to in an installed state"
 		preflight_check=1
 
                 printf "What is the directory to place HTML files? (Default: /var/www/html/) "
@@ -27,7 +27,7 @@ check_installed_webserver() {
                 echo "NGINX is not installed"
 		preflight_check=0
         else
-                echo "NGINX looks to be installed"
+                echo "NGINX looks to in an installed state"
 		preflight_check=1
 
                 printf "What is the directory to place HTML files? (Default: /usr/share/nginx/html/) "
@@ -41,16 +41,18 @@ check_installed_webserver() {
         fi
 }
 
-setup_ntos_files() {
-	if [ $"preflight_check" -eq 1 ]; then
+copy_ntos_files() {
+	if [ "$preflight_check" -eq 1 ]; then
 		echo "Copying files to their respective places..."
-		cp 
+		cp -rv ./assets ./credcon ./setups "$web_file_path"
+                echo "Done copying."
+        fi
 }
 
 main() {
 	check_installed_webserver
-	echo $web_file_path
-	setup_ntos_files
+	echo "$web_file_path"
+	copy_ntos_files
 }
 
 main

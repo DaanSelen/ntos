@@ -1,28 +1,30 @@
 #!/bin/bash
 
-webAddr="http://192.168.124.120"
 currentUser=$(whoami)
 
 #########################################
 #                USER                   #
 #########################################
 
-echo "What should the hostname be?"
+printf 'What is the remote webserver presenting the NTOS files? '
+read -r webAddr
+
+printf 'What should the hostname be? '
 read -r newHostname
 
-echo -e "\nCustomizing user environment..."
+echo -e '\nCustomizing user environment...'
 
-curl $webAddr/remote-connection.rdp > /home/${currentUser}/Templates/remote-connection.rdp
-curl $webAddr/credcon.sh > /home/${currentUser}/Templates/credcon.sh
+curl "$webAddr"/remote-connection.rdp > /home/"${currentUser}"/Templates/remote-connection.rdp
+curl "$webAddr"/credcon.sh > /home/"${currentUser}"/Templates/credcon.sh
 
 # Download the file to /home/${currentUser}/Templates (runs as the normal user)
-wget ${webAddr}/Panel-Profile.tar.bz2 -P /home/${currentUser}/Templates
-xfce4-panel-profiles load /home/${currentUser}/Templates/Panel-Profile.tar.bz2
+wget "${webAddr}"/Panel-Profile.tar.bz2 -P /home/"${currentUser}"/Templates
+xfce4-panel-profiles load /home/"${currentUser}"/Templates/Panel-Profile.tar.bz2
 
 # Set theme to Adwaita-Dark.
-xfconf-query -c xsettings -p '/Net/ThemeName' -s "Adwaita-dark"
-xfconf-query -c xsettings -p '/Net/IconThemeName' -s "Adwaita"
-xfconf-query -c xsettings -p '/Gtk/CursorThemeName' -s "Adwaita"
+xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Adwaita-dark'
+xfconf-query -c xsettings -p '/Net/IconThemeName' -s 'Adwaita'
+xfconf-query -c xsettings -p '/Gtk/CursorThemeName' -s 'Adwaita'
 
 # Customize logout screen.
 xfconf-query -c xfce4-session -np '/shutdown/ShowHibernate' -t 'bool' -s 'false'
@@ -51,12 +53,15 @@ xfconf-query -c xfce4-panel -np '/panels/panel-1/span-monitors' -t 'bool' -s 'tr
 #                ROOT                   #
 #########################################
 
-echo -e "\nEscalating for MeshAgent installation..."
+echo -e '\nEscalating for MeshAgent installation...'
 
 # Use su to switch to root and run commands interactively
 su -c "
-# Agent installation for remote management
+# Start agent installation for remote management. (e.g. MeshCentral, NinjaRMM, ConnectWise RMM, etc...)
 
+
+
+# End agent installation for remote management.
 
 hostname $newHostname &&
 echo $newHostname > /etc/hostname &&
@@ -65,7 +70,7 @@ systemctl restart systemecsupportservice
 
 # Check if the source file exists before copying
 sleep 2s
-if [ -f "/home/${currentUser}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml" ]; then
+if [ -f '/home/${currentUser}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ]; then
     echo 'Source xfce4-panel.xml found. Proceeding with copy.'
 
     # Copy xfce4-panel.xml to the system-wide config directory
@@ -82,7 +87,7 @@ fi
 
 mkdir -p /home/$currentUser/.config/autostart
 cp /etc/xdg/autostart/light-locker.desktop /home/$currentUser/.config/autostart
-echo "Hidden=true" >> /home/$currentUser/.config/autostart/light-locker.desktop
+echo 'Hidden=true' >> /home/$currentUser/.config/autostart/light-locker.desktop
 
 echo -e '\nPending reboot, press any key to reboot.'
 read doReboot
