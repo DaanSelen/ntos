@@ -21,6 +21,7 @@ check_installed_webserver() {
                 else
                         web_file_path="$custom_path"
                 fi
+                return
         fi
 
         if [ -z "$nginx_installed" ]; then
@@ -38,6 +39,7 @@ check_installed_webserver() {
                 else
                         web_file_path="$custom_path"
                 fi
+                return
         fi
 }
 
@@ -52,6 +54,7 @@ copy_ntos_files() {
 main() {
 	check_installed_webserver
 	echo "$web_file_path"
+        echo "$preflight_check"
 	copy_ntos_files
 }
 
