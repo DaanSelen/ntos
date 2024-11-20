@@ -1,6 +1,6 @@
 # Glossary (README.md)
 
-Nerthus Thin Operating System (NTOS)<br>
+Nerthus Thin Operating System (NTOS).<br>
 I am happy I am finally able to present something I am actually very fond of, this project.<br>
 I've tried to make this environment as fool-proof as possible so that non-technical people can work with this. I always appreciate feedback.<br>
 
@@ -8,7 +8,7 @@ I've tried to make this environment as fool-proof as possible so that non-techni
 
 The following section explains how to apply this.
 
-### Prerequisite:
+### Prerequisites:
 - A configured remote management system, such as MeshCentral (the installation of such a system is beyond the scope of NTOS).<br>
 Such a remote management system often provides a way to install an agent. To incorporate this into the NTOS installation do:<br>
 `Paste your installation commands into ./configs/<your-configuration>/finish.sh at line 64 to 66.`

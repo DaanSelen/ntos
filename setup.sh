@@ -73,22 +73,33 @@ check_installed_webserver() {
                 
 }
 
+check_user_perms() {
+        if [ "$(id -u)" -eq 0 ]; then
+                return
+        else
+                echo 'Insufficient privileges.'
+                exit 1
+        fi
+
+}
+
 install_apache2_webserver() {
         echo 'Installing apache2...'
 
-        if [ "$(id -u)" -eq 0 ]; then
-                apt install -y apache2 &> /dev/null
-        else
-                echo 'Insufficient privileges to install apache2.'
-                exit 1
-        fi
+        check_user_perms
+        apt install -y apache2 &> /dev/null
 
         check_installed_webserver
 }
 
 copy_ntos_files() {
 	echo "Copying files to their respective places..."
-	cp -rv ./ntos/* "$web_file_path"
+
+        if [ -w "$web_file_path" ]; then
+	        cp -rv ./ntos/* "$web_file_path"
+        else
+                check_user_perms
+        fi
         echo "Done copying."
 }
 
@@ -103,6 +114,8 @@ main() {
                 echo "Something is missing"
                 exit 1
         fi
+
+        echo "Succesfully installed."
 }
 
 main
