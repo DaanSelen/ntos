@@ -6,19 +6,22 @@ currentUser=$(whoami)
 #                USER                   #
 #########################################
 
-printf 'What is the remote webserver presenting the NTOS files? '
-read -r webAddr
+printf 'Where is the remote webserver presenting the NTOS files? '
+read -r web_address
+
+printf 'What rdp file do you need for this configuration? (remove the .rdp from the name) '
+read -r rdp_name
 
 printf 'What should the hostname be? '
-read -r newHostname
+read -r new_hostname
 
 echo -e '\nCustomizing user environment...'
 
-curl "$webAddr"/remote-connection.rdp > /home/"${currentUser}"/Templates/remote-connection.rdp
-curl "$webAddr"/credcon.sh > /home/"${currentUser}"/Templates/credcon.sh
+curl "$web_address"/"${rdp_name}".rdp > /home/"${currentUser}"/Templates/remote-connection.rdp
+curl "$web_address"/credcon.sh > /home/"${currentUser}"/Templates/credcon.sh
 
 # Download the file to /home/${currentUser}/Templates (runs as the normal user)
-wget "${webAddr}"/Panel-Profile.tar.bz2 -P /home/"${currentUser}"/Templates
+wget "${web_address}"/Panel-Profile.tar.bz2 -P /home/"${currentUser}"/Templates
 xfce4-panel-profiles load /home/"${currentUser}"/Templates/Panel-Profile.tar.bz2
 
 # Set theme to Adwaita-Dark.
@@ -63,9 +66,9 @@ su -c "
 
 # End agent installation for remote management.
 
-hostname $newHostname &&
-echo $newHostname > /etc/hostname &&
-sed -i 's/^127\.0\.1\.1.*/127.0.1.1       $newHostname/' /etc/hosts &&
+hostname $new_hostname &&
+echo $new_hostname > /etc/hostname &&
+sed -i 's/^127\.0\.1\.1.*/127.0.1.1       $new_hostname/' /etc/hosts &&
 systemctl restart systemecsupportservice
 
 # Check if the source file exists before copying

@@ -4,10 +4,9 @@ export DISPLAY=:0
 
 currentUser=$(whoami)
 rdpFile="/home/${currentUser}/Templates/remote-connection.rdp"
-#rdpFile="./remote-connection.rdp"
 
 show_loading_bar() {
-    echo "Starting loading bar"
+    echo 'Starting loading bar'
 
     # Start the loading bar in the background and get its PID
     for ((i=1; i<=100; i++)); do
@@ -15,11 +14,11 @@ show_loading_bar() {
         echo "# $i%" > /dev/tty
         sleep 0.1
     done | yad --progress \
-        --title="Loading" \
-        --text="Connecting" \
+        --title='Loading' \
+        --text='Connecting' \
         --width=400 \
         --height=200 \
-        --button="Cancel" \
+        --button='Cancel' \
         --auto-kill \
         --auto-close
 }
@@ -27,15 +26,15 @@ show_loading_bar() {
 # Show credential input dialog
 show_credential_dialogue() {
     credentials=$(yad --form \
-                  --title="Login" \
-                  --text="Enter your credentials" \
-                  --field="Email:" \
-                  --field="Password:":H \
-                  --button="Submit":0 \
-                  --button="Cancel":1 \
+                  --title='Login' \
+                  --text='Enter your credentials' \
+                  --field='Email:' \
+                  --field='Password:':H \
+                  --button='Submit':0 \
+                  --button='Cancel':1 \
                   --width=400 \
                   --height=200 \
-                  --separator=",")
+                  --separator=',')
 
     result=$?
 }
@@ -43,9 +42,9 @@ show_credential_dialogue() {
 # Show dialogue with 'Connection failed'
 show_connection_failure() {
     yad --form \
-        --title="Connection Closed" \
-        --text="Connection was Terminated." \
-        --button="Ok":0 \
+        --title='Connection Closed' \
+        --text='Connection was Terminated.' \
+        --button='Ok':0 \
         --width=400 \
         --height=200
 }
@@ -75,7 +74,7 @@ main() {
 
             # If xfreerdp has been running for more than 30 seconds, exit the loop
             if [ "$elapsed" -ge "$threshold" ]; then
-                echo "xfreerdp ran for more than 30 seconds Assuming success.."
+                echo 'xfreerdp ran for more than 30 seconds Assuming success..'
                 disown "$xfreerdp_pid"
                 pkill -f yad
                 exit 0
@@ -83,7 +82,7 @@ main() {
         done
 
         # If we exit the loop in under 30 seconds, it means xfreerdp terminated early
-        echo "xfreerdp terminated early (less than ${threshold} seconds)."
+        echo "xfreerdp terminated early (less than '${threshold}' seconds)."
         pkill -f yad
         show_connection_failure
         exit 0

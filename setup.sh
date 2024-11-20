@@ -16,7 +16,7 @@ check_installed_webserver() {
                 printf "What is the directory to place HTML files? (Default: /var/www/html/) "
                 read -r custom_path
 
-                if [ -z $custom_path ]; then
+                if [ -z "$custom_path" ]; then
                         web_file_path="/var/www/html/"
                 else
                         web_file_path="$custom_path"
@@ -46,12 +46,13 @@ check_installed_webserver() {
 copy_ntos_files() {
 	if [ "$preflight_check" -eq 1 ]; then
 		echo "Copying files to their respective places..."
-		cp -rv ./assets ./credcon ./configs "$web_file_path"
+		cp -rv ./ntos/* "$web_file_path"
                 echo "Done copying."
         fi
 }
 
 main() {
+        prime_user
 	check_installed_webserver
 	echo "$web_file_path"
         echo "$preflight_check"
