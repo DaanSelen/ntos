@@ -3,11 +3,11 @@
 echo "Searching for pre-installed apache2 or nginx webserver application..."
 
 _check_rdp_profiles() {
-        if [ "$(find "./rdp" -maxdepth 1 -type f -name "*.rdp" | wc -l)" -gt 0 ]; then
-                echo "Found one or more .rdp files in ./rdp"
-                ls "./rdp"/*.rdp
+        if [ "$(find "./ntos/rdp" -maxdepth 1 -type f -name "*.rdp" | wc -l)" -gt 0 ]; then
+                echo "Found one or more .rdp files in ./ntos/rdp"
+                ls "./ntos/rdp"/*.rdp
         else
-                echo "No .rdp files found in ./rdp"
+                echo "No .rdp files found in ./ntos/rdp"
         fi
 }
 
