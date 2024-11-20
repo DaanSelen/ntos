@@ -17,11 +17,17 @@ read -r new_hostname
 
 echo -e '\nCustomizing user environment...'
 
-curl "$web_address"/rdp/"${rdp_name}".rdp > /home/"${current_user}"/Templates/remote-connection.rdp
-curl "$web_address"/credcon/credcon.sh > /home/"${current_user}"/Templates/credcon.sh
+echo "Grabbing ${rdp_name}.rdp from NTOS server."
+curl -s "$web_address"/rdp/"${rdp_name}".rdp > /home/"${current_user}"/Templates/remote-connection.rdp
+
+echo "Grabbing CredCon from NTOS server."
+curl -s "$web_address"/credcon/credcon.sh > /home/"${current_user}"/Templates/credcon.sh
 
 # Download the file to /home/${currentUser}/Templates (runs as the normal user)
-wget "${web_address}"/assets/panel-profile.tar.bz2 -P /home/"${current_user}"/Templates
+echo "Grabbing panel profile from NTOS server."
+wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /home/"${current_user}"/Templates
+
+echo "Applying panel profile..."
 xfce4-panel-profiles load /home/"${current_user}"/Templates/panel-profile.tar.bz2
 
 # Just in case, set the correct user in the desktop shortcut launcher.
