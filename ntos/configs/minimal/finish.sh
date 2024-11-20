@@ -21,7 +21,7 @@ curl "$web_address"/"${rdp_name}".rdp > /home/"${currentUser}"/Templates/remote-
 curl "$web_address"/credcon/credcon.sh > /home/"${currentUser}"/Templates/credcon.sh
 
 # Download the file to /home/${currentUser}/Templates (runs as the normal user)
-wget "${web_address}"/Panel-Profile.tar.bz2 -P /home/"${currentUser}"/Templates
+wget "${web_address}"/assets/Panel-Profile.tar.bz2 -P /home/"${currentUser}"/Templates
 xfce4-panel-profiles load /home/"${currentUser}"/Templates/Panel-Profile.tar.bz2
 
 # Set theme to Adwaita-Dark.
