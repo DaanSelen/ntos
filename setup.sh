@@ -2,6 +2,18 @@
 
 echo "Searching for pre-installed apache2 or nginx webserver application..."
 
+prime_user() {
+        printf 'Is there a Remote-Desktop Protocol (.rdp) file available in ./rdp/? (y/N) '
+        read -r user_primed
+
+        if [[ "$user_primed" =~ ^[yY]$ ]]; then
+                echo "Understood, continuing..."
+        else
+                echo "Please add that first, before running this."
+                exit 0
+        fi
+}
+
 check_installed_webserver() {
 	apache_installed=$(dpkg --get-selections | grep apache2 | cut -f1)
 	nginx_installed=$(dpkg --get-selections | grep nginx | cut -f1)

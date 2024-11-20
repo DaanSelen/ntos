@@ -21,7 +21,8 @@ Such a remote management system often provides a way to install an agent. To inc
 ### How to setup a webserver with NTOS files:
 
 1.  To set everything up, execute the `setup.sh` bash script and answer its questions.<br>
-    Once that's done, you can verify that with (configure to your own situation): `curl http://localhost/configs/minimal/preseed`.<br>
+    Once that's done, you can verify that with (configure to your own situation):<br>
+    `curl http://localhost/configs/minimal/preseed`.<br>
     This should output the Debian preseed for the minimal configuration.<br>
 
 ### How to install a client.
