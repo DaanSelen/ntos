@@ -86,7 +86,6 @@ if [ -f '/home/${current_user}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-pa
     # Lock the panel configuration
     sed -i 's|<channel name=\"xfce4-panel\" version=\"1.0\">|<channel name=\"xfce4-panel\" version=\"1.0\" locked=\"*\" unlocked=\"root\">|' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml &&
     echo 'Successfully applied the lock to xfce4-panel.xml'
-    echo 'Error: Failed to modify xfce4-panel.xml with sed'
 else
     echo 'Error: Source xfce4-panel.xml not found at /home/$current_user/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml'
 fi
