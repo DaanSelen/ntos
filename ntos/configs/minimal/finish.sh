@@ -69,7 +69,6 @@ su -c "
 hostname $new_hostname &&
 echo $new_hostname > /etc/hostname &&
 sed -i 's/^127\.0\.1\.1.*/127.0.1.1       $new_hostname/' /etc/hosts &&
-systemctl restart systemecsupportservice
 
 # Check if the source file exists before copying
 sleep 2s
