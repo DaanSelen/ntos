@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "Searching for pre-installed apache2 or nginx webserver application..."
-
 _check_rdp_profiles() {
+        echo "Searching for rdp profiles..."
+
         if [ "$(find "./ntos/rdp" -maxdepth 1 -type f -name "*.rdp" | wc -l)" -gt 0 ]; then
                 echo "Found one or more .rdp files in ./ntos/rdp"
                 ls "./ntos/rdp"/*.rdp
@@ -12,6 +12,8 @@ _check_rdp_profiles() {
 }
 
 _check_installed_webserver() {
+        echo "Searching for pre-installed apache2 or nginx webserver application..."
+        
 	apache_installed=$(dpkg --get-selections | grep apache2 | cut -f1)
 	nginx_installed=$(dpkg --get-selections | grep nginx | cut -f1)
 
