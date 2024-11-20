@@ -26,7 +26,7 @@ xfce4-panel-profiles load /home/"${current_user}"/Templates/panel-profile.tar.bz
 
 # Just in case, set the correct user in the desktop shortcut launcher.
 launcher_file=$(grep -rl 'Credcon' /home/user/.config/xfce4/panel/launcher-*)
-sed -i "s|/home/user/|/home/${current_user}/|" "$launcher_file"
+sed -i "s|/home/dummy_user/|/home/${current_user}/|" "$launcher_file"
 
 # Set theme to Adwaita-Dark.
 xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Adwaita-dark'
