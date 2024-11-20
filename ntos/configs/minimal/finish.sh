@@ -20,7 +20,7 @@ echo -e '\nCustomizing user environment...'
 echo "Grabbing ${rdp_name}.rdp from NTOS server."
 curl -s "$web_address"/rdp/"${rdp_name}".rdp > /home/"${current_user}"/Templates/remote-connection.rdp
 
-echo "Grabbing CredCon from NTOS server."
+echo "Grabbing Credcon from NTOS server."
 curl -s "$web_address"/credcon/credcon.sh > /home/"${current_user}"/Templates/credcon.sh
 
 # Download the file to /home/${currentUser}/Templates (runs as the normal user)

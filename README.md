@@ -45,7 +45,7 @@ The Bash `setup.sh`-script copies the needed files to the specificied location o
 The following endpoints are available by default. This is needed for the new machine to set itself up.
 
 ```shell
-/assets/Panel-Profile.tar.bz2   # XFCE4 Panel profile.
+/assets/panel-profile.tar.bz2   # XFCE4 Panel profile.
 /credcon/credcon.sh             # Bash script for asking user credentials (for the RDP connection).
 /configs/minimal/preseed.cfg    # The Debian preseed file.
 /configs/minimal/finish.sh      # The Bash script that applies all settings.
