@@ -81,18 +81,17 @@ _check_user_perms() {
 }
 
 install_apache2_webserver() {
-        echo 'Installing apache2...'
-
         _check_user_perms
+
+        echo 'Installing apache2...'
         apt install -y apache2 &> /dev/null
 
         _check_installed_webserver
 }
 
 copy_ntos_files() {
-	echo "Copying files to their respective places..."
-
         if [ -w "$web_file_path" ]; then
+                echo "Copying files to their respective places..."
 	        cp -rv ./ntos/* "$web_file_path"
         else
                 _check_user_perms
