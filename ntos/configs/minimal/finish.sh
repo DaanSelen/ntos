@@ -56,7 +56,7 @@ xfconf-query -c xfce4-panel -np '/panels/panel-1/span-monitors' -t 'bool' -s 'tr
 #                ROOT                   #
 #########################################
 
-echo -e '\nEscalating for MeshAgent installation...'
+echo -e '\nEscalating for remote management agent installation...'
 
 # Use su to switch to root and run commands interactively
 su -c "

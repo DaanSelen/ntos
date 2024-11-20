@@ -24,10 +24,10 @@ check_installed_webserver() {
                 echo 'Apache2 looks to in an installed state'
                 printf 'What is the directory to place HTML files? (Default: /var/www/html/) '
                 read -r custom_path
+                preflight_check=1
 
                 if [ -z "$custom_path" ]; then
                         web_file_path='/var/www/html/'
-                        preflight_check=1
                 else
                         web_file_path="$custom_path"
                 fi
@@ -40,10 +40,10 @@ check_installed_webserver() {
                 echo 'NGINX looks to in an installed state'
                 printf 'What is the directory to place HTML files? (Default: /usr/share/nginx/html/) '
                 read -r custom_path
+                preflight_check=1
 
                 if [ -z "$custom_path" ]; then
                         web_file_path='/usr/share/nginx/html/'
-                        preflight_check=1
                 else
                         web_file_path="$custom_path"
                 fi
@@ -55,6 +55,7 @@ check_installed_webserver() {
                 read -r user_granted_install_permission
                 if [[ "$user_granted_install_permission" =~ ^[yY]$ ]]; then
                         install_apache2_webserver
+                        return
                 fi
 
                 printf 'Do you want to specify a custom HTML directory? (y/N) '
@@ -76,7 +77,7 @@ install_apache2_webserver() {
         echo 'Installing apache2...'
 
         if [ "$(id -u)" -eq 0 ]; then
-                apt install -y apache2
+                apt install -y apache2 &> /dev/null
         else
                 echo 'Insufficient privileges to install apache2.'
                 exit 1
