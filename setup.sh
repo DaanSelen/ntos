@@ -2,19 +2,16 @@
 
 echo "Searching for pre-installed apache2 or nginx webserver application..."
 
-prime_user() {
-        printf 'Is there a Remote-Desktop Protocol (.rdp) file available in ./rdp/? (y/N) '
-        read -r user_primed
-
-        if [[ "$user_primed" =~ ^[yY]$ ]]; then
-                echo "Understood, continuing..."
+_check_rdp_profiles() {
+        if [ "$(find "./rdp" -maxdepth 1 -type f -name "*.rdp" | wc -l)" -gt 0 ]; then
+                echo "Found one or more .rdp files in ./rdp"
+                ls "./rdp"/*.rdp
         else
-                echo "Please add that first, before running this."
-                exit 0
+                echo "No .rdp files found in ./rdp"
         fi
 }
 
-check_installed_webserver() {
+_check_installed_webserver() {
 	apache_installed=$(dpkg --get-selections | grep apache2 | cut -f1)
 	nginx_installed=$(dpkg --get-selections | grep nginx | cut -f1)
 
@@ -73,7 +70,7 @@ check_installed_webserver() {
                 
 }
 
-check_user_perms() {
+_check_user_perms() {
         if [ "$(id -u)" -eq 0 ]; then
                 return
         else
@@ -86,10 +83,10 @@ check_user_perms() {
 install_apache2_webserver() {
         echo 'Installing apache2...'
 
-        check_user_perms
+        _check_user_perms
         apt install -y apache2 &> /dev/null
 
-        check_installed_webserver
+        _check_installed_webserver
 }
 
 copy_ntos_files() {
@@ -98,14 +95,14 @@ copy_ntos_files() {
         if [ -w "$web_file_path" ]; then
 	        cp -rv ./ntos/* "$web_file_path"
         else
-                check_user_perms
+                _check_user_perms
         fi
         echo "Done copying."
 }
 
 main() {
-        prime_user
-	check_installed_webserver
+        _check_rdp_profiles
+	_check_installed_webserver
 	echo "Chosen HTML-filepath is: ${web_file_path}"
 
         if [ "$preflight_check" -eq 1 ]; then
