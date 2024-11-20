@@ -17,7 +17,7 @@ read -r new_hostname
 
 echo -e '\nCustomizing user environment...'
 
-curl "$web_address"/"${rdp_name}".rdp > /home/"${currentUser}"/Templates/remote-connection.rdp
+curl "$web_address"/rdp/"${rdp_name}".rdp > /home/"${currentUser}"/Templates/remote-connection.rdp
 curl "$web_address"/credcon/credcon.sh > /home/"${currentUser}"/Templates/credcon.sh
 
 # Download the file to /home/${currentUser}/Templates (runs as the normal user)
