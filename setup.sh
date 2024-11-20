@@ -75,8 +75,13 @@ check_installed_webserver() {
 install_apache2_webserver() {
         echo 'Installing apache2...'
 
-        apt install -y apache2
-
+        if [ "$(id)" -eq 0 ]; then
+                apt install -y apache2
+        else
+                echo 'Insufficient privileges to install apache2.'
+                exit 1
+        fi
+        
         check_installed_webserver
 }
 
