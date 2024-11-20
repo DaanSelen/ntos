@@ -1,6 +1,6 @@
 #!/bin/bash
 
-currentUser=$(whoami)
+current_user=$(whoami)
 
 #########################################
 #                USER                   #
@@ -17,12 +17,16 @@ read -r new_hostname
 
 echo -e '\nCustomizing user environment...'
 
-curl "$web_address"/rdp/"${rdp_name}".rdp > /home/"${currentUser}"/Templates/remote-connection.rdp
-curl "$web_address"/credcon/credcon.sh > /home/"${currentUser}"/Templates/credcon.sh
+curl "$web_address"/rdp/"${rdp_name}".rdp > /home/"${current_user}"/Templates/remote-connection.rdp
+curl "$web_address"/credcon/credcon.sh > /home/"${current_user}"/Templates/credcon.sh
 
 # Download the file to /home/${currentUser}/Templates (runs as the normal user)
-wget "${web_address}"/assets/panel-profile.tar.bz2 -P /home/"${currentUser}"/Templates
-xfce4-panel-profiles load /home/"${currentUser}"/Templates/panel-profile.tar.bz2
+wget "${web_address}"/assets/panel-profile.tar.bz2 -P /home/"${current_user}"/Templates
+xfce4-panel-profiles load /home/"${current_user}"/Templates/panel-profile.tar.bz2
+
+# Just in case, set the correct user in the desktop shortcut launcher.
+launcher_file=$(grep -rl 'Credcon' /home/user/.config/xfce4/panel/launcher-*)
+sed -i "s|/home/user/|/home/${current_user}/|" "$launcher_file"
 
 # Set theme to Adwaita-Dark.
 xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Adwaita-dark'
@@ -72,11 +76,11 @@ sed -i 's/^127\.0\.1\.1.*/127.0.1.1       $new_hostname/' /etc/hosts &&
 
 # Check if the source file exists before copying
 sleep 2s
-if [ -f '/home/${currentUser}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ]; then
+if [ -f '/home/${current_user}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ]; then
     echo 'Source xfce4-panel.xml found. Proceeding with copy.'
 
     # Copy xfce4-panel.xml to the system-wide config directory
-    cp /home/${currentUser}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/ &&
+    cp /home/${current_user}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/ &&
     echo 'Successfully copied xfce4-panel.xml to /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/' &&
 
     # Lock the panel configuration
@@ -84,12 +88,12 @@ if [ -f '/home/${currentUser}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-pan
     echo 'Successfully applied the lock to xfce4-panel.xml'
     echo 'Error: Failed to modify xfce4-panel.xml with sed'
 else
-    echo 'Error: Source xfce4-panel.xml not found at /home/$currentUser/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml'
+    echo 'Error: Source xfce4-panel.xml not found at /home/$current_user/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml'
 fi
 
-mkdir -p /home/$currentUser/.config/autostart
-cp /etc/xdg/autostart/light-locker.desktop /home/$currentUser/.config/autostart
-echo 'Hidden=true' >> /home/$currentUser/.config/autostart/light-locker.desktop
+mkdir -p /home/$current_user/.config/autostart
+cp /etc/xdg/autostart/light-locker.desktop /home/$current_user/.config/autostart
+echo 'Hidden=true' >> /home/$current_user/.config/autostart/light-locker.desktop
 
 echo -e '\nPending reboot, press any key to reboot.'
 read doReboot
