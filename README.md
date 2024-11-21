@@ -18,6 +18,8 @@ Such a remote management system often provides a way to install an agent. To inc
 
 - A Debian installation medium, such as an USB-stick with Debian net(work)-inst(allation) or the CD/DVD media flashed onto it. (For flashing see: [rufus](https://rufus.ie/) / [Balena Etcher](https://www.balena.io/etcher))<br>
 
+- Networking connectivity. (DHCP is easiest and fastest)
+
 ### How to setup a webserver with NTOS files:
 
 1.  To set everything up, execute the `setup.sh` bash script and answer its questions.<br>
@@ -33,14 +35,33 @@ Such a remote management system often provides a way to install an agent. To inc
     
     > For an example see [preseed-screen](./assets/images/debian12-preseed-screen.png).<br>
 
-2.  Refering to the webserver endpoints below - enter the IP-address or hostname of the webserver followed by `/configs/<desired-config>/preseed.cfg`. By default the minimal configuration is available.<br>
+2.  Refering to the webserver endpoints below - enter the IP-address or hostname of the webserver (with the port) followed by `/configs/<desired-config>/preseed.cfg`. By default the minimal configuration is available.<br>
     This makes the [Debian-installer](https://www.debian.org/devel/debian-installer/) use the preseed configuration for its installation.<br>
     The only manual input needed for installation is the partitioning, this is because this project has been made for a machine with 4GB total storage.<br>
     This means, if you have more than let's say 6GB total storage, then you can choose the Guided Partitioning (expert users can make something themselves).<br>
 
+3.  Now the machine will install itself using the selected configuration from ./ntos/configs (if you selected it correctly).<br>
+    Just wait a while, the older the machine the slowed it will be. Once the installation is complete the machine will restart itself as per instruction of the preseed. <br>
+
+4. Once the machine has succesfully booted into the Desktop Environment (DE) you have chosen (the default is XFCE4) open a terminal and enter:<br>
+    `bash <(curl <your-ntos-server-ip/hostname:port>/configs/<desired-config>)`<br>
+    This will initiate the 'finisher'-script, after which the install should be complete.
+
+    > For examples see the image examples or the [images-directory](./assets/images)
+
+5. Enjoy! Linux is so much fun to use. 😉
+
+## Image examples:
+
+![Preseed-screen](./assets/images/debian12-preseed-screen.png)
+![Post-install desktop](./assets/images/debian12-postboot-desktop.png)
+![Executing finish.sh](./assets/images/debian12-finishsh-progress.png)
+![After installing and rebooting](./assets/images/debian12-postinstallreboot-desktop.png)
+![Credask in action!](./assets/images/debian12-credask-inaction.png)
+
 ## Webserver endpoint structure:
 
-The Bash `setup.sh`-script copies the needed files to the specificied location on the system, preferably a webserver root.
+The Bash `install.sh`-script copies the needed files to the specificied location on the system, preferably a webserver root.
 
 The following endpoints are available by default. This is needed for the new machine to set itself up.
 
@@ -54,3 +75,7 @@ The following endpoints are available by default. This is needed for the new mac
 
 The above `/rdp` endpoint requires you to place premade `.rdp` files in the directory before running `setup.sh`.<br>
 Then the finish script will ask for which one to pick.
+
+## Epilogue
+
+Thanks!
