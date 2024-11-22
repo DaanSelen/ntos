@@ -1,8 +1,14 @@
 # Glossary (README.md)
 
 Nerthus Thin Operating System (NTOS).<br>
-I am happy I am finally able to present something I am actually very fond of, this project.<br>
-I've tried to make this environment as fool-proof as possible so that non-technical people can work with this. I always appreciate feedback.<br>
+What is it? What problem does it solve?<br>
+
+NTOS tries to solve the problem where enterprise-grade ThinClient operating systems cost a lot of money for relatively less features (in my opinion).<br>
+This is where NTOS comes in: - it is based on Debian for stability and security - it can run on as small of a harddrive as 4GB with 2GB RAM (tested) - and it is very minimal.<br>
+It (NTOS) specifically uses a Debian installation with a customized Desktop Environment (DE) to minimize the points of "trouble" a user can cause.<br>
+It offers a way to connect to cloud environments (currently only RDP-based) in a easy and straight-to-the-point method using the Credcon (Bash script) 😁.<br>
+
+I added ways to set-up a server for installation (perhaps I can add PXE in the future). And a guide to get started! Feel free to open an issue or email me.
 
 ## How to install:
 
@@ -78,4 +84,6 @@ Then the finish script will ask for which one to pick.
 
 ## Epilogue
 
-Thanks!
+I am happy I am finally able to present something I am actually very fond of, this project.<br>
+I've tried to make this environment as fool-proof as possible so that non-technical people can work with this. I always appreciate feedback.<br>
+Thanks<br>
