@@ -7,10 +7,9 @@ Below I will describe a couple RMM/Management solutions I am familiar with.<br>
 
 MeshCentral is the go-to application to use in this case - free, open-source and overal it has a great community ([More info](https://github.com/Ylianst/MeshCentral)).<br>
 The way to deploy a MeshCentral-agent to a NTOS-client is to configure your desired config, such as minimal (inside [the NTOS directories](../../ntos/configs/)).<br>
-And then once the preseed has been called, apply it - using `finish.sh`.<br>
 For example, paste the lines below on the lines referenced in the main [README.md](../../README.md):
 
-> Note, that the below instruction is just copied from MeshCentral when clicking '*Add Agent*' -> '*Linux / BSD*' (I just split it up into multiple lines).
+> Note: The below instruction is just copied from MeshCentral when clicking '*Add Agent*' -> '*Linux / BSD*' (I just split it up into multiple lines).
 
 ```
 (wget "https://<your-meshcentral-location>/meshagents?script=1" -O ./meshinstall.sh \
@@ -22,4 +21,13 @@ For example, paste the lines below on the lines referenced in the main [README.m
 
 > Don't forget the remove the remaining files after this installation. I normally do this through `rm *mesh*`, but make sure that this does not delete other things as well.
 
-Once you have the above lines inside the `finish.sh` script, you can deploy a NTOS-client as per usual. Once you execute th
+Once you have the above lines inside the `finish.sh` script, you can actually apply it - using `finish.sh` (as in [this image](../../assets/images/debian12-finishsh-progress.png)).<br>
+This should then use the MeshCentral instructions and make it pop-up in your specified group.
+
+## Desktop:
+
+As an example, you can 'shadow' or 'share screen' from MeshCentral.<br>
+
+![MeshCentral Desktop Example (2560x1440p)](../../assets/images/meshcentral-ntos-desktop.png)
+
+> Note: Screenshot might be out-of-date. But functionality is the same.
