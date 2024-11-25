@@ -23,7 +23,7 @@ Such a remote management system often provides a way to install an agent. To inc
 `Paste your installation commands into ./configs/<your-configuration>/finish.sh at line 64 to 66.`
 
     > If you do not configure a remote management system, then your system will be hard to debug or trouble-shoot (because of the fool-proof nature).<br>
-    > Personally I've used MeshCentral which is free and works great!
+    > Personally I've used MeshCentral which is free and works great! Link is [here](https://github.com/Ylianst/MeshCentral)
 
 - A Debian installation medium, such as an USB-stick with Debian net(work)-inst(allation) or the CD/DVD media flashed onto it. (For flashing see: [rufus](https://rufus.ie/) / [Balena Etcher](https://www.balena.io/etcher))<br>
 
