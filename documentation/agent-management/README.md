@@ -1,4 +1,4 @@
-# How to manage NTOS-agents
+# How to manage NTOS-clients:
 
 There are many ways to manage NTOS (Linux) agents, and people are free to help me expand this documentation!<br>
 Below I will describe a couple RMM/Management solutions I am familiar with.<br>
