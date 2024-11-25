@@ -1,5 +1,5 @@
 > [!NOTE]
-> *If you experience issues or have suggestions, submit an issue! https://github.com/DaanSelen/ntos/issues I'll respond ASAP!**
+> *If you experience issues or have suggestions, submit an issue! https://github.com/DaanSelen/ntos/issues I'll respond ASAP!*
 
 # Glossary (README.md)
 
