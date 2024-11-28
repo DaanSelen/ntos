@@ -12,8 +12,8 @@ show_loading_bar() {
     echo 'Starting loading bar'
 
     for ((i=1; i<=100; i++)); do
-        echo $i
-        echo "# $i%" > /dev/tty
+        echo $i | tee /dev/null
+        echo "# $i%" | tee /dev/tty
         sleep 0.1
     done | yad --progress \
         --title='Loading' \
@@ -70,14 +70,14 @@ main() {
 
         # Start xfreerdp session in the background and get its process ID (PID).
         # This does not hinder the process from taking over the (screen/monitor) session.
-        xfreerdp "$rdpFile" /u:"${username}" /p:"${password}" /cert-ignore &>> /dev/null &
+        xfreerdp "$rdpFile" /u:"${username}" /p:"${password}" /cert-ignore | tee /dev/tty &
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.
         threshold=30
         elapsed=0
         interval=1
-        
+
         # Keep track of how long the FreeRDP process is alive for.
         while kill -0 "$xfreerdp_pid" 2> /dev/null; do
             sleep "$interval"
@@ -100,13 +100,17 @@ main() {
 
         # If we exit the loop in under 30 seconds, it means xfreerdp terminated early, which likely means a failure to login/connect.
         echo "xfreerdp terminated early (less than '${threshold}' seconds)."
-        
+
         # This is done to kill the loading bar process, because it will be followed-up by the "login_failed" dialogue.
         pkill -f yad
-        
+
         # The follow-up.
         show_connection_failure
-        
+
+        # Kill the bash process, this stops the background counting of the loading bar. While exiting gracefully!
+        pkill -f bash &
+
+        echo "test"
         # Gracefully exit.
         exit 0
     fi

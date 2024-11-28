@@ -60,6 +60,60 @@ Paste your installation commands into the root part, for example: `./configs/min
 
 5. Enjoy! Linux is so much fun to use. 😉
 
+# How to debug?
+
+If you are encountering issues with - most likely connecting the actual RDP session. Follow these steps!<br>
+Make sure you have exported the correct DISPLAY environment variable.<br>
+The way I do this - is in MeshCentral I enter the `Terminal` tab and enter `export DISPLAY=:0`.<br>
+
+> This makes sure all graphical apps pop-up on the actual monitor!
+
+Then if you want to debug `Credcon` do the following:
+
+```shell
+bash ~/Templates/credcon.sh
+```
+
+This will print the output to the current terminal, while keeping the GUI/Dialogue boxes on the monitor!
+
+Example output:
+```text
+user@NTOS:~/Templates$ bash credcon.sh 
+Starting loading bar
+# 1%
+# 2%
+# 3%
+# 4%
+[16:39:02:892] [8315:8327] [ERROR][com.freerdp.core] - freerdp_tcp_connect:freerdp_set_last_error_ex ERRCONNECT_DNS_NAME_NOT_FOUND [0x00020005]
+# 5%
+[16:39:02:946] [8315:8327] [ERROR][com.freerdp.core] - rdg_establish_data_connection:freerdp_set_last_error_ex ERRCONNECT_ACCESS_DENIED [0x00020016]
+[16:39:02:891] [8315:8327] [INFO][com.freerdp.core.nego] - Detecting if host can be reached locally. - This might take some time.
+[16:39:02:891] [8315:8327] [INFO][com.freerdp.core.nego] - To disable auto detection use /gateway-usage-method:direct
+[16:39:02:891] [8315:8327] [INFO][com.freerdp.core.nego] - Detecting if host can be reached locally. - This might take some time.
+[16:39:02:891] [8315:8327] [INFO][com.freerdp.core.nego] - To disable auto detection use /gateway-usage-method:direct
+# 6%
+# 7%
+# 8%
+# 9%
+# 10%
+xfreerdp terminated early (less than '30' seconds).
+# 11%
+# 12%
+# 13%
+# 14%
+# 15%
+# 16%
+# 17%
+# 18%
+# 19%
+# 20%
+# 21%
+# 22%
+# 23%
+```
+
+The above example shows a `ACCESS_DENIED` error.
+
 ## Image examples:
 
 ![Preseed-screen](./assets/images/debian12-preseed-screen.png)
