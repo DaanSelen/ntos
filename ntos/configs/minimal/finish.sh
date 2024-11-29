@@ -81,7 +81,7 @@ echo $new_hostname > /etc/hostname &&
 sed -i 's/^127\.0\.1\.1.*/127.0.1.1       $new_hostname/' /etc/hosts &&
 
 # Check if the source file exists before copying
-sleep 2s
+sleep 3s # Add some sleep for the machine to process everything.
 if [ -f '/home/${current_user}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ]; then
     echo 'Source xfce4-panel.xml found. Proceeding with copy.'
 
