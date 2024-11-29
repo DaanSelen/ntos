@@ -104,13 +104,12 @@ main() {
         # This is done to kill the loading bar process, because it will be followed-up by the "login_failed" dialogue.
         pkill -f yad
 
-        # The follow-up.
+        # The follow-up. In the meanwhile the loading bar keeps counting, this is expected because it does not get killed yet...
         show_connection_failure
 
         # Kill the bash process, this stops the background counting of the loading bar. While exiting gracefully!
         pkill -f bash &
 
-        echo "test"
         # Gracefully exit.
         exit 0
     fi
