@@ -49,6 +49,9 @@ xfconf-query -c xfce4-session -np '/shutdown/LockScreen' -t 'bool' -s 'false'
 # Limit workspaces (Like Virtual Desktops in Windows).
 xfconf-query -c xfwm4 -p /general/workspace_count -s 1
 
+# Remove all keyboard shortcuts.
+xfconf-query -c xfce4-keyboard-shortcuts -p / -r -R
+
 # Desktop itself customization.
 xfconf-query -c xfce4-desktop -np '/desktop-icons/style' -t 'int' -s '0'
 xfconf-query -c xfce4-desktop -np '/desktop-menu/show' -t 'bool' -s 'false'
@@ -57,7 +60,6 @@ xfconf-query -c xfce4-desktop -np '/windowlist-menu/show-add-remove-workspaces' 
 # Disable logout on screenlock and such things. (Unneeded without light-locker)
 xfconf-query -c xfce4-power-manager -np '/xfce4-power-manager/lock-screen-suspend-hibernate' -t 'bool' -s 'false'
 xfconf-query -c xfce4-power-manager -np '/xfce4-power-manager/logind-handle-lid-switch' -t 'bool' -s 'false'
-#xfconf-query -c xfce4-power-manager -np '/xfce4-power-manager/presentation-mode' -t 'bool' -s 'true' # Presentation mode (The screen will not go into hibernation)
 
 # Configure the span monitor option.
 xfconf-query -c xfce4-panel -np '/panels/panel-1/span-monitors' -t 'bool' -s 'true'
