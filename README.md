@@ -119,8 +119,6 @@ The above example shows a `ACCESS_DENIED` error.
 ![Preseed-screen](./assets/images/debian12-preseed-screen.png)
 ![Post-install desktop](./assets/images/debian12-postboot-desktop.png)
 ![Executing finish.sh](./assets/images/debian12-finishsh-progress.png)
-![After installing and rebooting](./assets/images/debian12-postinstallreboot-desktop.png)
-![Credcon in action!](./assets/images/debian12-credcon-inaction.png)
 
 ## Webserver endpoint structure:
 
