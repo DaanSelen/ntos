@@ -59,7 +59,7 @@ list_usb_devices() {
     while read -r id; do
         usb_ids_map["$id"]=1
     done < <(lsusb -tv | awk '
-      /Mass Storage|Wireless/ {
+      /Mass Storage/ {
         getline
         if ($0 ~ /ID/) {
           sub(/.*ID /, "", $0)
