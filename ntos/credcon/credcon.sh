@@ -70,7 +70,7 @@ main() {
 
         # Start xfreerdp session in the background and get its process ID (PID).
         # This does not hinder the process from taking over the (screen/monitor) session.
-        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /a:drive:/media/user/* &
+        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /a:drive,/media/user/* &
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.
