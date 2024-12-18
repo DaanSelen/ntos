@@ -64,6 +64,10 @@ xfconf-query -c xfce4-power-manager -np '/xfce4-power-manager/logind-handle-lid-
 # Configure the span monitor option.
 xfconf-query -c xfce4-panel -np '/panels/panel-1/span-monitors' -t 'bool' -s 'true'
 
+# Enable automounting
+xfconf-query -c thunar-volman -np '/automount-drives/enabled' -t 'bool' -s 'true'
+xfconf-query -c thunar-volman -np '/automount-media/enabled' -t 'bool' -s 'true'
+
 #########################################
 #                ROOT                   #
 #########################################
@@ -101,9 +105,6 @@ fi
 mkdir -p /home/$current_user/.config/autostart
 cp /etc/xdg/autostart/light-locker.desktop /home/$current_user/.config/autostart
 echo 'Hidden=true' >> /home/$current_user/.config/autostart/light-locker.desktop
-
-# Setting USB-bus permissions for redirection
-chmod -R 777 /dev/bus/usb/
 
 echo -e '\nPending reboot, press any key to reboot.'
 read doReboot

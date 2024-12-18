@@ -14,7 +14,7 @@ show_loading_bar() {
     for ((i=1; i<=100; i++)); do
         echo $i | tee /dev/null
         echo "# $i%" | tee /dev/tty
-        sleep 0.1
+        sleep 0.125
     done | yad --progress \
         --title='Loading' \
         --text='Connecting' \
@@ -53,29 +53,6 @@ show_connection_failure() {
         --height=200
 }
 
-list_usb_devices() {
-    declare -A usb_ids_map
-
-    while read -r id; do
-        usb_ids_map["$id"]=1
-    done < <(lsusb -tv | awk '
-      /Mass Storage/ {
-        getline
-        if ($0 ~ /ID/) {
-          sub(/.*ID /, "", $0)
-          print $1
-        }
-      }
-    ')
-
-    usb_ids=()
-    for id in "${!usb_ids_map[@]}"; do
-        usb_ids+=("/usb:id,dev:$id")
-    done
-
-    echo "${usb_ids[*]}"
-}
-
 # Main loop, because I am a bit used to that programming structure.
 main() {
     # Start the script by displaying the credential prompt.
@@ -90,11 +67,10 @@ main() {
 
         # Show the loading bar in the background, this is made because the FreeRDP session will take over the entire screen.
         show_loading_bar &
-        usb_devices=$(list_usb_devices)
 
         # Start xfreerdp session in the background and get its process ID (PID).
         # This does not hinder the process from taking over the (screen/monitor) session.
-        xfreerdp "$rdpFile" /u:"${username}" /p:"${password}" "${usb_devices}" /cert-ignore | tee /dev/tty &
+        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /a:drive:/media/user/* &
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.
