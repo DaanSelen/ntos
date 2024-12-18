@@ -102,6 +102,9 @@ mkdir -p /home/$current_user/.config/autostart
 cp /etc/xdg/autostart/light-locker.desktop /home/$current_user/.config/autostart
 echo 'Hidden=true' >> /home/$current_user/.config/autostart/light-locker.desktop
 
+# Setting USB-bus permissions for redirection
+chmod -R 777 /dev/bus/usb/
+
 echo -e '\nPending reboot, press any key to reboot.'
 read doReboot
 /sbin/reboot now
