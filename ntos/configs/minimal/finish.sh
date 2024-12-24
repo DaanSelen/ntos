@@ -1,6 +1,6 @@
 #!/bin/bash
 
-current_user=$(whoami)
+# User-username: user
 
 #########################################
 #                USER                   #
@@ -18,21 +18,21 @@ read -r new_hostname
 echo -e '\nCustomizing user environment...'
 
 echo "Grabbing ${rdp_name}.rdp from NTOS server."
-curl -s "$web_address"/rdp/"${rdp_name}".rdp > /home/"${current_user}"/Templates/remote-connection.rdp
+curl -s "$web_address"/rdp/"${rdp_name}".rdp > /home/user/Templates/remote-connection.rdp
 
 echo "Grabbing Credcon from NTOS server."
-curl -s "$web_address"/credcon/credcon.sh > /home/"${current_user}"/Templates/credcon.sh
+curl -s "$web_address"/credcon/credcon.sh > /home/user/Templates/credcon.sh
 
-# Download the file to /home/${currentUser}/Templates (runs as the normal user)
+# Download the file to /home/user/Templates (runs as the normal user)
 echo "Grabbing panel profile from NTOS server."
-wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /home/"${current_user}"/Templates
+wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /home/user/Templates
 
 echo "Applying panel profile..."
-xfce4-panel-profiles load /home/"${current_user}"/Templates/panel-profile.tar.bz2
+xfce4-panel-profiles load /home/user/Templates/panel-profile.tar.bz2
 
 # Just in case, set the correct user in the desktop shortcut launcher.
 launcher_file=$(grep -rl 'Credcon' /home/user/.config/xfce4/panel/launcher-*)
-sed -i "s|/home/dummy_user/|/home/${current_user}/|" "$launcher_file"
+sed -i "s|/home/dummy_user/|/home/user/|" "$launcher_file"
 
 # Set theme to Adwaita-Dark.
 xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Adwaita-dark'
@@ -76,8 +76,7 @@ echo -e '\nEscalating for remote management agent installation...'
 
 # Use su to switch to root and run commands interactively
 su -c "
-# Start agent installation for remote management. (e.g. MeshCentral, NinjaRMM, ConnectWise RMM, etc...)
-
+# Start agent installation for remote management. (e.g. MeshCentral, NinjaRMM, ConnectWise RMM, N-Able, etc...)
 
 
 # End agent installation for remote management.
@@ -88,23 +87,23 @@ sed -i 's/^127\.0\.1\.1.*/127.0.1.1       $new_hostname/' /etc/hosts &&
 
 # Check if the source file exists before copying
 sleep 3s # Add some sleep for the machine to process everything.
-if [ -f '/home/${current_user}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ]; then
+if [ -f '/home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ]; then
     echo 'Source xfce4-panel.xml found. Proceeding with copy.'
 
     # Copy xfce4-panel.xml to the system-wide config directory
-    cp /home/${current_user}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/ &&
+    cp /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/ &&
     echo 'Successfully copied xfce4-panel.xml to /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/' &&
 
     # Lock the panel configuration
     sed -i 's|<channel name=\"xfce4-panel\" version=\"1.0\">|<channel name=\"xfce4-panel\" version=\"1.0\" locked=\"*\" unlocked=\"root\">|' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml &&
     echo 'Successfully applied the lock to xfce4-panel.xml'
 else
-    echo 'Error: Source xfce4-panel.xml not found at /home/$current_user/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml'
+    echo 'Error: Source xfce4-panel.xml not found at /home/user/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml'
 fi
 
-mkdir -p /home/$current_user/.config/autostart
-cp /etc/xdg/autostart/light-locker.desktop /home/$current_user/.config/autostart
-echo 'Hidden=true' >> /home/$current_user/.config/autostart/light-locker.desktop
+mkdir -p /home/user/.config/autostart
+cp /etc/xdg/autostart/light-locker.desktop /home/user/.config/autostart
+echo 'Hidden=true' >> /home/user/.config/autostart/light-locker.desktop
 
 echo -e '\nPending reboot, press any key to reboot.'
 read doReboot
