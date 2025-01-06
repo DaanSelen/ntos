@@ -18,10 +18,10 @@ read -r new_hostname
 echo -e '\nCustomizing user environment...'
 
 echo "Grabbing ${rdp_name}.rdp from NTOS server."
-curl -s "$web_address"/rdp/"${rdp_name}".rdp > /home/user/Templates/remote-connection.rdp
+curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /home/user/Templates/remote-connection.rdp
 
 echo "Grabbing Credcon from NTOS server."
-curl -s "$web_address"/credcon/credcon.sh > /home/user/Templates/credcon.sh
+curl -s "${web_address}"/credcon/credcon.sh > /home/user/Templates/credcon.sh
 
 # Download the file to /home/user/Templates (runs as the normal user)
 echo "Grabbing panel profile from NTOS server."
@@ -29,10 +29,6 @@ wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /home/user/Templates
 
 echo "Applying panel profile..."
 xfce4-panel-profiles load /home/user/Templates/panel-profile.tar.bz2
-
-# Just in case, set the correct user in the desktop shortcut launcher.
-launcher_file=$(grep -rl 'Credcon' /home/user/.config/xfce4/panel/launcher-*)
-sed -i "s|/home/dummy_user/|/home/user/|" "$launcher_file"
 
 # Set theme to Adwaita-Dark.
 xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Adwaita-dark'
@@ -67,6 +63,15 @@ xfconf-query -c xfce4-panel -np '/panels/panel-1/span-monitors' -t 'bool' -s 'tr
 # Enable automounting
 xfconf-query -c thunar-volman -np '/automount-drives/enabled' -t 'bool' -s 'true'
 xfconf-query -c thunar-volman -np '/automount-media/enabled' -t 'bool' -s 'true'
+
+# Apply rounding GTK-3.0 CSS.
+mkdir -p /home/user/.config/gtk-3.0/
+curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css
+xfce4-panel -r
+
+# Set the background
+#wget image
+#xfconf-query -c xfce4-desktop -p $(xfconf-query -c xfce4-desktop -l | grep "workspace0/last-image") -s /path/to/wallpaper
 
 #########################################
 #                ROOT                   #
