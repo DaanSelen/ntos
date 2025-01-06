@@ -45,9 +45,6 @@ xfconf-query -c xfce4-session -np '/shutdown/LockScreen' -t 'bool' -s 'false'
 # Limit workspaces (Like Virtual Desktops in Windows).
 xfconf-query -c xfwm4 -p /general/workspace_count -s 1
 
-# Remove all keyboard shortcuts.
-xfconf-query -c xfce4-keyboard-shortcuts -p / -r -R
-
 # Desktop itself customization.
 xfconf-query -c xfce4-desktop -np '/desktop-icons/style' -t 'int' -s '0'
 xfconf-query -c xfce4-desktop -np '/desktop-menu/show' -t 'bool' -s 'false'
@@ -69,9 +66,9 @@ mkdir -p /home/user/.config/gtk-3.0/
 curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css
 xfce4-panel -r
 
-# Set the background
-#wget image
-#xfconf-query -c xfce4-desktop -p $(xfconf-query -c xfce4-desktop -l | grep "workspace0/last-image") -s /path/to/wallpaper
+# Set a nice looking background.
+wget -q "${web_address}"/assets/desktop.png -P /home/user/Templates
+xfconf-query -c xfce4-desktop -p $(xfconf-query -c xfce4-desktop -l | grep "workspace0/last-image") -s /home/user/Templates/desktop.png
 
 #########################################
 #                ROOT                   #
@@ -105,6 +102,9 @@ if [ -f '/home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ];
 else
     echo 'Error: Source xfce4-panel.xml not found at /home/user/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml'
 fi
+
+echo "Removing keyboard shortcuts"
+rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 
 mkdir -p /home/user/.config/autostart
 cp /etc/xdg/autostart/light-locker.desktop /home/user/.config/autostart
