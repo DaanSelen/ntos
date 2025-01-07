@@ -77,7 +77,7 @@ xfconf-query -c xfce4-desktop -p $(xfconf-query -c xfce4-desktop -l | grep "work
 echo -e '\nEscalating for remote management agent installation...'
 
 # Use su to switch to root and run commands interactively
-su -c "
+su root -c "
 # Start agent installation for remote management. (e.g. MeshCentral, NinjaRMM, ConnectWise RMM, N-Able, etc...)
 
 
@@ -103,8 +103,10 @@ else
     echo 'Error: Source xfce4-panel.xml not found at /home/user/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml'
 fi
 
-echo "Removing keyboard shortcuts"
+# Removing both xfce4-keyboard shortcuts to be sure.
+echo 'Removing keyboard shortcuts'
 rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 
 mkdir -p /home/user/.config/autostart
 cp /etc/xdg/autostart/light-locker.desktop /home/user/.config/autostart
