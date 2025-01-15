@@ -18,6 +18,7 @@ if [ ! -f '/etc/setup_done' ]; then
     sed -i "s/^#autologin-user=/autologin-user=user/" /etc/lightdm/lightdm.conf
     sed -i "s/^#\\(SystemMaxUse=\\).*/\\150M/" /etc/systemd/journald.conf
     grub-mkconfig -o /boot/grub/grub.cfg
+    rm /etc/network/interfaces
     touch /etc/setup_done
     /sbin/reboot now
     '
