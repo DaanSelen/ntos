@@ -68,7 +68,10 @@ xfce4-panel -r
 
 # Set a nice looking background.
 wget -q "${web_address}"/assets/desktop.png -P /home/user/Templates
-xfconf-query -c xfce4-desktop -p $(xfconf-query -c xfce4-desktop -l | grep "workspace0/last-image") -s /home/user/Templates/desktop.png
+for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}')
+do 
+    xfconf-query -c xfce4-desktop -p "$x" -s "/home/user/Templates/desktop.png"
+done
 
 #########################################
 #                ROOT                   #

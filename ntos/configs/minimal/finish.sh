@@ -11,13 +11,13 @@ if [ ! -f '/etc/setup_done' ]; then
     apt-get update
     apt-get install -y xfce4 xfce4-goodies xfce4-power-manager system-config-printer xfce4-panel-profiles xsane plymouth-themes dbus-x11 network-manager-gnome curl yad freerdp3-x11
     apt-get autoremove -y
-    echo "NTOS-Setup" > /etc/hostname
-    sed -i "s/127.0.1.1.*/127.0.1.1       NTOS-Setup/" /etc/hosts
-    sed -i "s/quiet/quiet splash/" /etc/default/grub
-    sed -i "s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/" /etc/default/grub
-    sed -i "s/^#autologin-user=/autologin-user=user/" /etc/lightdm/lightdm.conf
-    sed -i "s/^#\\(SystemMaxUse=\\).*/\\150M/" /etc/systemd/journald.conf
-    grub-mkconfig -o /boot/grub/grub.cfg
+    echo "NTOS-Setup" > /etc/hostname &
+    sed -i "s/127.0.1.1.*/127.0.1.1       NTOS-Setup/" /etc/hosts &
+    sed -i "s/quiet/quiet splash/" /etc/default/grub &
+    sed -i "s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/" /etc/default/grub &
+    sed -i "s/^#autologin-user=/autologin-user=user/" /etc/lightdm/lightdm.conf &
+    sed -i "s/^#\\(SystemMaxUse=\\).*/\\150M/" /etc/systemd/journald.conf &
+    /sbin/grub-mkconfig -o /boot/grub/grub.cfg
     rm /etc/network/interfaces
     touch /etc/setup_done
     /sbin/reboot now
@@ -95,7 +95,10 @@ if [ -f '/etc/setup_done' ]; then
 
     # Set a nice looking background.
     wget -q "${web_address}"/assets/desktop.png -P /home/user/Templates
-    xfconf-query -c xfce4-desktop -p $(xfconf-query -c xfce4-desktop -l | grep "workspace0/last-image") -s /home/user/Templates/desktop.png
+    for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}')
+    do 
+        xfconf-query -c xfce4-desktop -p "$x" -s "/home/user/Templates/desktop.png"
+    done
 
     #########################################
     #                ROOT                   #
