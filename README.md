@@ -36,30 +36,6 @@ Paste your installation commands into the root part, for example: `./configs/min
     `curl http://localhost/configs/minimal/preseed.cfg`.<br>
     This should output the Debian preseed for the minimal configuration.<br>
 
-### How to install a client.
-
-1.  To kick-off the installation, insert your USB (or other medium) into your to-be installed system.<br>
-    Just like a normal Debian installation boot off of the USB-medium. Then instead of entering the (graphical) install, go to `Advanced settings -> (graphical) Automated install.`<br>
-    This will load basic modules from the installation media, and load them. These include but are not limited to network connectivity (to connect to the webserver presenting NTOS-files).<br>
-    
-    > For an example see [preseed-screen](./assets/images/debian12-preseed-screen.png).<br>
-
-2.  Refering to the webserver endpoints below - enter the IP-address or hostname of the webserver (with the port) followed by `/configs/<desired-config>/preseed.cfg`. By default the minimal configuration is available.<br>
-    This makes the [Debian-installer](https://www.debian.org/devel/debian-installer/) use the preseed configuration for its installation.<br>
-    The only manual input needed for installation is the partitioning, this is because this project has been made for a machine with 4GB total storage.<br>
-    This means, if you have more than let's say 6GB total storage, then you can choose the Guided Partitioning (expert users can make something themselves).<br>
-
-3.  Now the machine will install itself using the selected configuration from ./ntos/configs (if you selected it correctly).<br>
-    Just wait a while, the older the machine the slowed it will be. Once the installation is complete the machine will restart itself as per instruction of the preseed. <br>
-
-4. Once the machine has succesfully booted into the Desktop Environment (DE) you have chosen (the default is XFCE4) open a terminal and enter:<br>
-    `bash <(curl <your-ntos-server-ip/hostname:port>/configs/<desired-config>)`<br>
-    This will initiate the 'finisher'-script, after which the install should be complete.
-
-    > For examples see the image examples or the [images-directory](./assets/images)
-
-5. Enjoy! Linux is so much fun to use. 😉
-
 # How to debug?
 
 If you are encountering issues with - most likely connecting the actual RDP session. Follow these steps!<br>
@@ -98,17 +74,7 @@ Starting loading bar
 # 10%
 xfreerdp terminated early (less than '30' seconds).
 # 11%
-# 12%
-# 13%
-# 14%
-# 15%
-# 16%
-# 17%
-# 18%
-# 19%
-# 20%
-# 21%
-# 22%
+...counting up (omitted because it takes up more space than needed.)
 # 23%
 ```
 
@@ -116,13 +82,15 @@ The above example shows a `ACCESS_DENIED` error.
 
 ## Image examples:
 
-![Preseed-screen](./assets/images/debian12-preseed-screen.png)
-![Post-install desktop](./assets/images/debian12-postboot-desktop.png)
-![Executing finish.sh](./assets/images/debian12-finishsh-progress.png)
+![Preseed-screen](./assets/images/preseed.jpeg)
+![Partitioner screen](./assets/images/partitioner.jpeg)
+![First-boot desktop](./assets/images/firstboot.jpeg)
+![Executing finish.sh](./assets/images/finish_sh.jpeg)
+![Desktop after install]()
 
 ## Webserver endpoint structure:
 
-The Bash `install.sh`-script copies the needed files to the specificied location on the system, preferably a webserver root.
+The Bash `install.sh`-scripts are there for copying the needed files to the specificied location on the system, preferably from a webserver root into the ~(user)/Templates.
 
 The following endpoints are available by default. This is needed for the new machine to set itself up.
 
@@ -130,8 +98,10 @@ The following endpoints are available by default. This is needed for the new mac
 /assets/panel-profile.tar.bz2   # XFCE4 Panel profile.
 /credcon/credcon.sh             # Bash script for asking user credentials (for the RDP connection).
 /configs/minimal/preseed.cfg    # The Debian preseed file.
+/configs/default/preseed.cfg
 /configs/minimal/finish.sh      # The Bash script that applies all settings.
-/rdp/<your-templates>           # Directory endpoint for premade '.rdp' files
+/configs/default/finish.sh
+/rdp/<your-templates>           # Directory endpoint for premade '.rdp' files (for example /rdp/demo.rdp)
 ```
 
 The above `/rdp` endpoint requires you to place premade `.rdp` files in the directory before running `setup.sh`.<br>
