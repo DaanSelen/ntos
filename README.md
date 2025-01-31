@@ -15,7 +15,8 @@ I added ways to set-up a server for installation (perhaps I can add PXE in the f
 
 ## How to install:
 
-The following section explains how to apply this.
+The following section explains how to apply this.<br>
+I also made a YouTube video [here](https://www.youtube.com/watch?v=IZEBjlq8x00):
 
 ### Prerequisites:
 - A configured remote management system, such as MeshCentral (the installation of such a system is beyond the scope of NTOS).<br>
@@ -82,11 +83,10 @@ The above example shows a `ACCESS_DENIED` error.
 
 ## Image examples:
 
-![Preseed-screen](./assets/images/preseed.jpeg)
-![Partitioner screen](./assets/images/partitioner.jpeg)
-![First-boot desktop](./assets/images/firstboot.jpeg)
-![Executing finish.sh](./assets/images/finish_sh.jpeg)
-![Desktop after install]()
+<img src="./assets/images/preseed.jpeg" alt="Preseed-screen" width="600"/><br>
+<img src="./assets/images/partitioner.jpeg" alt="Partitioner screen" width="600"/><br>
+<img src="./assets/images/firstboot.jpeg" alt="First-boot desktop" width="600"/><br>
+<img src="./assets/images/finish_sh.jpeg" alt="Executing finish.sh" width="600"/><br>
 
 ## Webserver endpoint structure:
 
