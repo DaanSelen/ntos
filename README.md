@@ -14,7 +14,7 @@ It offers a way to connect to cloud environments (currently only RDP-based) in a
 
 I added ways to set-up a server for installation (perhaps I can add PXE in the future). And a guide to get started! Feel free to open an issue or email me.
 
-## How to install:
+## How to Install:
 
 The following section explains how to apply this.<br>
 I also made a YouTube video [here](https://www.youtube.com/watch?v=IZEBjlq8x00):
@@ -31,14 +31,14 @@ Paste your installation commands into the root part, for example: `./configs/min
 
 - Networking connectivity. (DHCP is easiest and fastest)
 
-### How to setup a webserver with NTOS files:
+### How to Setup a Webserver with NTOS-files:
 
 1.  To set everything up, execute the `setup.sh` bash script and answer its questions.<br>
     Once that's done, you can verify that with (configure to your own situation):<br>
     `curl http://localhost/configs/minimal/preseed.cfg`.<br>
     This should output the Debian preseed for the minimal configuration.<br>
 
-# How to debug?
+# How to Debug?
 
 If you are encountering issues with - most likely connecting the actual RDP session. Follow these steps!<br>
 Make sure you have exported the correct DISPLAY environment variable.<br>
@@ -82,14 +82,14 @@ xfreerdp terminated early (less than '30' seconds).
 
 The above example shows a `ACCESS_DENIED` error.
 
-## Image examples:
+## Image-examples:
 
 <img src="./assets/images/preseed.jpeg" alt="Preseed-screen" width="600"/><br>
 <img src="./assets/images/partitioner.jpeg" alt="Partitioner screen" width="600"/><br>
 <img src="./assets/images/firstboot.jpeg" alt="First-boot desktop" width="600"/><br>
 <img src="./assets/images/finish_sh.jpeg" alt="Executing finish.sh" width="600"/><br>
 
-## Webserver endpoint structure:
+## Webserver Endpoint-structure:
 
 The Bash `install.sh`-scripts are there for copying the needed files to the specificied location on the system, preferably from a webserver root into the ~(user)/Templates.
 
