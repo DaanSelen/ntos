@@ -22,7 +22,7 @@ I also made a YouTube video [here](https://www.youtube.com/watch?v=IZEBjlq8x00):
 ### Prerequisites:
 - A configured remote management system, such as MeshCentral (the installation of such a system is beyond the scope of NTOS).<br>
 Such a remote management system often provides a way to install an agent. To incorporate this into the NTOS installation do:<br>
-Paste your installation commands into the root part, for example: `./configs/minimal/finish.sh at line 74 to 76`.
+Paste your installation commands into the root part, for example: `./configs/minimal/finish.sh at line 84 to 87`.
 
     > If you do not configure a remote management system, then your system will be hard to debug or trouble-shoot (because of the fool-proof nature).<br>
     > Personally I've used MeshCentral which is free and works great! Link is [here](https://github.com/Ylianst/MeshCentral)
