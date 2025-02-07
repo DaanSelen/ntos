@@ -93,16 +93,18 @@ The above example shows a `ACCESS_DENIED` error.
 
 The Bash `install.sh`-scripts are there for copying the needed files to the specificied location on the system, preferably from a webserver root into the ~(user)/Templates.
 
-The following endpoints are available by default. This is needed for the new machine to set itself up.
+The following endpoints are available by default after installing using `install.sh` (assuming success). This is needed for the new machine to set itself up.
 
 ```shell
+/assets/desktop.png 	        # This file will be used as the background for the installed device. Replacing must be done by exactly coping the name + filename extension.
+/aseets/gtk.css                 # This file applies some styling to make the UI look more modern and appealing.
 /assets/panel-profile.tar.bz2   # XFCE4 Panel profile.
 /credcon/credcon.sh             # Bash script for asking user credentials (for the RDP connection).
-/configs/minimal/preseed.cfg    # The Debian preseed file.
-/configs/default/preseed.cfg
-/configs/minimal/finish.sh      # The Bash script that applies all settings.
-/configs/default/finish.sh
-/rdp/<your-templates>           # Directory endpoint for premade '.rdp' files (for example /rdp/demo.rdp)
+/configs/minimal/preseed.cfg    # The Debian preseed file for the minimal configuration (~4GB).
+/configs/default/preseed.cfg    # The default Debian preseed file.
+/configs/minimal/finish.sh      # The Bash script that applies all settings with a modification for support on small drives.
+/configs/default/finish.sh      # The default bash script.
+/rdp/<your-templates>           # Directory endpoint for premade '.rdp' files (for example /rdp/demo.rdp). You NEED to populate this yourself.
 ```
 
 The above `/rdp` endpoint requires you to place premade `.rdp` files in the directory before running `setup.sh`.<br>

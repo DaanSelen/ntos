@@ -4,7 +4,7 @@
     Just like a normal Debian installation boot off of the USB-medium. Then instead of entering the (graphical) install, go to `Advanced settings -> (graphical) Automated install.`<br>
     This will load basic modules from the installation media, and load them. These include but are not limited to network connectivity (to connect to the webserver presenting NTOS-files).<br>
     
-    > For an example see [preseed-screen](../assets/images/debian12-preseed-screen.png).<br>
+    > For an example see [preseed-screen](../assets/images/preseed.jpeg).<br>
 
 2.  Refering to the webserver endpoints below - enter the IP-address or hostname of the webserver (with the port) followed by `/configs/<desired-config>/preseed.cfg`. By default the minimal and default configurations are available.<br>
     This makes the [Debian-installer](https://www.debian.org/devel/debian-installer/) use the preseed configuration for its installation.<br>
