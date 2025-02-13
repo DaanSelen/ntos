@@ -100,6 +100,9 @@ if [ -f '/etc/setup_done' ]; then
         xfconf-query -c xfce4-desktop -p "$x" -s "/home/user/Templates/desktop.png"
     done
 
+    # Append the export (for easy future management) to the bash profile.
+    echo "export DISPLAY=:0" >> /home/user/.bashrc
+
     #########################################
     #                ROOT                   #
     #########################################
