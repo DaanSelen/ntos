@@ -3,7 +3,7 @@
 export DISPLAY=:0
 
 # Some environmnet variables.
-rdpFile="/home/user/Templates/remote-connection.rdp"
+rdpFile="/opt/ntos/remote-connection.rdp"
 
 # A YAD loading bar to create the illusion that the system is doing something (which it is).
 # The reason is that a non-technical person might not understand the fact that the system is doing something in the background.
