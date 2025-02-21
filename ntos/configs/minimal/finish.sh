@@ -52,6 +52,7 @@ if [ -f '/etc/setup_done' ]; then
 
     echo "Grabbing Credcon from NTOS server."
     curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/credcon.sh
+    chmod +x /opt/ntos/credcon.sh
 
     # Download the file to /opt/ntos (runs as the normal user)
     echo "Grabbing panel profile from NTOS server."

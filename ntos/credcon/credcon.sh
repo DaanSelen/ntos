@@ -13,7 +13,7 @@ show_loading_bar() {
     for ((i=1; i<=100; i++)); do
         echo $i | tee /dev/null
         echo "# $i%" | tee /dev/tty
-        sleep 0.1
+        sleep 0.06
     done | yad --progress \
         --title='Loading' \
         --text='Connecting' \
