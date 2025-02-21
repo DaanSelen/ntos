@@ -70,7 +70,7 @@ xfce4-panel -r
 # Set a nice looking background.
 wget -q "${web_address}"/assets/desktop.png -P /opt/ntos
 for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}')
-do 
+do
     xfconf-query -c xfce4-desktop -p "$x" -s "/opt/ntos/desktop.png"
 done
 
