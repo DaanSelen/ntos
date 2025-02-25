@@ -1,3 +1,4 @@
-.xfce4-panel.horizontal {
-    border-radius: 10px;
+.xfce4-panel {
+    border-width: 1px;
+    border-color: #00094B;
 }
