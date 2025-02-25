@@ -3,7 +3,7 @@
 export DISPLAY=:0
 
 # Some environmnet variables.
-rdpFile="/home/user/Templates/remote-connection.rdp"
+rdpFile="/opt/ntos/remote-connection.rdp"
 
 # A YAD loading bar to create the illusion that the system is doing something (which it is).
 # The reason is that a non-technical person might not understand the fact that the system is doing something in the background.
@@ -13,7 +13,7 @@ show_loading_bar() {
     for ((i=1; i<=100; i++)); do
         echo $i | tee /dev/null
         echo "# $i%" | tee /dev/tty
-        sleep 0.1
+        sleep 0.075
     done | yad --progress \
         --title='Loading' \
         --text='Connecting' \
@@ -68,7 +68,7 @@ main() {
 
         # Start xfreerdp session in the background and get its process ID (PID).
         # This does not hinder the process from taking over the (screen/monitor) session.
-        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /drive:hotplug,* /sound:sys:pulse /cert:ignore &
+        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /drive:hotplug,* /sound /microphone:format:1 /cert:ignore &
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.

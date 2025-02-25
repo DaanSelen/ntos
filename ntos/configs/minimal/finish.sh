@@ -10,13 +10,16 @@ if [ ! -f '/etc/setup_done' ]; then
     echo "deb http://ftp.de.debian.org/debian bookworm-backports main" > /etc/apt/sources.list.d/backport.list
     apt-get update
     apt-get install -y xfce4 xfce4-goodies xfce4-power-manager system-config-printer xfce4-panel-profiles xsane plymouth-themes dbus-x11 network-manager-gnome curl yad freerdp3-x11
+    apt-get remove -y firefox-esr
     apt-get autoremove -y
+    apt-get clean
     echo "NTOS-Setup" > /etc/hostname &
     sed -i "s/127.0.1.1.*/127.0.1.1       NTOS-Setup/" /etc/hosts &
     sed -i "s/quiet/quiet splash/" /etc/default/grub &
     sed -i "s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/" /etc/default/grub &
     sed -i "s/^#autologin-user=/autologin-user=user/" /etc/lightdm/lightdm.conf &
     sed -i "s/^#\\(SystemMaxUse=\\).*/\\150M/" /etc/systemd/journald.conf &
+    mkdir /opt/ntos && chown user:user /opt/ntos &
     /sbin/grub-mkconfig -o /boot/grub/grub.cfg
     rm /etc/network/interfaces
     touch /etc/setup_done
@@ -45,17 +48,18 @@ if [ -f '/etc/setup_done' ]; then
     echo -e '\nCustomizing user environment...'
 
     echo "Grabbing ${rdp_name}.rdp from NTOS server."
-    curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /home/user/Templates/remote-connection.rdp
+    curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /opt/ntos/remote-connection.rdp
 
     echo "Grabbing Credcon from NTOS server."
-    curl -s "${web_address}"/credcon/credcon.sh > /home/user/Templates/credcon.sh
+    curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/credcon.sh
+    chmod +x /opt/ntos/credcon.sh
 
-    # Download the file to /home/user/Templates (runs as the normal user)
+    # Download the file to /opt/ntos (runs as the normal user)
     echo "Grabbing panel profile from NTOS server."
-    wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /home/user/Templates
+    wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos
 
     echo "Applying panel profile..."
-    xfce4-panel-profiles load /home/user/Templates/panel-profile.tar.bz2
+    xfce4-panel-profiles load /opt/ntos/panel-profile.tar.bz2
 
     # Set theme to Adwaita-Dark.
     xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Adwaita-dark'
@@ -94,10 +98,10 @@ if [ -f '/etc/setup_done' ]; then
     xfce4-panel -r
 
     # Set a nice looking background.
-    wget -q "${web_address}"/assets/desktop.png -P /home/user/Templates
+    wget -q "${web_address}"/assets/desktop.png -P /opt/ntos
     for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}')
-    do 
-        xfconf-query -c xfce4-desktop -p "$x" -s "/home/user/Templates/desktop.png"
+    do
+        xfconf-query -c xfce4-desktop -p "$x" -s "/opt/ntos/desktop.png"
     done
 
     # Append the export (for easy future management) to the bash profile.

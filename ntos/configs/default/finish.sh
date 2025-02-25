@@ -18,17 +18,18 @@ read -r new_hostname
 echo -e '\nCustomizing user environment...'
 
 echo "Grabbing ${rdp_name}.rdp from NTOS server."
-curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /home/user/Templates/remote-connection.rdp
+curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /opt/ntos/remote-connection.rdp
 
 echo "Grabbing Credcon from NTOS server."
-curl -s "${web_address}"/credcon/credcon.sh > /home/user/Templates/credcon.sh
+curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/credcon.sh
+chmod +x /opt/ntos/credcon.sh
 
-# Download the file to /home/user/Templates (runs as the normal user)
+# Download the file to /opt/ntos (runs as the normal user)
 echo "Grabbing panel profile from NTOS server."
-wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /home/user/Templates
+wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos
 
 echo "Applying panel profile..."
-xfce4-panel-profiles load /home/user/Templates/panel-profile.tar.bz2
+xfce4-panel-profiles load /opt/ntos/panel-profile.tar.bz2
 
 # Set theme to Adwaita-Dark.
 xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Adwaita-dark'
@@ -67,10 +68,10 @@ curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css
 xfce4-panel -r
 
 # Set a nice looking background.
-wget -q "${web_address}"/assets/desktop.png -P /home/user/Templates
+wget -q "${web_address}"/assets/desktop.png -P /opt/ntos
 for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}')
-do 
-    xfconf-query -c xfce4-desktop -p "$x" -s "/home/user/Templates/desktop.png"
+do
+    xfconf-query -c xfce4-desktop -p "$x" -s "/opt/ntos/desktop.png"
 done
 
 # Append the export (for easy future management) to the bash profile.
