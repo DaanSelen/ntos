@@ -119,8 +119,8 @@ rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 
 mkdir -p /home/user/.config/autostart
-cp /etc/xdg/autostart/light-locker.desktop /home/user/.config/autostart
-echo 'Hidden=true' >> /home/user/.config/autostart/light-locker.desktop
+rm /etc/xdg/autostart/light-locker.desktop
+#echo 'Hidden=true' >> /home/user/.config/autostart/light-locker.desktop
 
 echo -e '\nPending reboot, press any key to reboot.'
 read doReboot
