@@ -104,9 +104,6 @@ if [ -f '/etc/setup_done' ]; then
         xfconf-query -c xfce4-desktop -p "$x" -s "/opt/ntos/desktop.png"
     done
 
-    # Disable the default built-in audio device. This saves a lot of debugging when RDP microphones don't work.
-    pactl set-card-profile "$(pactl list cards short | grep pci | awk "{print \$2}")" off
-
     # Append the export (for easy future management) to the bash profile.
     echo "export DISPLAY=:0" >> /home/user/.bashrc
 
@@ -150,7 +147,6 @@ if [ -f '/etc/setup_done' ]; then
 
     mkdir -p /home/user/.config/autostart
     rm /etc/xdg/autostart/light-locker.desktop
-    #echo 'Hidden=true' >> /home/user/.config/autostart/light-locker.desktop
 
     rm /etc/setup_done
 
