@@ -38,6 +38,17 @@ Paste your installation commands into the root part, for example: `./configs/min
     `curl http://localhost/configs/minimal/preseed.cfg`.<br>
     This should output the Debian preseed for the minimal configuration.<br>
 
+# Setting a custom boot-up animation:
+
+To finish this all up, set a nice looking boot-up animation. My personal preference is to choose a theme from: [adi1090x/plymouth-themes](https://github.com/adi1090x/plymouth-themes).<br>
+To set this up correctly follow the configuration for you specific hardware vendors, see the resources below:
+
+- [Debian Plymouth Wiki](https://wiki.debian.org/plymouth)
+- [Arch Plymouth Wiki (for information)](https://wiki.archlinux.org/title/Plymouth). This is listed here for information. NTOS is based on Debian.
+- [Third-party Guide to set Plymouth up](https://donjajo.com/plymouth-installing-configuring-boot-screen-debian/)
+
+If there are more cool animations. Let me know.
+
 # How to Debug?
 
 If you are encountering issues with - most likely connecting the actual RDP session. Follow these steps!<br>
@@ -80,7 +91,7 @@ xfreerdp terminated early (less than '30' seconds).
 # 23%
 ```
 
-The above example shows a `ACCESS_DENIED` error.
+The above example shows a `ACCESS_DENIED` error. 
 
 ## Image-examples:
 
