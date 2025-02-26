@@ -115,7 +115,6 @@ echo 'Removing keyboard shortcuts'
 rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 
-mkdir -p /home/user/.config/autostart
 rm /etc/xdg/autostart/light-locker.desktop
 
 echo -e '\nPending reboot, press any key to reboot.'

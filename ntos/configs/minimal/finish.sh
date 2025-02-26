@@ -145,7 +145,6 @@ if [ -f '/etc/setup_done' ]; then
     rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
     rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 
-    mkdir -p /home/user/.config/autostart
     rm /etc/xdg/autostart/light-locker.desktop
 
     rm /etc/setup_done
