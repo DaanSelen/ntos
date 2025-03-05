@@ -105,6 +105,9 @@ if [ -f '/etc/setup_done' ]; then
         xfconf-query -c xfce4-desktop -p "$x" -s "/opt/ntos/desktop.png"
     done
 
+    # Download the bg-sync.sh utility for syncing backgrounds
+    curl -s "${web_address}"/assets/bg-sync.sh > /opt/ntos/bg-sync.sh
+
     # Append the export (for easy future management) to the bash profile.
     echo "export DISPLAY=:0" >> /home/user/.bashrc
 
