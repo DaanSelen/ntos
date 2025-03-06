@@ -13,6 +13,7 @@ if [ ! -f "/etc/setup_done" ]; then
     su root -c "bash -c '
     sed -i \"/^deb cdrom:/s/^/#/\" /etc/apt/sources.list &&
     echo \"deb http://ftp.de.debian.org/debian bookworm-backports main non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
+    apt-get remove \"\$(apt list --installed 'linux-image-*' 2>/dev/null | awk -F '[/ ]' '/linux-image-[0-9]/{print \$1, \$3}' | sort -k2V | head -n1 | awk '{print \$1}')\" &&
     apt-get update &&
     apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
         xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
