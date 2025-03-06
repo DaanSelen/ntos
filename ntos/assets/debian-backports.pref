@@ -1,0 +1,3 @@
+Package: firmware-linux freerdp3-x11 linux-image-amd64 linux-headers-amd64
+Pin: release n=bookworm-backports, c=main
+Pin-Priority: 550

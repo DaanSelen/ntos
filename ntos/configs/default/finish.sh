@@ -6,27 +6,38 @@
 #                USER                   #
 #########################################
 
+# Retrieve data for installation.
+
 printf 'Where is the remote webserver presenting the NTOS files? '
 read -r web_address
 
 printf 'What rdp file do you need for this configuration? (remove the .rdp from the name)(case sensitive) '
 read -r rdp_name
 
-printf 'What should the hostname be? '
-read -r new_hostname
+# Downloading all needed files.
 
-echo -e '\nCustomizing user environment...'
+echo -e '\nDownloading needed files...'
 
-echo "Grabbing ${rdp_name}.rdp from NTOS server."
-curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /opt/ntos/remote-connection.rdp
+mkdir -p /home/user/.config/gtk-3.0/
+mkdir -p /opt/ntos/bin
+mkdir -p /opt/ntos/tmp
 
-echo "Grabbing Credcon from NTOS server."
-curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/credcon.sh
-chmod +x /opt/ntos/credcon.sh
+curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /opt/ntos/remote-connection.rdp                    # Download RDP file.
+curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css                        # GTK-CSS for makeup.
+curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh                              # Credcon utility/tool.
+curl -s "${web_address}"/assets/background-sync.sh > /opt/ntos/bin/background-sync.sh               # Background syncing tool.
+curl -s "${web_address}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh         # Script utility to install extra firmware dependencies from kernel.org.
 
-# Download the file to /opt/ntos (runs as the normal user)
-echo "Grabbing panel profile from NTOS server."
-wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos
+# Temporary script files for when root executes.
+curl -s "${web_address}"/assets/bin/setup-root.sh > /opt/ntos/tmp/setup-root.sh            # Root setup script. Segregated to its own script.
+curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-backports.pref     # Aptitude preference for freerdp repositories.
+
+wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos                  # Panel profile.
+wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
+
+chmod +x /opt/ntos/bin/credcon.sh /opt/ntos/bin/background-sync.sh
+
+# Customize desktop environment.
 
 echo "Applying panel profile..."
 xfce4-panel-profiles load /opt/ntos/panel-profile.tar.bz2
@@ -62,20 +73,13 @@ xfconf-query -c xfce4-panel -np '/panels/panel-1/span-monitors' -t 'bool' -s 'tr
 xfconf-query -c thunar-volman -np '/automount-drives/enabled' -t 'bool' -s 'true'
 xfconf-query -c thunar-volman -np '/automount-media/enabled' -t 'bool' -s 'true'
 
-# Apply rounding GTK-3.0 CSS.
-mkdir -p /home/user/.config/gtk-3.0/
-curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css
-xfce4-panel -r
-
 # Set a nice looking background.
-wget -q "${web_address}"/assets/desktop.png -P /opt/ntos
 for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}')
 do
     xfconf-query -c xfce4-desktop -p "$x" -s "/opt/ntos/desktop.png"
 done
 
-# Download the bg-sync.sh utility for syncing backgrounds
-curl -s "${web_address}"/assets/bg-sync.sh > /opt/ntos/bg-sync.sh
+### Miscelaneous
 
 # Append the export (for easy future management) to the bash profile.
 echo "export DISPLAY=:0" >> /home/user/.bashrc
@@ -87,40 +91,4 @@ echo "export DISPLAY=:0" >> /home/user/.bashrc
 echo -e '\nEscalating for remote management agent installation...'
 
 # Use su to switch to root and run commands interactively
-su root -c "
-# Start agent installation for remote management. (e.g. MeshCentral, NinjaRMM, ConnectWise RMM, N-Able, etc...)
-
-
-# End agent installation for remote management.
-
-hostname $new_hostname &&
-echo $new_hostname > /etc/hostname &&
-sed -i 's/^127\.0\.1\.1.*/127.0.1.1       $new_hostname/' /etc/hosts &&
-
-# Check if the source file exists before copying
-sleep 3s # Add some sleep for the machine to process everything.
-if [ -f '/home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ]; then
-    echo 'Source xfce4-panel.xml found. Proceeding with copy.'
-
-    # Copy xfce4-panel.xml to the system-wide config directory
-    cp /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/ &&
-    echo 'Successfully copied xfce4-panel.xml to /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/' &&
-
-    # Lock the panel configuration
-    sed -i 's|<channel name=\"xfce4-panel\" version=\"1.0\">|<channel name=\"xfce4-panel\" version=\"1.0\" locked=\"*\" unlocked=\"root\">|' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml &&
-    echo 'Successfully applied the lock to xfce4-panel.xml'
-else
-    echo 'Error: Source xfce4-panel.xml not found at /home/user/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml'
-fi
-
-# Removing both xfce4-keyboard shortcuts to be sure.
-echo 'Removing keyboard shortcuts'
-rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-
-rm /etc/xdg/autostart/light-locker.desktop
-
-echo -e '\nPending reboot, press any key to reboot.'
-read doReboot
-/sbin/reboot now
-"
+su root -c "bash /opt/ntos/tmp/setup-root.sh"
