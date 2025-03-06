@@ -1,7 +1,9 @@
 #!/bin/bash
 #
+# Quick script that syncs backgrounds of endpoints (which could be needed when installing a second monitor post-installation).
+#
 # Example usage:
-# su user -c "bash /opt/ntos/bg-sync.sh"
+# su user -c "bash /opt/ntos/bin/background-sync.sh"
 #
 
 background_image="/opt/ntos/desktop.png"
