@@ -67,7 +67,7 @@ else
     wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos                  # Panel profile.
     wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
 
-    chmod +x /opt/ntos/credcon.sh /opt/ntos/bg-sync.sh
+    chmod +x /opt/ntos/credcon.sh /opt/ntos/background-sync.sh
 
     # Customize desktop environment.
 
@@ -105,19 +105,11 @@ else
     xfconf-query -c thunar-volman -np '/automount-drives/enabled' -t 'bool' -s 'true'
     xfconf-query -c thunar-volman -np '/automount-media/enabled' -t 'bool' -s 'true'
 
-    # Apply rounding GTK-3.0 CSS.
-    mkdir -p /home/user/.config/gtk-3.0/
-    curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css
-    xfce4-panel -r
-
     # Set a nice looking background.
     for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}')
     do
         xfconf-query -c xfce4-desktop -p "$x" -s "/opt/ntos/desktop.png"
     done
-
-    # Download the bg-sync.sh utility for syncing backgrounds
-    curl -s "${web_address}"/assets/bg-sync.sh > /opt/ntos/bg-sync.sh
 
     # Append the export (for easy future management) to the bash profile.
     echo "export DISPLAY=:0" >> /home/user/.bashrc

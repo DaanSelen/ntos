@@ -35,7 +35,7 @@ curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-bac
 wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos                  # Panel profile.
 wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
 
-chmod +x /opt/ntos/credcon.sh /opt/ntos/bg-sync.sh
+chmod +x /opt/ntos/credcon.sh /opt/ntos/background-sync.sh
 
 # Customize desktop environment.
 
