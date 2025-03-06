@@ -8,30 +8,30 @@
 # This would in a full instalation be inside the preseed. But due to low stage, I suspect the ballooning of packages making it unable to function.
 #
 
-if [ ! -f '/etc/setup_done' ]; then
+if [ ! -f "/etc/setup_done" ]; then
 
-    su root -c '
-    sed -i "/^deb cdrom:/s/^/#/" /etc/apt/sources.list
-    echo "deb http://ftp.de.debian.org/debian bookworm-backports main" | tee /etc/apt/sources.list.d/debian-backports.list
+    su root -c "bash -c '
+    sed -i \"/^deb cdrom:/s/^/#/\" /etc/apt/sources.list &&
+    echo \"deb http://ftp.de.debian.org/debian bookworm-backports main\" | tee /etc/apt/sources.list.d/debian-backports.list &&
+    apt-get update &&
+    apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
+        xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
+    apt-get install -y -t bookworm-backports linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-linux &&
+    apt-get remove -y firefox-esr &&
+    apt-get autoremove -y &&
+    apt-get clean &&
+    echo \"Unconfigured-NTOS\" > /etc/hostname &&
+    sed -i \"s/127.0.1.1.*/127.0.1.1       Unconfigured-NTOS/\" /etc/hosts &&
+    sed -i \"s/quiet/quiet loglevel=3 splash i915.modeset=1/\" /etc/default/grub &&
+    sed -i \"s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/\" /etc/default/grub &&
+    sed -i \"s/^#\(SystemMaxUse=\).*/\150M/\" /etc/systemd/journald.conf &&
+    sed -i \"s/^#autologin-user=/autologin-user=user/\" /etc/lightdm/lightdm.conf &&
+    mkdir -p /opt/ntos && chown user:user /opt/ntos &&
+    grub-mkconfig -o /boot/grub/grub.cfg'"
 
-    apt-get update
-    apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad
-    apt-get install -y -t bookworm-backports linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-linux
+    # Create a file to indicate setup is complete
+    touch /etc/setup_done
 
-    apt-get remove -y firefox-esr
-    apt-get autoremove -y
-    apt-get clean
-
-    echo "Unconfigured-NTOS" > /etc/hostname
-    sed -i "s/127.0.1.1.*/127.0.1.1       Unconfigured-NTOS/" /etc/hosts
-    sed -i "s/quiet/quiet loglevel=3 splash i915.modeset=1/" /etc/default/grub
-    sed -i "s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/" /etc/default/grub
-    sed -i "s/^#autologin-user=/autologin-user=user/" /etc/lightdm/lightdm.conf
-    sed -i "s/^#\\(SystemMaxUse=\\).*/\\150M/" /etc/systemd/journald.conf
-
-    mkdir /opt/ntos && chown user:user /opt/ntos
-    grub-mkconfig -o /boot/grub/grub.cfg
-    '
 
 else
     #########################################
@@ -121,5 +121,5 @@ else
     echo -e '\nEscalating for remote management agent installation...'
 
     # Use su to switch to root and run commands interactively
-    su root -c "bash /opt/ntos/tmp/setup_root.sh"
+    su root -c "bash /opt/ntos/tmp/setup-root.sh"
 fi

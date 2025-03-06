@@ -39,7 +39,7 @@ echo 'Removing unwanted configurations and files...'
 rm /etc/xdg/autostart/light-locker.desktop                                              # Prevent auto-locking due to autostart file.
 rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml               # Remove all system-wide keyboard shortcuts.
 rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml     # Remove all user-spaced keyboard shortcuts
-rm /opt/ntos/tmp/setup_root.sh                                                          # Remove setup_root.sh script because no longer needed.
+rm /opt/ntos/tmp/setup-root.sh                                                          # Remove setup_root.sh script because no longer needed.
 
 echo -e '\nPending reboot, press any key to reboot.'
 read -r

@@ -35,7 +35,7 @@ curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-bac
 wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos                  # Panel profile.
 wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
 
-chmod +x /opt/ntos/credcon.sh /opt/ntos/background-sync.sh
+chmod +x /opt/ntos/bin/credcon.sh /opt/ntos/bin/background-sync.sh
 
 # Customize desktop environment.
 
@@ -91,4 +91,4 @@ echo "export DISPLAY=:0" >> /home/user/.bashrc
 echo -e '\nEscalating for remote management agent installation...'
 
 # Use su to switch to root and run commands interactively
-su root -c "bash /opt/ntos/tmp/setup_root.sh"
+su root -c "bash /opt/ntos/tmp/setup-root.sh"
