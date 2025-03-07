@@ -29,7 +29,6 @@ if [ ! -f "/etc/setup_done" ]; then
     apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
         xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
     apt-get install -y -t bookworm-backports linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-intel-graphics &&
-    apt-get remove -y firefox-esr &&
     apt-get autoremove -y &&
 
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
@@ -40,10 +39,12 @@ if [ ! -f "/etc/setup_done" ]; then
     sed -i \"s/^#autologin-user=/autologin-user=user/\" /etc/lightdm/lightdm.conf &&
 
     mkdir -p /opt/ntos && chown user:user /opt/ntos &&
-    grub-mkconfig -o /boot/grub/grub.cfg'"
+    update-grub2'"
 
     # Create a file to indicate setup is complete
     touch /etc/setup_done
+    printf 'All should be done, please review errors and press any key to reboot.'
+    read -r
     /sbin/reboot now
 
 else

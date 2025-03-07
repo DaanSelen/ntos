@@ -2,7 +2,7 @@
 
 echo "Configuring NTOS-Server..."
 
-cp -rv /app/* /data
+cp -rnv /app/* /data
 
 echo "Linking..."
 ln -s /data/assets /var/www/localhost/htdocs/assets
