@@ -44,6 +44,8 @@ if [ ! -f "/etc/setup_done" ]; then
 
     # Create a file to indicate setup is complete
     touch /etc/setup_done
+    printf 'All should be done, please review errors and press any key to reboot.'
+    read -r
     /sbin/reboot now
 
 else
