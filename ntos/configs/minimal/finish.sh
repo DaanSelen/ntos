@@ -12,23 +12,26 @@
 if [ ! -f "/etc/setup_done" ]; then
 
     su root -c "bash -c '
-    service systemd-timesyncd restart &&
+    service systemd-timesyncd restart;
 
     sed -i \"/^deb cdrom:/s/^/#/\" /etc/apt/sources.list &&
     echo \"deb http://ftp.de.debian.org/debian bookworm-backports main non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
 
+    rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/*
     echo -e \"path-exclude=/usr/share/doc/*\\npath-exclude=/usr/share/man/*\\npath-exclude=/usr/share/locale/*\" | tee /etc/dpkg/dpkg.cfg.d/excludes &&
 
-    echo \"Removing oldest kernel (because a newer will be installed)...\" &&
+    echo \"Removing oldest kernel (because a newer will be installed)...\";
     OLD_KERNEL=\$(apt list linux-image* --installed 2>/dev/null | awk \"NR == 2\" | sed \"s/\\/.*//\")
     apt-get remove --purge -y \$OLD_KERNEL &&
-    echo \$OLD_KERNEL &&
+    echo \$OLD_KERNEL;
 
     apt-get clean &&
     apt-get update &&
     apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
         xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
-    apt-get install -y -t bookworm-backports linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-intel-graphics &&
+    apt-get clean -y &&
+    apt-get install -y -t bookworm-backports \
+        linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-intel-graphics &&
     apt-get autoremove -y &&
 
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
