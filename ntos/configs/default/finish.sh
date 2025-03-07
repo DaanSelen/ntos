@@ -16,11 +16,13 @@ read -r rdp_name
 
 # Downloading all needed files.
 
-echo -e '\nDownloading needed files...'
+echo -e "\nMaking folders/directories..."
 
 mkdir -p /home/user/.config/gtk-3.0/
 mkdir -p /opt/ntos/bin
 mkdir -p /opt/ntos/tmp
+
+echo -e '\nDownloading needed files...'
 
 curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /opt/ntos/remote-connection.rdp                    # Download RDP file.
 curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css                        # GTK-CSS for makeup.
@@ -29,9 +31,10 @@ curl -s "${web_address}"/assets/background-sync.sh > /opt/ntos/bin/background-sy
 curl -s "${web_address}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh         # Script utility to install extra firmware dependencies from kernel.org.
 
 # Temporary script files for when root executes.
-curl -s "${web_address}"/assets/bin/setup-root.sh > /opt/ntos/tmp/setup-root.sh            # Root setup script. Segregated to its own script.
+curl -s "${web_address}"/assets/bin/setup-root.sh > /opt/ntos/tmp/setup-root.sh                 # Root setup script. Segregated to its own script.
 curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-backports.pref     # Aptitude preference for freerdp repositories.
 
+# Bigger files what are not just text, therefor are downloaded with wget.
 wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos                  # Panel profile.
 wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
 
@@ -81,7 +84,7 @@ done
 
 ### Miscelaneous
 
-# Append the export (for easy future management) to the bash profile.
+# Append the export (for easy future management) to the bash profile so its an environment variable.
 echo "export DISPLAY=:0" >> /home/user/.bashrc
 
 #########################################
