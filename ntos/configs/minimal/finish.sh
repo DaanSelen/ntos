@@ -6,6 +6,7 @@
 
 #
 # This would in a full instalation be inside the preseed. But due to low stage, I suspect the ballooning of packages making it unable to function.
+# !!! IMPORTANT !!! Because this is a minimall installation, the firmware is selected. Default is firmware-intel-graphics. Make sure to adjust to your situation.
 #
 
 if [ ! -f "/etc/setup_done" ]; then
@@ -27,7 +28,7 @@ if [ ! -f "/etc/setup_done" ]; then
     apt-get update &&
     apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
         xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
-    apt-get install -y -t bookworm-backports linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-linux &&
+    apt-get install -y -t bookworm-backports linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-intel-graphics &&
     apt-get remove -y firefox-esr &&
     apt-get autoremove -y &&
 
