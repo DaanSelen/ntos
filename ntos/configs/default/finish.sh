@@ -86,6 +86,7 @@ done
 
 # Append the export (for easy future management) to the bash profile so its an environment variable.
 echo "export DISPLAY=:0" >> /home/user/.bashrc
+echo "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$UID/bus\"" >> /home/user/.bashrc
 
 #########################################
 #                ROOT                   #
