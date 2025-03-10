@@ -31,7 +31,7 @@ if [ ! -f "/etc/setup_done" ]; then
         xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
     apt-get clean -y &&
     apt-get install -y -t bookworm-backports \
-        linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-intel-graphics firmware-realtek &&
+        grub-common linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-intel-graphics firmware-realtek &&
     apt-get autoremove -y &&
 
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
