@@ -39,6 +39,9 @@ fi
 # Move preference file to apt.
 mv /opt/ntos/tmp/debian-backports.pref /etc/apt/preferences.d/debian-backports.pref
 
+# Replace default desktop image.
+cp /opt/ntos/desktop.png /usr/share/images/desktop-base/default
+
 # Removing both xfce4-keyboard shortcuts to be sure.
 echo 'Removing unwanted configurations and files...'
 
