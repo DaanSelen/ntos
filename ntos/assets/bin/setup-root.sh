@@ -37,18 +37,31 @@ else
 fi
 
 # Move preference file to apt.
-mv /opt/ntos/tmp/debian-backports.pref /etc/apt/preferences.d/debian-backports.pref
+if [ -f /opt/ntos/tmp/debian-backports.pref ]; then
+    mv /opt/ntos/tmp/debian-backports.pref /etc/apt/preferences.d/debian-backports.pref
+fi
 
 # Replace default desktop image.
 cp /opt/ntos/desktop.png /usr/share/images/desktop-base/default
 
 # Removing both xfce4-keyboard shortcuts to be sure.
-echo 'Removing unwanted configurations and files...'
+echo 'Removing unwanted configurations and files if they exist...'
 
-rm /etc/xdg/autostart/light-locker.desktop                                              # Prevent auto-locking due to autostart file.
-rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml               # Remove all system-wide keyboard shortcuts.
-rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml     # Remove all user-spaced keyboard shortcuts
-rm /opt/ntos/tmp/setup-root.sh                                                          # Remove setup_root.sh script because no longer needed.
+if [ -f /etc/xdg/autostart/light-locker.desktop ]; then
+    rm /etc/xdg/autostart/light-locker.desktop # Prevent auto-locking due to autostart file.
+fi
+
+if [ -f /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml ]; then
+    rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml # Remove all system-wide keyboard shortcuts.
+fi
+
+if [ -f /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml ]; then
+    rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml # Remove all user-spaced keyboard shortcuts
+fi
+
+if [ -f /opt/ntos/tmp/setup-root.sh  ]; then
+    rm /opt/ntos/tmp/setup-root.sh # Remove setup_root.sh script because no longer needed.
+fi
 
 echo -e '\nPending reboot, press any key to reboot.'
 read -r
