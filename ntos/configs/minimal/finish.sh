@@ -17,7 +17,7 @@ if [ ! -f "/etc/setup_done" ]; then
     sed -i \"/^deb cdrom:/s/^/#/\" /etc/apt/sources.list &&
     echo \"deb http://ftp.de.debian.org/debian bookworm-backports main non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
 
-    rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/*
+    rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/* /usr/share/icons/*
     echo -e path-exclude=/usr/share/doc/*\\npath-exclude=/usr/share/man/*\\npath-exclude=/usr/share/locale/*\\npath-exclude=/usr/share/icons/* | tee /etc/dpkg/dpkg.cfg.d/excludes &&
 
     echo \"Removing oldest kernel (because a newer (backported) kernel will be installed)...\";
