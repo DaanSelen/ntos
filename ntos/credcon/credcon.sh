@@ -43,8 +43,8 @@ show_credential_dialogue() {
 
 please_stand_by() {
     yad --form \
-        --title='Connection Closed' \
-        --text='Connection was Terminated.' \
+        --title='Connectin Information' \
+        --text='Slow connection detected.\nPlease stand by.' \
         --button='Ok':0 \
         --width=400 \
         --height=200
@@ -95,6 +95,9 @@ main() {
             if [ "$elapsed" -ge "$threshold" ]; then
                 echo 'xfreerdp ran for more than 30 seconds Assuming success..'
 
+                # Intermediate yad pkilling, for clear screen clarity.
+                pkill -f yad
+
                 # If there is a slow connection keep the guest company.
                 echo "Displaying 'please stand-by' if the connection is slow..."
                 please_stand_by
@@ -103,7 +106,7 @@ main() {
                 disown "$xfreerdp_pid"
 
                 # Kill all remaining YAD dialogues in 30 seconds.
-                sleep "$(${threshold} + 30)s"
+                sleep $((threshold + 30))
                 pkill -f yad
             fi
         done
