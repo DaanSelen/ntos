@@ -41,6 +41,15 @@ show_credential_dialogue() {
     result=$?
 }
 
+please_stand_by() {
+    yad --form \
+        --title='Connection Closed' \
+        --text='Connection was Terminated.' \
+        --button='Ok':0 \
+        --width=400 \
+        --height=200
+}
+
 # Show dialogue with 'Connection failed', this is done to notice the user that something might not have gone completely right.
 # The purpose for this is to display this once a connection failed, not when it succeeded.
 show_connection_failure() {
@@ -79,21 +88,23 @@ main() {
 
         # Keep track of how long the FreeRDP process is alive for.
         while kill -0 "$xfreerdp_pid" 2> /dev/null; do
-            sleep "$interval"
-            elapsed=$(($elapsed + $interval))
+            sleep "${interval}s"
+            elapsed=$(${elapsed} + ${interval})
 
             # If xfreerdp has been running for more than 30 seconds, exit the loop (connection likely succeeded).
             if [ "$elapsed" -ge "$threshold" ]; then
                 echo 'xfreerdp ran for more than 30 seconds Assuming success..'
 
+                # If there is a slow connection keep the guest company.
+                echo "Displaying 'please stand-by' if the connection is slow..."
+                please_stand_by
+
                 # Disown the FreeRDP process to make the script exit gracefully.
                 disown "$xfreerdp_pid"
 
-                # Kill all remaining YAD dialogues.
+                # Kill all remaining YAD dialogues in 30 seconds.
+                sleep "$(${threshold} + 30)s"
                 pkill -f yad
-
-                # Gracefully exit the script.
-                exit 0
             fi
         done
 
