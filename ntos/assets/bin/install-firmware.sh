@@ -24,7 +24,7 @@ read -r want_build
 if [[ "${want_build}" == "y" || "${want_build}" == "Y" ]]
 then
     echo "Rebuilding images..."
-    update-initramfs -c -k all
+    update-initramfs -u -k all
 fi
 
 echo "Done."
