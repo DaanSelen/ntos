@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH=/sbin:$PATH
+
 # Start agent installation for remote management. (e.g. MeshCentral, NinjaRMM, ConnectWise RMM, N-Able, etc...)
 
 
@@ -45,12 +47,12 @@ echo "Setting a good looking Plymouth theme..."
 
 # Install the plymouth good looking theme.
 unzip /opt/ntos/tmp/connect.zip -d /usr/share/plymouth/themes/connect
-/usr/sbin/plymouth-set-default-theme connect
+plymouth-set-default-theme connect
 
 echo "Configuring boot images to make it apply... This can take multiple minutes."
 
-/usr/sbin/update-initramfs -u -k all
-/usr/sbin/update-grub2
+update-initramfs -u -k all
+update-grub2
 
 # Replace default desktop image.
 cp /opt/ntos/desktop.png /usr/share/images/desktop-base/default
