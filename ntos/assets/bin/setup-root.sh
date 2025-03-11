@@ -72,6 +72,10 @@ if [ -f /opt/ntos/tmp/setup-root.sh  ]; then
     rm /opt/ntos/tmp/setup-root.sh # Remove setup_root.sh script because no longer needed.
 fi
 
+if [ -f /opt/ntos/tmp/connect.zip ]; then
+    rm /opt/ntos/tmp/connect.zip # Removes the connect.zip tmp file.
+fi
+
 echo -e '\nPending reboot, press any key to reboot.'
 read -r
 /sbin/reboot now
