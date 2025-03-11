@@ -33,11 +33,10 @@ if [ ! -f "/etc/setup_done" ]; then
     apt-get clean -y &&
     apt-get autoremove -y &&
 
+    rm -rf /var/cache/* &&
     apt-get install -y -t bookworm-backports \
-        grub-common freerdp3-x11 firmware-intel-graphics firmware-realtek &&
+        grub-common freerdp3-x11 firmware-intel-graphics firmware-realtek linux-image-amd64 linux-headers-amd64 &&
     apt-get clean -y &&
-    apt-get install -y -t bookworm-backports \
-        linux-image-amd64 linux-headers-amd64 &&
     apt-get autoremove -y &&
 
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
