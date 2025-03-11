@@ -22,22 +22,25 @@ if [ ! -f "/etc/setup_done" ]; then
 
     echo \"Removing oldest kernel (because a newer (backported) kernel will be installed)...\";
     OLD_KERNEL=\$(apt list linux-image* --installed 2>/dev/null | awk \"NR == 2\" | sed \"s/\\/.*//\")
-    apt-get remove --purge -y \$OLD_KERNEL &&
+    DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y \$OLD_KERNEL &&
     echo \$OLD_KERNEL;
 
     apt-get clean &&
     apt-get update &&
 
-    apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
         unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
     apt-get clean -y &&
     apt-get autoremove -y &&
 
     rm -rf /var/cache/* &&
-    apt-get install -y -t bookworm-backports \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y -t bookworm-backports \
         grub-common freerdp3-x11 firmware-intel-graphics firmware-realtek linux-image-amd64 linux-headers-amd64 &&
     apt-get clean -y &&
     apt-get autoremove -y &&
+    rm -rf /var/cache/* &&
+    DEBIAN_FRONTEND=noninteractive apt-get install -y &&
+
 
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
     sed -i \"s/127.0.1.1.*/127.0.1.1       Unconfigured-NTOS/\" /etc/hosts &&
