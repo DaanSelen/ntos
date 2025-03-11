@@ -16,9 +16,9 @@ printf "Enter the firmware you want: "
 read -r firmware_name
 
 echo "Downloading files from kernel.org repository..."
-wget -r -nd -e robots=no --accept-regex \
+wget -r -nd -e robots=no --accept-regex '/plain/' \
     -P /lib/firmware/"${firmware_name}" --wait=0.2 \
-    '/plain/' https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/"${firmware_name}"
+    https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/"${firmware_name}"
 
 printf "Do you want to rebuild the images now? (y/N) "
 read -r want_build
