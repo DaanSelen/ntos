@@ -28,7 +28,7 @@ if [ ! -f "/etc/setup_done" ]; then
     apt-get clean &&
     apt-get update &&
     apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
-        xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
+        unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
     apt-get clean -y &&
     apt-get install -y -t bookworm-backports \
         grub-common linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-intel-graphics firmware-realtek &&
@@ -83,6 +83,7 @@ else
 
     wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos                  # Panel profile.
     wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
+    wget -q "${web_address}"/assets/third_party/connect.zip -P /opt/ntos/tmp            # Cool looking plymouth theme.
 
     chmod +x /opt/ntos/bin/credcon.sh /opt/ntos/bin/background-sync.sh
 

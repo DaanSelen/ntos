@@ -41,6 +41,9 @@ if [ -f /opt/ntos/tmp/debian-backports.pref ]; then
     mv /opt/ntos/tmp/debian-backports.pref /etc/apt/preferences.d/debian-backports.pref
 fi
 
+# Install the plymouth good looking theme.
+unzip /opt/ntos/tmp/connect.zip -d /usr/share/plymouth/themes/connect
+
 # Replace default desktop image.
 cp /opt/ntos/desktop.png /usr/share/images/desktop-base/default
 
