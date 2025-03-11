@@ -42,13 +42,15 @@ if [ -f /opt/ntos/tmp/debian-backports.pref ]; then
 fi
 
 echo "Setting a good looking Plymouth theme..."
+
 # Install the plymouth good looking theme.
 unzip /opt/ntos/tmp/connect.zip -d /usr/share/plymouth/themes/connect
-plymouth-set-default-theme connect
+/usr/sbin/plymouth-set-default-theme connect
 
 echo "Configuring boot images to make it apply... This can take multiple minutes."
-update-initramfs -u -k all
-update-grub2
+
+/usr/sbin/update-initramfs -u -k all
+/usr/sbin/update-grub2
 
 # Replace default desktop image.
 cp /opt/ntos/desktop.png /usr/share/images/desktop-base/default
