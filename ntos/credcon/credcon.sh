@@ -108,6 +108,9 @@ main() {
                 # Kill all remaining YAD dialogues in 30 seconds.
                 sleep $((threshold + 30))
                 pkill -f yad
+
+                # Gracefully exit.
+                exit 0
             fi
         done
 
@@ -117,6 +120,7 @@ main() {
         # This is done to kill the loading bar process, because it will be followed-up by the "login_failed" dialogue.
         pkill -f yad
 
+        # Show yad dialogue that displays the connection failure.
         show_connection_failure
 
         # Kill the bash process, this stops the background counting of the loading bar. While exiting gracefully!
