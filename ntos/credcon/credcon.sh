@@ -14,10 +14,10 @@ show_loading_bar() {
     for ((i=1; i<=100; i++)); do
         echo $i | tee /dev/null
         echo "# $i%" | tee /dev/tty
-        sleep 0.1
+        sleep 0.25
     done | yad --progress \
         --title='Loading' \
-        --text='Connecting' \
+        --text='Connecting\nPlease wait...' \
         --width=400 \
         --height=200 \
         --button='Cancel' \
@@ -40,15 +40,6 @@ show_credential_dialogue() {
                   --separator=',')
 
     result=$?
-}
-
-please_stand_by() {
-    yad --form \
-        --title='Connection Information' \
-        --text='Slow connection detected.\nPlease stand by.' \
-        --button='Ok':0 \
-        --width=400 \
-        --height=200
 }
 
 # Show dialogue with 'Connection failed', this is done to notice the user that something might not have gone completely right.
@@ -83,7 +74,7 @@ main() {
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.
-        threshold=60
+        threshold=30
         elapsed=0
         interval=1
 
@@ -91,11 +82,6 @@ main() {
         while kill -0 "$xfreerdp_pid" 2> /dev/null; do
             sleep "${interval}s"
             elapsed=$((elapsed + interval))
-
-            if [ "$elapsed" -ge "11" ]; then # 11 (0.1 * 100 =10, 10 + 1 for processing) Seconds waiting time to display a please stand by.
-                # Keep our guest company while its working.
-                please_stand_by
-            fi
 
             # If xfreerdp has been running for more than 30 seconds, exit the loop (connection likely succeeded).
             if [ "$elapsed" -ge "$threshold" ]; then
