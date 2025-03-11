@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export DISPLAY=:0
+export XDG_RUNTIME_DIR=/run/user/1000
 
 # Some environmnet variables.
 rdpFile="/opt/ntos/remote-connection.rdp"
@@ -43,7 +44,7 @@ show_credential_dialogue() {
 
 please_stand_by() {
     yad --form \
-        --title='Connectin Information' \
+        --title='Connection Information' \
         --text='Slow connection detected.\nPlease stand by.' \
         --button='Ok':0 \
         --width=400 \
@@ -78,35 +79,32 @@ main() {
         # Start xfreerdp session in the background and get its process ID (PID).
         # This does not hinder the process from taking over the (screen/monitor) session.
         # Format 0 is because of the ffmpeg bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1098488 https://github.com/FreeRDP/FreeRDP/pull/11225
-        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /drive:hotplug,* /sound /microphone:format:1 /printer /cert:ignore &
+        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /drive:hotplug,* /sound /microphone:format:1 /printer /auth-pkg-list:!kerberos /cert:ignore &
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.
-        threshold=30
+        threshold=60
         elapsed=0
         interval=1
 
         # Keep track of how long the FreeRDP process is alive for.
         while kill -0 "$xfreerdp_pid" 2> /dev/null; do
             sleep "${interval}s"
-            elapsed=$(${elapsed} + ${interval})
+            elapsed=$((elapsed + interval))
+
+            if [ "$elapsed" -ge "11" ]; then # 11 (0.1 * 100 =10, 10 + 1 for processing) Seconds waiting time to display a please stand by.
+                # Keep our guest company while its working.
+                please_stand_by
+            fi
 
             # If xfreerdp has been running for more than 30 seconds, exit the loop (connection likely succeeded).
             if [ "$elapsed" -ge "$threshold" ]; then
                 echo 'xfreerdp ran for more than 30 seconds Assuming success..'
 
-                # Intermediate yad pkilling, for clear screen clarity.
-                pkill -f yad
-
-                # If there is a slow connection keep the guest company.
-                echo "Displaying 'please stand-by' if the connection is slow..."
-                please_stand_by
-
                 # Disown the FreeRDP process to make the script exit gracefully.
                 disown "$xfreerdp_pid"
 
-                # Kill all remaining YAD dialogues in 30 seconds.
-                sleep $((threshold + 30))
+                # Kill all remaining YAD dialogues at threshold.
                 pkill -f yad
 
                 # Gracefully exit.
