@@ -17,7 +17,7 @@ show_loading_bar() {
         sleep 0.25
     done | yad --progress \
         --title='Loading' \
-        --text='Connecting\nPlease wait...' \
+        --text='Connecting...\nPlease wait..' \
         --width=400 \
         --height=200 \
         --button='Cancel' \
