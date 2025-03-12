@@ -28,7 +28,7 @@ if [ ! -f "/etc/setup_done" ]; then
     apt-get clean &&
     apt-get update &&
 
-    DEBIAN_FRONTEND=noninteractive apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
         unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
     apt-get clean -y &&
     apt-get autoremove -y &&
