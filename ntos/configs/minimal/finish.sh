@@ -12,7 +12,7 @@
 if [ ! -f "/etc/setup_done" ]; then
 
     su root -c "bash -c '
-    service systemd-timesyncd restart;
+    systemctl restart systemd-timesyncd || true;
 
     echo \"deb http://ftp.de.debian.org/debian bookworm-backports main non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
     apt-get update &&
@@ -25,21 +25,11 @@ if [ ! -f "/etc/setup_done" ]; then
     DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y \$OLD_KERNEL &&
     echo \$OLD_KERNEL;
 
-    apt-get clean &&
+    DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups dbus-x11 network-manager-gnome system-config-printer \
+        unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager yad &&
 
-    DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups dbus-x11 network-manager-gnome sane sane-utils system-config-printer \
-        unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
-    apt-get clean -y &&
-    apt-get autoremove -y &&
-
-    rm -rf /var/cache/* &&
     DEBIAN_FRONTEND=noninteractive apt-get install -y -t bookworm-backports \
-        freerdp3-x11 &&
-    apt-get clean -y &&
-    apt-get autoremove -y &&
-    rm -rf /var/cache/* &&
-    DEBIAN_FRONTEND=noninteractive apt-get install -y &&
-
+        freerdp3-x11 linux-image-amd64 &&
 
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
     sed -i \"s/127.0.1.1.*/127.0.1.1       Unconfigured-NTOS/\" /etc/hosts &&
