@@ -14,10 +14,9 @@ if [ ! -f "/etc/setup_done" ]; then
     su root -c "bash -c '
     service systemd-timesyncd restart;
 
-    sed -i \"/^deb cdrom:/s/^/#/\" /etc/apt/sources.list &&
     echo \"deb http://ftp.de.debian.org/debian bookworm-backports main non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
 
-    rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/* /usr/share/icons/*
+    rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/* /usr/share/icons/* /var/cache/*
     echo -e path-exclude=/usr/share/doc/*\\npath-exclude=/usr/share/man/*\\npath-exclude=/usr/share/locale/*\\npath-exclude=/usr/share/icons/* | tee /etc/dpkg/dpkg.cfg.d/excludes &&
 
     echo \"Removing oldest kernel (because a newer (backported) kernel will be installed)...\";
@@ -26,9 +25,8 @@ if [ ! -f "/etc/setup_done" ]; then
     echo \$OLD_KERNEL;
 
     apt-get clean &&
-    apt-get update &&
 
-    DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups dbus-x11 network-manager-gnome sane sane-utils system-config-printer \
         unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
     apt-get clean -y &&
     apt-get autoremove -y &&
