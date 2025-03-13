@@ -34,7 +34,7 @@ if [ ! -f "/etc/setup_done" ]; then
 
     rm -rf /var/cache/* &&
     DEBIAN_FRONTEND=noninteractive apt-get install -y -t bookworm-backports \
-        freerdp3-x11 firmware-intel-graphics firmware-realtek linux-image-amd64 linux-headers-amd64 &&
+        freerdp3-x11 &&
     apt-get clean -y &&
     apt-get autoremove -y &&
     rm -rf /var/cache/* &&
