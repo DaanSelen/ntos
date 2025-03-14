@@ -5,10 +5,10 @@ echo "Configuring NTOS-Server..."
 cp -rnv /app/* /data
 
 echo "Linking..."
-ln -s /data/assets /var/www/localhost/htdocs/assets
-ln -s /data/configs /var/www/localhost/htdocs/configs 
-ln -s /data/credcon /var/www/localhost/htdocs/credcon 
-ln -s /data/rdp /var/www/localhost/htdocs/rdp
+ln -sv /data/assets /var/www/localhost/htdocs/assets
+ln -sv /data/configs /var/www/localhost/htdocs/configs 
+ln -sv /data/credcon /var/www/localhost/htdocs/credcon 
+ln -sv /data/rdp /var/www/localhost/htdocs/rdp
 
 echo "Done. Starting Apache2 webserver..."
 

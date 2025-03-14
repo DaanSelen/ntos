@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH=/sbin:$PATH
+
 # Start agent installation for remote management. (e.g. MeshCentral, NinjaRMM, ConnectWise RMM, N-Able, etc...)
 
 
@@ -37,15 +39,46 @@ else
 fi
 
 # Move preference file to apt.
-mv /opt/ntos/tmp/debian-backports.pref /etc/apt/preferences.d/debian-backports.pref
+if [ -f /opt/ntos/tmp/debian-backports.pref ]; then
+    mv /opt/ntos/tmp/debian-backports.pref /etc/apt/preferences.d/debian-backports.pref
+fi
+
+echo "Setting a good looking Plymouth theme..."
+
+# Install the plymouth good looking theme.
+unzip /opt/ntos/tmp/connect.zip -d /usr/share/plymouth/themes/connect
+plymouth-set-default-theme connect
+
+echo "Configuring boot images to make it apply... This can take multiple minutes."
+
+update-initramfs -u -k all
+update-grub2
+
+# Replace default desktop image.
+cp /opt/ntos/desktop.png /usr/share/images/desktop-base/default
 
 # Removing both xfce4-keyboard shortcuts to be sure.
-echo 'Removing unwanted configurations and files...'
+echo 'Removing unwanted configurations and files if they exist...'
 
-rm /etc/xdg/autostart/light-locker.desktop                                              # Prevent auto-locking due to autostart file.
-rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml               # Remove all system-wide keyboard shortcuts.
-rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml     # Remove all user-spaced keyboard shortcuts
-rm /opt/ntos/tmp/setup-root.sh                                                          # Remove setup_root.sh script because no longer needed.
+if [ -f /etc/xdg/autostart/light-locker.desktop ]; then
+    rm /etc/xdg/autostart/light-locker.desktop # Prevent auto-locking due to autostart file.
+fi
+
+if [ -f /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml ]; then
+    rm /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml # Remove all system-wide keyboard shortcuts.
+fi
+
+if [ -f /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml ]; then
+    rm /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml # Remove all user-spaced keyboard shortcuts
+fi
+
+if [ -f /opt/ntos/tmp/setup-root.sh  ]; then
+    rm /opt/ntos/tmp/setup-root.sh # Remove setup_root.sh script because no longer needed.
+fi
+
+if [ -f /opt/ntos/tmp/connect.zip ]; then
+    rm /opt/ntos/tmp/connect.zip # Removes the connect.zip tmp file.
+fi
 
 echo -e '\nPending reboot, press any key to reboot.'
 read -r

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export DISPLAY=:0
+export XDG_RUNTIME_DIR=/run/user/1000
 
 # Some environmnet variables.
 rdpFile="/opt/ntos/remote-connection.rdp"
@@ -13,10 +14,10 @@ show_loading_bar() {
     for ((i=1; i<=100; i++)); do
         echo $i | tee /dev/null
         echo "# $i%" | tee /dev/tty
-        sleep 0.1
+        sleep 0.2
     done | yad --progress \
         --title='Loading' \
-        --text='Connecting' \
+        --text='Connecting...\nPlease wait..' \
         --width=400 \
         --height=200 \
         --button='Cancel' \
@@ -69,7 +70,7 @@ main() {
         # Start xfreerdp session in the background and get its process ID (PID).
         # This does not hinder the process from taking over the (screen/monitor) session.
         # Format 0 is because of the ffmpeg bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1098488 https://github.com/FreeRDP/FreeRDP/pull/11225
-        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /drive:hotplug,* /sound /microphone:format:1 /printer /cert:ignore &
+        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /drive:hotplug,* /sound /microphone:format:1 /printer /auth-pkg-list:!kerberos /floatbar /cert:ignore &
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.
@@ -79,8 +80,8 @@ main() {
 
         # Keep track of how long the FreeRDP process is alive for.
         while kill -0 "$xfreerdp_pid" 2> /dev/null; do
-            sleep "$interval"
-            elapsed=$(($elapsed + $interval))
+            sleep "${interval}s"
+            elapsed=$((elapsed + interval))
 
             # If xfreerdp has been running for more than 30 seconds, exit the loop (connection likely succeeded).
             if [ "$elapsed" -ge "$threshold" ]; then
@@ -89,10 +90,10 @@ main() {
                 # Disown the FreeRDP process to make the script exit gracefully.
                 disown "$xfreerdp_pid"
 
-                # Kill all remaining YAD dialogues.
+                # Kill all remaining YAD dialogues at threshold.
                 pkill -f yad
 
-                # Gracefully exit the script.
+                # Gracefully exit.
                 exit 0
             fi
         done
@@ -103,6 +104,7 @@ main() {
         # This is done to kill the loading bar process, because it will be followed-up by the "login_failed" dialogue.
         pkill -f yad
 
+        # Show yad dialogue that displays the connection failure.
         show_connection_failure
 
         # Kill the bash process, this stops the background counting of the loading bar. While exiting gracefully!

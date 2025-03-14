@@ -12,3 +12,5 @@ for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}
 do
     xfconf-query -c xfce4-desktop -p "$x" -s "${background_image}"
 done
+
+su root -c "cp /opt/ntos/desktop.png /usr/share/images/desktop-base/default"

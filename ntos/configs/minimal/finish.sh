@@ -12,29 +12,30 @@
 if [ ! -f "/etc/setup_done" ]; then
 
     su root -c "bash -c '
-    service systemd-timesyncd restart &&
+    systemctl restart systemd-timesyncd || true;
 
-    sed -i \"/^deb cdrom:/s/^/#/\" /etc/apt/sources.list &&
     echo \"deb http://ftp.de.debian.org/debian bookworm-backports main non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
-
-    echo -e \"path-exclude=/usr/share/doc/*\\npath-exclude=/usr/share/man/*\\npath-exclude=/usr/share/locale/*\" | tee /etc/dpkg/dpkg.cfg.d/excludes &&
-
-    echo \"Removing oldest kernel (because a newer will be installed)...\" &&
-    OLD_KERNEL=\$(apt list linux-image* --installed 2>/dev/null | awk \"NR == 2\" | sed \"s/\\/.*//\")
-    apt-get remove --purge -y \$OLD_KERNEL &&
-    echo \$OLD_KERNEL &&
-
-    apt-get clean &&
     apt-get update &&
-    apt-get install -y cups curl dbus-x11 network-manager-gnome plymouth-themes sane sane-utils system-config-printer \
-        xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager xsane yad &&
-    apt-get install -y -t bookworm-backports linux-image-amd64 linux-headers-amd64 freerdp3-x11 firmware-intel-graphics &&
-    apt-get autoremove -y &&
+
+    rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/* /usr/share/icons/* /var/cache/*
+    echo -e path-exclude=/usr/share/doc/*\\npath-exclude=/usr/share/man/*\\npath-exclude=/usr/share/locale/*\\npath-exclude=/usr/share/icons/* | tee /etc/dpkg/dpkg.cfg.d/excludes &&
+
+    echo \"Removing oldest kernel (because a newer (backported) kernel will be installed)...\";
+    OLD_KERNEL=\$(apt list linux-image* --installed 2>/dev/null | awk \"NR == 2\" | sed \"s/\\/.*//\")
+    DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y \$OLD_KERNEL &&
+    echo \$OLD_KERNEL;
+
+    DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups dbus-x11 network-manager-gnome system-config-printer \
+        unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager yad &&
+
+    DEBIAN_FRONTEND=noninteractive apt-get install -y -t bookworm-backports \
+        freerdp3-x11 linux-image-amd64 &&
 
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
     sed -i \"s/127.0.1.1.*/127.0.1.1       Unconfigured-NTOS/\" /etc/hosts &&
     sed -i \"s/quiet/quiet loglevel=3 splash i915.modeset=1/\" /etc/default/grub &&
-    sed -i \"s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/\" /etc/default/grub &&
+    sed -i \"s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/\" /etc/default/grub &&
+    sed -i \"/GRUB_TIMEOUT/a GRUB_HIDDEN_TIMEOUT=1\" /etc/default/grub  &&
     sed -i \"s/^#\(SystemMaxUse=\).*/\150M/\" /etc/systemd/journald.conf &&
     sed -i \"s/^#autologin-user=/autologin-user=user/\" /etc/lightdm/lightdm.conf &&
 
@@ -80,6 +81,7 @@ else
 
     wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos                  # Panel profile.
     wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
+    wget -q "${web_address}"/assets/third_party/connect.zip -P /opt/ntos/tmp            # Cool looking plymouth theme.
 
     chmod +x /opt/ntos/bin/credcon.sh /opt/ntos/bin/background-sync.sh
 
@@ -127,6 +129,7 @@ else
 
     # Append the export (for easy future management) to the bash profile.
     echo "export DISPLAY=:0" >> /home/user/.bashrc
+    echo "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$UID/bus\"" >> /home/user/.bashrc
 
     #########################################
     #                ROOT                   #
