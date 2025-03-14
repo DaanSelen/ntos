@@ -39,8 +39,6 @@ wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos              
 wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
 wget -q "${web_address}"/assets/third_party/connect.zip -P /opt/ntos/tmp            # Cool looking plymouth theme.
 
-chmod +x /opt/ntos/bin/credcon.sh /opt/ntos/bin/background-sync.sh
-
 # Customize desktop environment.
 
 echo "Applying panel profile..."

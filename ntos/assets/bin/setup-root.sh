@@ -80,6 +80,8 @@ if [ -f /opt/ntos/tmp/connect.zip ]; then
     rm /opt/ntos/tmp/connect.zip # Removes the connect.zip tmp file.
 fi
 
+chmod -R 755 /opt/ntos
+
 echo -e '\nPending reboot, press any key to reboot.'
 read -r
 /sbin/reboot now

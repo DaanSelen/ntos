@@ -39,7 +39,7 @@ if [ ! -f "/etc/setup_done" ]; then
     sed -i \"s/^#\(SystemMaxUse=\).*/\150M/\" /etc/systemd/journald.conf &&
     sed -i \"s/^#autologin-user=/autologin-user=user/\" /etc/lightdm/lightdm.conf &&
 
-    mkdir -p /opt/ntos && chown user:user /opt/ntos &&
+    mkdir -p /opt/ntos &&
     update-grub2'"
 
     # Create a file to indicate setup is complete
@@ -82,8 +82,6 @@ else
     wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos                  # Panel profile.
     wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
     wget -q "${web_address}"/assets/third_party/connect.zip -P /opt/ntos/tmp            # Cool looking plymouth theme.
-
-    chmod +x /opt/ntos/bin/credcon.sh /opt/ntos/bin/background-sync.sh
 
     # Customize desktop environment.
 
@@ -128,8 +126,9 @@ else
     done
 
     # Append the export (for easy future management) to the bash profile.
-    echo "export DISPLAY=:0" >> /home/user/.bashrc
-    echo "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$UID/bus\"" >> /home/user/.bashrc
+    { echo "export DISPLAY=:0"; 
+      echo "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$UID/bus\""; 
+      echo "export XDG_RUNTIME_DIR=\"unix:path=/run/user/$UID/bus\""; } >> /home/user/.bashrc
 
     #########################################
     #                ROOT                   #
