@@ -19,7 +19,7 @@ mkdir -p /opt/ntos/bin
 mkdir -p /opt/ntos/tmp
 
 # Download the setup-user.sh file.
-curl "${web_address}"/assets/bin/setup-user.sh > /opt/ntos/tmp/setup-user.sh
+curl "${web_address}"/assets/tmp/setup-user.sh > /opt/ntos/tmp/setup-user.sh
 
 # Execute it.
 bash /opt/ntos/tmp/setup-user.sh "${web_address}" "${rdp_name}"
