@@ -17,7 +17,7 @@ curl -s "${web_address}"/assets/bin/background-sync.sh > /opt/ntos/bin/backgroun
 curl -s "${web_address}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh         # Script utility to install extra firmware dependencies from kernel.org.
 
 # Temporary script files for when root executes.
-curl -s "${web_address}"/assets/bin/setup-root.sh > /opt/ntos/tmp/setup-root.sh                 # Root setup script. Segregated to its own script.
+curl -s "${web_address}"/assets/tmp/setup-root.sh > /opt/ntos/tmp/setup-root.sh                 # Root setup script. Segregated to its own script.
 curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-backports.pref     # Aptitude preference for freerdp repositories.
 curl -s "${web_address}"/assets/VERSION > /opt/ntos/VERSION
 
