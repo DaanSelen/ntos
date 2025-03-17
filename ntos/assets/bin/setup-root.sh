@@ -73,7 +73,7 @@ if [ -f /home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-short
 fi
 
 if [ -f /opt/ntos/tmp/setup-root.sh  ]; then
-    rm /opt/ntos/tmp/setup-root.sh # Remove setup_root.sh script because no longer needed.
+    rm /opt/ntos/tmp/setup-root.sh # Remove setup_root.sh script because it is no longer needed.
 fi
 
 if [ -f /opt/ntos/tmp/connect.zip ]; then
