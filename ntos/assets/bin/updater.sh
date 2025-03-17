@@ -3,7 +3,7 @@
 # Setting environment variables for operation.
 source /opt/ntos/VERSION
 local_version=$VERSION
-remote_version=$(curl https://"${ORIGIN}"/VERSION)
+remote_version=$(curl "${ORIGIN}"/VERSION)
 
 # Grabbing the newest version of updater.
 
