@@ -15,6 +15,7 @@ curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css    
 curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh                              # Credcon utility/tool.
 curl -s "${web_address}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh           # Background syncing tool.
 curl -s "${web_address}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh         # Script utility to install extra firmware dependencies from kernel.org.
+curl -s "${web_address}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh                           # NTOS update utility.
 
 # Temporary script files for when root executes.
 curl -s "${web_address}"/assets/tmp/setup-root.sh > /opt/ntos/tmp/setup-root.sh                 # Root setup script. Segregated to its own script.
