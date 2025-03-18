@@ -23,8 +23,7 @@ sed -i "s/^127\.0\.1\.1.*/127.0.1.1       $new_hostname/" /etc/hosts
 sleep 1s # Add little pauses for the machine to process all.
 
 # Check if the source file exists before copying
-if [ -f '/home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ];
-then
+if [ -f '/home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ]; then
     echo 'Source xfce4-panel.xml found. Proceeding with copy.'
 
     # Copy xfce4-panel.xml to the system-wide config directory
@@ -35,7 +34,7 @@ then
     sed -i 's|<channel name=\"xfce4-panel\" version=\"1.0\">|<channel name=\"xfce4-panel\" version=\"1.0\" locked=\"*\" unlocked=\"root\">|' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
     echo 'Successfully applied the lock to xfce4-panel.xml'
 else
-    echo 'Error: Source xfce4-panel.xml not found at /home/user/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml'
+    echo 'Source xfce4-panel.xml not found at /home/user/.config/xfce4/xfconfxfce-perchannel-xml/xfce4-panel.xml, doing nothing with it...'
 fi
 
 # Move preference file to apt.

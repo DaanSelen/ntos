@@ -9,23 +9,22 @@ rdp_name=$2
 
 echo -e '\nDownloading needed files...'
 
-curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /opt/ntos/remote-connection.rdp                    # Download RDP file.
-curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css                        # GTK-CSS for makeup.
+curl -s "${web_address}"/rdp/"${rdp_name}".rdp > /opt/ntos/remote-connection.rdp    # Download RDP file.
+curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css        # GTK-CSS for makeup.
 
-curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh                              # Credcon utility/tool.
-curl -s "${web_address}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh           # Background syncing tool.
-curl -s "${web_address}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh         # Script utility to install extra firmware dependencies from kernel.org.
-curl -s "${web_address}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh                           # NTOS update utility.
+curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh                       # Credcon utility/tool.
+curl -s "${web_address}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh    # Background syncing tool.
+curl -s "${web_address}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh  # Script utility to install extra firmware dependencies from kernel.org.
+curl -s "${web_address}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh                    # NTOS update utility.
 
 # Temporary script files for when root executes.
-curl -s "${web_address}"/assets/tmp/setup-root.sh > /opt/ntos/tmp/setup-root.sh                 # Root setup script. Segregated to its own script.
-curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-backports.pref     # Aptitude preference for freerdp repositories.
-curl -s "${web_address}"/assets/VERSION > /opt/ntos/VERSION
+curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-backports.pref  # Aptitude preference for freerdp repositories.
+curl -s "${web_address}"/assets/VERSION > /opt/ntos/VERSION                                  # Set client version.
 
 # Bigger files what are not just text, therefor are downloaded with wget.
-wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos                  # Panel profile.
-wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                            # Desktop background.
-wget -q "${web_address}"/assets/third_party/connect.zip -P /opt/ntos/tmp            # Cool looking plymouth theme.
+wget -q "${web_address}"/assets/panel-profile.tar.bz2 -P /opt/ntos          # Panel profile.
+wget -q "${web_address}"/assets/desktop.png -P /opt/ntos                    # Desktop background.
+wget -q "${web_address}"/assets/third_party/connect.zip -P /opt/ntos/tmp    # Cool looking plymouth theme.
 
 # Customize desktop environment.
 
@@ -72,12 +71,17 @@ done
 ### Miscelaneous
 
 # Append the export (for easy future management) to the bash profile so its an environment variable.
-{ echo "export DISPLAY=:0"; 
-  echo "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$UID/bus\""; 
-  echo "export XDG_RUNTIME_DIR=\"unix:path=/run/user/$UID/bus\""; } >> /home/user/.bashrc
+for line in \
+    'export DISPLAY=:0' \
+    "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$UID/bus\"" \
+    "export XDG_RUNTIME_DIR=\"unix:path=/run/user/$UID/bus\""
+do
+    grep -qxF "$line" /home/user/.bashrc || echo "$line" >> /home/user/.bashrc
+done
 
-# Append origin to VERSION
+# Append origin and rdp to VERSION
 sed -i "s|^ORIGIN=|ORIGIN=${web_address}|" /opt/ntos/VERSION
+sed -i "s|^RDP=|RDP=${rdp_name}|" /opt/ntos/VERSION
 
 if [ -f /opt/ntos/tmp/setup-user.sh ]; then
     rm /opt/ntos/tmp/setup-user.sh # Remove setup_user.sh script because it is no longer needed.
