@@ -14,7 +14,7 @@ show_loading_bar() {
         sleep 0.1
     done | yad --progress \
         --title='Credcon Utility' \
-        --text="Loading...\nPlease stand by." \
+        --text="\nLoading...\nPlease stand by." \
         --width=400 \
         --height=200 \
         --button='Cancel' \
@@ -25,7 +25,7 @@ show_loading_bar() {
 
     sleep 1s
     yad --title='Credcon Utility' \
-        --text="Slow connection detected... Please wait.\n(The connection will start any second)" \
+        --text="\nSlow connection detected... Please wait.\n(The connection will start any second)" \
         --width=400 \
         --height=200 \
         --button='Cancel' \
@@ -39,8 +39,8 @@ show_loading_bar() {
 show_credential_dialogue() {
     credentials=$(yad --form \
                   --title='Credcon Utility' \
-                  --text='Enter your credentials' \
-                  --field='Email/Username:' \
+                  --text='\nEnter your credentials' \
+                  --field='Email/User:' \
                   --field='Password:':H \
                   --button='Submit':0 \
                   --button='Cancel':1 \
@@ -56,7 +56,7 @@ show_credential_dialogue() {
 show_connection_failure() {
     yad --form \
         --title='Credcon Utility' \
-        --text='Connection was Terminated early...' \
+        --text='\nConnection was Terminated early...' \
         --button='Ok':0 \
         --width=400 \
         --height=200
