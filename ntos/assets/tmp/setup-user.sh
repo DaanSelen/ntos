@@ -14,6 +14,8 @@ do
     grep -qxF "$line" /home/user/.bashrc || echo "$line" >> /home/user/.bashrc
 done
 
+source /home/user/.bashrc
+
 # Downloading all needed files.
 
 echo -e '\nDownloading needed files...'
@@ -37,8 +39,12 @@ wget -q "${web_address}"/assets/third_party/connect.zip -P /opt/ntos/tmp    # Co
 
 # Customize desktop environment.
 
-echo "Applying panel profile..."
-xfce4-panel-profiles load /opt/ntos/panel-profile.tar.bz2
+echo "Applying panel profile if possible..."
+if grep -q "<channel name=\"xfce4-panel\" version=\"1.0\" locked=\"*\" unlocked=\"root\">" /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml; then
+    echo "Panel is locked, cannot modify."
+else
+    xfce4-panel-profiles load /opt/ntos/panel-profile.tar.bz2
+fi
 
 # Set theme to Adwaita-Dark.
 xfconf-query -c xsettings -p '/Net/ThemeName' -s 'Adwaita-dark'

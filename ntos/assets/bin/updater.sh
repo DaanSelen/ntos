@@ -23,8 +23,6 @@ contains_arg() {
 }
 
 redo_install() {
-    rm -rf /opt/ntos/*
-
     mkdir -p /home/user/.config/gtk-3.0/
     mkdir -p /opt/ntos/bin
     mkdir -p /opt/ntos/tmp
@@ -39,7 +37,7 @@ redo_install() {
     su root -c "bash /opt/ntos/tmp/setup-root.sh"
 }
 
-pull_latest() {
+pull_latest_code() {
     echo -e '\nDownloading needed files...'
 
     curl -s "${ORIGIN}"/rdp/"${local_rdp}".rdp > /opt/ntos/remote-connection.rdp   # Download RDP file.
@@ -65,8 +63,8 @@ if contains_arg "--redo"; then
     echo "Redo argument received, recalibrating..."
     redo_install
 elif contains_arg "--update"; then
-    echo "Redo argument not received, pulling latest code..."
-    pull_latest
+    echo "Update argument received, pulling latest code..."
+    pull_latest_code
 else
     echo "No action received, doing nothing."
 fi
