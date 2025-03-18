@@ -4,12 +4,19 @@ args=("$@")
 
 # Setting environment variables for operation.
 source /opt/ntos/VERSION
-local_version=$VERSION
+#local_version=$VERSION
+#remote_version=$(curl -s "${ORIGIN}"/VERSION | grep "VERSION=" | cut -d "=" -f2-)
 local_rdp=$RDP
-remote_version=$(curl -s "${ORIGIN}"/VERSION | grep "VERSION=" | cut -d "=" -f2-)
 
-echo "$remote_version"
-echo "$local_version"
+relevant_files=(
+    "/opt/ntos/remote-connection.rdp"
+    "/opt/ntos/bin/credcon.sh"
+    "/opt/ntos/bin/background-sync.sh"
+    "/opt/ntos/bin/install-firmware.sh"
+    "/opt/ntos/bin/updater.sh"
+    "/opt/ntos/panel-profile.tar.bz2"
+    "/opt/ntos/desktop.png"
+)
 
 # Function to check cmd arguments.
 contains_arg() {
@@ -38,16 +45,6 @@ pull_latest_code() {
 }
 
 upgrade_all() {
-    relevant_files=(
-        "/opt/ntos/remote-connection.rdp"
-        "/opt/ntos/bin/credcon.sh"
-        "/opt/ntos/bin/background-sync.sh"
-        "/opt/ntos/bin/install-firmware.sh"
-        "/opt/ntos/bin/updater.sh"
-        "/opt/ntos/panel-profile.tar.bz2"
-        "/opt/ntos/desktop.png"
-    )
-
     for file in "${relevant_files[@]}"; do
         new_file="${file}.new"
         old_file="${file}.old"
@@ -63,10 +60,19 @@ upgrade_all() {
     done
 }
 
+cleanup_old() {
+    for file in "${relevant_files[@]}"; do
+        echo "Removing remaining: ${file}.old"
+        rm "${file}.old"
+    done
+}
+
 if contains_arg "--update"; then
     echo "Update argument received, pulling latest code..."
     pull_latest_code
     upgrade_all
-else
-    echo "No action received, doing nothing."
+fi
+
+if contains_arg "--cleanup"; then
+    cleanup_old
 fi
