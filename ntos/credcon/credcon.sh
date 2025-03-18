@@ -13,7 +13,7 @@ show_loading_bar() {
         echo "# $i%" | tee /dev/tty
         sleep 0.1
     done | yad --progress \
-        --title='Loading' \
+        --title='Credcon Utility' \
         --text="Loading...\nPlease stand by." \
         --width=400 \
         --height=200 \
@@ -24,7 +24,7 @@ show_loading_bar() {
         --text-align=center
 
     sleep 1s
-    yad --title='Connection Information' \
+    yad --title='Credcon Utility' \
         --text="Slow connection detected... Please wait.\n(The connection will start any second)" \
         --width=400 \
         --height=200 \
@@ -38,9 +38,9 @@ show_loading_bar() {
 # Simple yet powerful, while not taking over the entire monitor.
 show_credential_dialogue() {
     credentials=$(yad --form \
-                  --title='Login' \
+                  --title='Credcon Utility' \
                   --text='Enter your credentials' \
-                  --field='Email:' \
+                  --field='Email/Username:' \
                   --field='Password:':H \
                   --button='Submit':0 \
                   --button='Cancel':1 \
@@ -55,8 +55,8 @@ show_credential_dialogue() {
 # The purpose for this is to display this once a connection failed, not when it succeeded.
 show_connection_failure() {
     yad --form \
-        --title='Connection Closed' \
-        --text='Connection was Terminated.' \
+        --title='Credcon Utility' \
+        --text='Connection was Terminated early...' \
         --button='Ok':0 \
         --width=400 \
         --height=200
