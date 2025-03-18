@@ -22,47 +22,52 @@ contains_arg() {
     return 1  # Not found
 }
 
-redo_install() {
-    mkdir -p /home/user/.config/gtk-3.0/
-    mkdir -p /opt/ntos/bin
-    mkdir -p /opt/ntos/tmp
-
-    echo "Modifying permissions"
-    chmod -R 777 /opt/ntos
-
-    curl -s "${ORIGIN}"/assets/tmp/setup-user.sh > /opt/ntos/tmp/setup-user.sh
-    curl -s "${ORIGIN}"/assets/tmp/setup-root.sh > /opt/ntos/tmp/setup-root.sh
-
-    su user -c "bash /opt/ntos/tmp/setup-user.sh '${ORIGIN}' '${local_rdp}'"
-    su root -c "bash /opt/ntos/tmp/setup-root.sh"
-}
-
 pull_latest_code() {
     echo -e '\nDownloading needed files...'
 
-    curl -s "${ORIGIN}"/rdp/"${local_rdp}".rdp > /opt/ntos/remote-connection.rdp   # Download RDP file.
-    curl -s "${ORIGIN}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css        # GTK-CSS for makeup.
+    curl -s "${ORIGIN}"/rdp/"${local_rdp}".rdp > /opt/ntos/remote-connection.rdp.new
 
-    curl -s "${ORIGIN}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh                       # Credcon utility/tool.
-    curl -s "${ORIGIN}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh    # Background syncing tool.
-    curl -s "${ORIGIN}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh  # Script utility to install extra firmware dependencies from kernel.org.
-    curl -s "${ORIGIN}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh                    # NTOS update utility.
+    curl -s "${ORIGIN}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh.new
+    curl -s "${ORIGIN}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh.new
+    curl -s "${ORIGIN}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh.new
+    curl -s "${ORIGIN}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh.new
 
     # Temporary script files for when root executes.
-    curl -s "${ORIGIN}"/assets/VERSION > /opt/ntos/VERSION                                  # Set client version.
+    curl -s "${ORIGIN}"/assets/VERSION > /opt/ntos/VERSION.new
 
     # Bigger files what are not just text, therefor are downloaded with wget.
-    wget -q "${ORIGIN}"/assets/panel-profile.tar.bz2 -P /opt/ntos          # Panel profile.
-    wget -q "${ORIGIN}"/assets/desktop.png -P /opt/ntos                    # Desktop background.
-
-    echo "Applying (presumably) new panel profile."
-    su user -c "xfce4-panel-profiles load /opt/ntos/panel-profile.tar.bz2"
+    wget -q "${ORIGIN}"/assets/panel-profile.tar.bz2 -P /opt/ntos -O panel-profile.tar.bz2.new
+    wget -q "${ORIGIN}"/assets/desktop.png -P /opt/ntos -O desktop.png.new
 }
 
-if contains_arg "--redo"; then
-    echo "Redo argument received, recalibrating..."
-    redo_install
-elif contains_arg "--update"; then
+upgrade_all() {
+    relevant_files=(
+        "/opt/ntos/remote-connection.rdp"
+        "/opt/ntos/bin/credcon.sh"
+        "/opt/ntos/bin/background-sync.sh"
+        "/opt/ntos/bin/install-firmware.sh"
+        "/opt/ntos/bin/updater.sh"
+        "/opt/ntos/VERSION"
+        "/opt/ntos/panel-profile.tar.bz2"
+        "/opt/ntos/desktop.png"
+    )
+
+    for file in "${relevant_files[@]}"; do
+        new_file="${file}.new"
+        old_file="${file}.old"
+
+        if [ -f "${file}" ]; then
+            echo "Updating: ${file}"
+            mv "${file}" "$old_file"
+            mv "{$new_file}" "${file}"
+        else
+            echo "Installing: ${file}"
+            mv "${new_file}" "${file}"
+        fi
+    done
+}
+
+if contains_arg "--update"; then
     echo "Update argument received, pulling latest code..."
     pull_latest_code
 else

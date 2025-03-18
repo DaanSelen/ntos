@@ -1,8 +1,5 @@
 #!/bin/bash
 
-export DISPLAY=:0
-export XDG_RUNTIME_DIR=/run/user/1000
-
 # Some environmnet variables.
 rdpFile="/opt/ntos/remote-connection.rdp"
 
@@ -16,6 +13,7 @@ show_loading_bar() {
         echo "# $i%" | tee /dev/tty
         sleep 0.2
     done | yad --progress \
+        --pulsate \
         --title='Loading' \
         --text='Connecting...\nPlease wait..' \
         --width=400 \
@@ -70,7 +68,10 @@ main() {
         # Start xfreerdp session in the background and get its process ID (PID).
         # This does not hinder the process from taking over the (screen/monitor) session.
         # Format 0 is because of the ffmpeg bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1098488 https://github.com/FreeRDP/FreeRDP/pull/11225
-        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /drive:hotplug,* /sound /microphone:format:1 /printer /auth-pkg-list:!kerberos /floatbar,default:hidden /cert:ignore &
+        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" \
+            /drive:hotplug,* /sound /microphone:format:1 /printer \
+            /auth-pkg-list:!kerberos \
+            /floatbar:sticky:off,default:visible,show:fullscreen /cert:ignore &
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.
