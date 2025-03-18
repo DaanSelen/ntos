@@ -40,7 +40,7 @@ wget -q "${web_address}"/assets/third_party/connect.zip -P /opt/ntos/tmp    # Co
 # Customize desktop environment.
 
 echo "Applying panel profile if possible..."
-if grep -q "<channel name=\"xfce4-panel\" version=\"1.0\" locked=\"*\" unlocked=\"root\">" /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml; then
+if grep -q "<channel name=\"xfce4-panel\" version=\"1.0\" locked=\"\*\" unlocked=\"root\">" /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml; then
     echo "Panel is locked, cannot modify."
 else
     xfce4-panel-profiles load /opt/ntos/panel-profile.tar.bz2
