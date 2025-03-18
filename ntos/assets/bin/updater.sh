@@ -39,9 +39,9 @@ pull_latest_code() {
     curl -s "${ORIGIN}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh.new
     curl -s "${ORIGIN}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh.new
 
-    # Bigger files what are not just text, therefor are downloaded with wget.
-    wget -q "${ORIGIN}"/assets/panel-profile.tar.bz2 /opt/ntos -O /opt/ntos/panel-profile.tar.bz2.new
-    wget -q "${ORIGIN}"/assets/desktop.png -O /opt/ntos/desktop.png.new
+    # Bigger files what are not just text, therefor are downloaded with curl.
+    curl -s -o /opt/ntos/panel-profile.tar.bz2.new "${ORIGIN}/assets/panel-profile.tar.bz2"
+    curl -s -o /opt/ntos/desktop.png.new "${ORIGIN}/assets/desktop.png"
 }
 
 upgrade_all() {
@@ -55,7 +55,7 @@ upgrade_all() {
             mv "$new_file" "$file"
         else
             echo "Installing: $file"
-            mv "$new_file" "$file"
+            mv -v "$new_file" "$file"
         fi
     done
 }
