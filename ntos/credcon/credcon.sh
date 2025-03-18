@@ -29,6 +29,7 @@ show_loading_bar() {
         if xprop -id "$window" | grep -q "xfreerdp"; then
             echo "The xfreerdp3 window has popped up."
             freerdp_open=1
+            break
         else
             echo "$window" "is not xfreerdp"
             freerdp_open=0
