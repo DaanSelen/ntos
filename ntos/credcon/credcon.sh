@@ -14,7 +14,7 @@ show_loading_bar() {
         sleep 0.1
     done | yad --progress \
         --title='Credcon Utility' \
-        --text="\nLoading...\nPlease stand by." \
+        --text="\nLoading...\nPlease stand by.\n\n" \
         --width=400 \
         --height=200 \
         --button='Cancel' \
@@ -23,15 +23,16 @@ show_loading_bar() {
         --center \
         --text-align=center
 
-    sleep 1s
     local freerdp_open=0
-    for window in $(xprop -root | grep '_NET_CLIENT_LIST_STACKING(WINDOW)' | grep -oE '0x[0-9a-f]+'); do   
+    for window in $(xprop -root | grep '_NET_CLIENT_LIST_STACKING(WINDOW)' | grep -oE '0x[0-9a-f]+'); do
         if xprop -id "$window" | grep -q "xfreerdp"; then
             echo "The xfreerdp3 window has popped up."
+
             freerdp_open=1
             break
         else
             echo "$window" "is not xfreerdp"
+
             freerdp_open=0
         fi
     done
@@ -41,7 +42,6 @@ show_loading_bar() {
             --text="\nSlow connection detected... Please wait.\n(The connection will start any second)" \
             --width=400 \
             --height=200 \
-            --button='Cancel' \
             --auto-kill \
             --center \
             --text-align=center
@@ -53,7 +53,7 @@ show_loading_bar() {
 show_credential_dialogue() {
     credentials=$(yad --form \
                   --title='Credcon Utility' \
-                  --text='\nEnter your credentials' \
+                  --text='\nEnter your credentials\n' \
                   --field='Email/User:' \
                   --field='Password:':H \
                   --button='Submit':0 \
@@ -70,8 +70,8 @@ show_credential_dialogue() {
 show_connection_failure() {
     yad --form \
         --title='Credcon Utility' \
-        --text='\nConnection was Terminated early...' \
-        --button='Ok':0 \
+        --text='\nConnection was Terminated early...\n\n' \
+        --button='Okay':0 \
         --width=400 \
         --height=200
 }
