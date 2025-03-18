@@ -66,6 +66,10 @@ xfconf-query -c xfce4-desktop -np '/desktop-icons/style' -t 'int' -s '0'
 xfconf-query -c xfce4-desktop -np '/desktop-menu/show' -t 'bool' -s 'false'
 xfconf-query -c xfce4-desktop -np '/windowlist-menu/show-add-remove-workspaces' -t 'bool' -s 'false'
 
+# XFCE4 Session settings.
+xfconf-query -c xfce4-session -np /general/PromptOnLogout -t 'bool' -s 'false'
+xfconf-query -c xfce4-session -np /general/SaveOnExit -t 'bool' -s 'false'
+
 # Disable logout on screenlock and such things. (Unneeded without light-locker)
 xfconf-query -c xfce4-power-manager -np '/xfce4-power-manager/lock-screen-suspend-hibernate' -t 'bool' -s 'false'
 xfconf-query -c xfce4-power-manager -np '/xfce4-power-manager/logind-handle-lid-switch' -t 'bool' -s 'false'
