@@ -23,15 +23,21 @@ show_loading_bar() {
         --center \
         --text-align=center
 
-    sleep 1s
-    yad --title='Credcon Utility' \
-        --text="\nSlow connection detected... Please wait.\n(The connection will start any second)" \
-        --width=400 \
-        --height=200 \
-        --button='Cancel' \
-        --auto-kill \
-        --center \
-        --text-align=center
+    sleep 0.5s
+    for window in $(xprop -root | grep '_NET_CLIENT_LIST_STACKING(WINDOW)' | grep -oE '0x[0-9a-f]+'); do   
+        if xprop -id "$window" | grep -q "xfreerdp"; then
+            echo "The xfreerdp3 window has popped up."
+        else
+            yad --title='Credcon Utility' \
+                --text="\nSlow connection detected... Please wait.\n(The connection will start any second)" \
+                --width=400 \
+                --height=200 \
+                --button='Cancel' \
+                --auto-kill \
+                --center \
+                --text-align=center
+        fi
+    done
 }
 
 # Show credential input dialog this is to get the credentials for the RDP-session.
