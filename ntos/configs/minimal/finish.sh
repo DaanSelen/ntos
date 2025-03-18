@@ -41,6 +41,7 @@ if [ ! -f "/etc/setup_done" ]; then
     sed -i \"s/^#autologin-user=/autologin-user=user/\" /etc/lightdm/lightdm.conf &&
 
     mkdir -p /opt/ntos &&
+    chmod -R 777 /opt/ntos &&
     update-grub2'"
 
     # Create a file to indicate setup is complete
