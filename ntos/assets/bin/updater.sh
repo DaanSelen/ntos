@@ -32,12 +32,9 @@ pull_latest_code() {
     curl -s "${ORIGIN}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh.new
     curl -s "${ORIGIN}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh.new
 
-    # Temporary script files for when root executes.
-    curl -s "${ORIGIN}"/assets/VERSION > /opt/ntos/VERSION.new
-
     # Bigger files what are not just text, therefor are downloaded with wget.
-    wget -q "${ORIGIN}"/assets/panel-profile.tar.bz2 -P /opt/ntos -O panel-profile.tar.bz2.new
-    wget -q "${ORIGIN}"/assets/desktop.png -P /opt/ntos -O desktop.png.new
+    wget -q "${ORIGIN}"/assets/panel-profile.tar.bz2 /opt/ntos -O /opt/ntos/panel-profile.tar.bz2.new
+    wget -q "${ORIGIN}"/assets/desktop.png -O /opt/ntos/desktop.png.new
 }
 
 upgrade_all() {
@@ -47,7 +44,6 @@ upgrade_all() {
         "/opt/ntos/bin/background-sync.sh"
         "/opt/ntos/bin/install-firmware.sh"
         "/opt/ntos/bin/updater.sh"
-        "/opt/ntos/VERSION"
         "/opt/ntos/panel-profile.tar.bz2"
         "/opt/ntos/desktop.png"
     )
@@ -56,13 +52,13 @@ upgrade_all() {
         new_file="${file}.new"
         old_file="${file}.old"
 
-        if [ -f "${file}" ]; then
-            echo "Updating: ${file}"
-            mv "${file}" "$old_file"
-            mv "{$new_file}" "${file}"
+        if [ -f "$file" ]; then
+            echo "Updating: $file"
+            mv "$file" "$old_file"
+            mv "$new_file" "$file"
         else
-            echo "Installing: ${file}"
-            mv "${new_file}" "${file}"
+            echo "Installing: $file"
+            mv "$new_file" "$file"
         fi
     done
 }
@@ -70,6 +66,7 @@ upgrade_all() {
 if contains_arg "--update"; then
     echo "Update argument received, pulling latest code..."
     pull_latest_code
+    upgrade_all
 else
     echo "No action received, doing nothing."
 fi
