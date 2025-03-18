@@ -11,16 +11,27 @@ show_loading_bar() {
     for ((i=1; i<=100; i++)); do
         echo $i | tee /dev/null
         echo "# $i%" | tee /dev/tty
-        sleep 0.2
+        sleep 0.1
     done | yad --progress \
-        --pulsate \
         --title='Loading' \
-        --text='Connecting...\nPlease wait..' \
+        --text="Loading...\nPlease stand by." \
         --width=400 \
         --height=200 \
         --button='Cancel' \
         --auto-kill \
-        --auto-close
+        --auto-close \
+        --center \
+        --text-align=center
+
+    sleep 1s
+    yad --title='Connection Information' \
+        --text="Slow connection detected... Please wait.\n(The connection will start any second)" \
+        --width=400 \
+        --height=200 \
+        --button='Cancel' \
+        --auto-kill \
+        --center \
+        --text-align=center
 }
 
 # Show credential input dialog this is to get the credentials for the RDP-session.
