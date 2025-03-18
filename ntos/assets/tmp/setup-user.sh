@@ -5,6 +5,15 @@
 web_address=$1
 rdp_name=$2
 
+# Append the export (for easy future management) to the bash profile so its an environment variable.
+for line in \
+    'export DISPLAY=:0' \
+    "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$UID/bus\"" \
+    "export XDG_RUNTIME_DIR=\"unix:path=/run/user/$UID/bus\""
+do
+    grep -qxF "$line" /home/user/.bashrc || echo "$line" >> /home/user/.bashrc
+done
+
 # Downloading all needed files.
 
 echo -e '\nDownloading needed files...'
@@ -66,17 +75,6 @@ xfconf-query -c thunar-volman -np '/automount-media/enabled' -t 'bool' -s 'true'
 for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}')
 do
     xfconf-query -c xfce4-desktop -p "$x" -s "/opt/ntos/desktop.png"
-done
-
-### Miscelaneous
-
-# Append the export (for easy future management) to the bash profile so its an environment variable.
-for line in \
-    'export DISPLAY=:0' \
-    "export DBUS_SESSION_BUS_ADDRESS=\"unix:path=/run/user/$UID/bus\"" \
-    "export XDG_RUNTIME_DIR=\"unix:path=/run/user/$UID/bus\""
-do
-    grep -qxF "$line" /home/user/.bashrc || echo "$line" >> /home/user/.bashrc
 done
 
 # Append origin and rdp to VERSION
