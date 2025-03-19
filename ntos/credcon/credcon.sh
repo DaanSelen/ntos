@@ -16,8 +16,8 @@ show_loading_bar() {
         --title='Credcon Utility' \
         --text="\nLoading...\nPlease stand by.\n\n" \
         --width=400 \
-        --height=300 \
-        --button='Cancel' \
+        --height=225 \
+        --no-buttons \
         --auto-kill \
         --auto-close \
         --center \
@@ -41,8 +41,9 @@ show_loading_bar() {
     if [ $freerdp_open -eq 0 ]; then
         yad --title='Credcon Utility' \
             --text="\nSlow connection detected... Please wait.\n(The connection will start any second)" \
+            --no-buttons \
             --width=400 \
-            --height=300 \
+            --height=225 \
             --auto-kill \
             --center \
             --text-align=center
@@ -60,7 +61,7 @@ show_credential_dialogue() {
                   --button='Submit':0 \
                   --button='Cancel':1 \
                   --width=400 \
-                  --height=300 \
+                  --height=225 \
                   --separator=',')
 
     result=$?
@@ -74,7 +75,7 @@ show_connection_failure() {
         --text='\nConnection was Terminated early...\n\n' \
         --button='Okay':0 \
         --width=400 \
-        --height=300
+        --height=225
 }
 
 # Main loop, because I am a bit used to that programming structure.
