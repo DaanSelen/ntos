@@ -21,11 +21,6 @@ if [ ! -f "/etc/setup_done" ]; then
     rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/* /usr/share/icons/* /var/cache/*
     echo -e path-exclude=/usr/share/doc/*\\npath-exclude=/usr/share/man/*\\npath-exclude=/usr/share/locale/*\\npath-exclude=/usr/share/icons/* | tee /etc/dpkg/dpkg.cfg.d/excludes &&
 
-    echo \"Removing oldest kernel (because a newer (backported) kernel will be installed)...\";
-    OLD_KERNEL=\$(apt list linux-image* --installed 2>/dev/null | awk \"NR == 2\" | sed \"s/\\/.*//\")
-    DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y \$OLD_KERNEL &&
-    echo \$OLD_KERNEL;
-
     DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups dbus-x11 network-manager-gnome system-config-printer \
         unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager yad &&
 
