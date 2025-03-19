@@ -1,5 +1,7 @@
 # Microsoft Teams
 
+# TO BE REVISED.
+
 Since Microsoft Teams is not natively running on Linux we are going to use the chromium webapp.<br>
 Install Chromium onto your NTOS machine via your preferred method.
 
