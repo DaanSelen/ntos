@@ -16,7 +16,7 @@ show_loading_bar() {
         --title='Credcon Utility' \
         --text="\nLoading...\nPlease stand by.\n\n" \
         --width=400 \
-        --height=200 \
+        --height=300 \
         --button='Cancel' \
         --auto-kill \
         --auto-close \
@@ -42,7 +42,7 @@ show_loading_bar() {
         yad --title='Credcon Utility' \
             --text="\nSlow connection detected... Please wait.\n(The connection will start any second)" \
             --width=400 \
-            --height=200 \
+            --height=300 \
             --auto-kill \
             --center \
             --text-align=center
@@ -60,7 +60,7 @@ show_credential_dialogue() {
                   --button='Submit':0 \
                   --button='Cancel':1 \
                   --width=400 \
-                  --height=200 \
+                  --height=300 \
                   --separator=',')
 
     result=$?
@@ -74,7 +74,7 @@ show_connection_failure() {
         --text='\nConnection was Terminated early...\n\n' \
         --button='Okay':0 \
         --width=400 \
-        --height=200
+        --height=300
 }
 
 # Main loop, because I am a bit used to that programming structure.
