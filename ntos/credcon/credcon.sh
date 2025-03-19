@@ -99,6 +99,7 @@ main() {
             /drive:hotplug,* /sound /microphone:format:1 /printer \
             /auth-pkg-list:!kerberos \
             /cert:ignore &
+        # To enable floating bar (sticky) add: /floatbar:sticky:off,default:visible,show:fullscreen
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.
