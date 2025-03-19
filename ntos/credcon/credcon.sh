@@ -23,6 +23,7 @@ show_loading_bar() {
         --center \
         --text-align=center
 
+    # QoL Feature where it pops up with a slow connection.
     local freerdp_open=0
     for window in $(xprop -root | grep '_NET_CLIENT_LIST_STACKING(WINDOW)' | grep -oE '0x[0-9a-f]+'); do
         if xprop -id "$window" | grep -q "xfreerdp"; then
