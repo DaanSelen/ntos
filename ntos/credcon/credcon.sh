@@ -98,7 +98,7 @@ main() {
         xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" \
             /drive:hotplug,* /sound /microphone:format:1 /printer \
             /auth-pkg-list:!kerberos \
-            /floatbar:sticky:off,default:visible,show:fullscreen /cert:ignore &
+            /cert:ignore &
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.
