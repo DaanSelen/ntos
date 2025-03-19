@@ -54,7 +54,7 @@ show_loading_bar() {
 show_credential_dialogue() {
     credentials=$(yad --form \
                   --title='Credcon Utility' \
-                  --text='\nEnter your credentials\n' \
+                  --text='Enter your credentials\n' \
                   --field='Email/User:' \
                   --field='Password:':H \
                   --button='Submit':0 \
