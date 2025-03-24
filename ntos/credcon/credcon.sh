@@ -1,8 +1,5 @@
 #!/bin/bash
 
-export DISPLAY=:0
-export XDG_RUNTIME_DIR=/run/user/1000
-
 # Some environmnet variables.
 rdpFile="/opt/ntos/remote-connection.rdp"
 
@@ -14,29 +11,57 @@ show_loading_bar() {
     for ((i=1; i<=100; i++)); do
         echo $i | tee /dev/null
         echo "# $i%" | tee /dev/tty
-        sleep 0.2
+        sleep 0.1
     done | yad --progress \
-        --title='Loading' \
-        --text='Connecting...\nPlease wait..' \
+        --title='Credcon Utility' \
+        --text="\nLoading...\nPlease stand by.\n\n" \
         --width=400 \
-        --height=200 \
-        --button='Cancel' \
+        --height=225 \
+        --no-buttons \
         --auto-kill \
-        --auto-close
+        --auto-close \
+        --center \
+        --text-align=center
+
+    # QoL Feature where it pops up with a slow connection.
+    local freerdp_open=0
+    for window in $(xprop -root | grep '_NET_CLIENT_LIST_STACKING(WINDOW)' | grep -oE '0x[0-9a-f]+'); do
+        if xprop -id "$window" | grep -q "xfreerdp"; then
+            echo "The xfreerdp3 window has popped up."
+
+            freerdp_open=1
+            break
+        else
+            echo "$window" "is not xfreerdp"
+
+            freerdp_open=0
+        fi
+    done
+
+    if [ $freerdp_open -eq 0 ]; then
+        yad --title='Credcon Utility' \
+            --text="\nSlow connection detected... Please wait.\n(The connection will start any second)" \
+            --no-buttons \
+            --width=400 \
+            --height=225 \
+            --auto-kill \
+            --center \
+            --text-align=center
+    fi
 }
 
 # Show credential input dialog this is to get the credentials for the RDP-session.
 # Simple yet powerful, while not taking over the entire monitor.
 show_credential_dialogue() {
     credentials=$(yad --form \
-                  --title='Login' \
-                  --text='Enter your credentials' \
-                  --field='Email:' \
+                  --title='Credcon Utility' \
+                  --text='Enter your credentials\n' \
+                  --field='Email/User:' \
                   --field='Password:':H \
                   --button='Submit':0 \
                   --button='Cancel':1 \
                   --width=400 \
-                  --height=200 \
+                  --height=225 \
                   --separator=',')
 
     result=$?
@@ -46,11 +71,11 @@ show_credential_dialogue() {
 # The purpose for this is to display this once a connection failed, not when it succeeded.
 show_connection_failure() {
     yad --form \
-        --title='Connection Closed' \
-        --text='Connection was Terminated.' \
-        --button='Ok':0 \
+        --title='Credcon Utility' \
+        --text='\nConnection was Terminated early...\n\n' \
+        --button='Okay':0 \
         --width=400 \
-        --height=200
+        --height=225
 }
 
 # Main loop, because I am a bit used to that programming structure.
@@ -70,7 +95,11 @@ main() {
         # Start xfreerdp session in the background and get its process ID (PID).
         # This does not hinder the process from taking over the (screen/monitor) session.
         # Format 0 is because of the ffmpeg bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1098488 https://github.com/FreeRDP/FreeRDP/pull/11225
-        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" /drive:hotplug,* /sound /microphone:format:1 /printer /auth-pkg-list:!kerberos /floatbar,default:hidden /cert:ignore &
+        xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" \
+            /drive:hotplug,* /sound /microphone:format:1 /printer \
+            /auth-pkg-list:!kerberos \
+            /cert:ignore &
+        # To enable floating bar (sticky) add: /floatbar:sticky:off,default:visible,show:fullscreen
         xfreerdp_pid=$!
 
         # Wait for the xfreerdp process up to $interval seconds, default 30.

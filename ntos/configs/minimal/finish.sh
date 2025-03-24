@@ -12,6 +12,7 @@
 if [ ! -f "/etc/setup_done" ]; then
 
     su root -c "bash -c '
+    sed -i \"/^deb cdrom:/s/^/#/\" /etc/apt/sources.list &&
     systemctl restart systemd-timesyncd || true;
 
     echo \"deb http://ftp.de.debian.org/debian bookworm-backports main non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
@@ -19,11 +20,6 @@ if [ ! -f "/etc/setup_done" ]; then
 
     rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/* /usr/share/icons/* /var/cache/*
     echo -e path-exclude=/usr/share/doc/*\\npath-exclude=/usr/share/man/*\\npath-exclude=/usr/share/locale/*\\npath-exclude=/usr/share/icons/* | tee /etc/dpkg/dpkg.cfg.d/excludes &&
-
-    echo \"Removing oldest kernel (because a newer (backported) kernel will be installed)...\";
-    OLD_KERNEL=\$(apt list linux-image* --installed 2>/dev/null | awk \"NR == 2\" | sed \"s/\\/.*//\")
-    DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y \$OLD_KERNEL &&
-    echo \$OLD_KERNEL;
 
     DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups dbus-x11 network-manager-gnome system-config-printer \
         unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager yad &&
@@ -40,6 +36,7 @@ if [ ! -f "/etc/setup_done" ]; then
     sed -i \"s/^#autologin-user=/autologin-user=user/\" /etc/lightdm/lightdm.conf &&
 
     mkdir -p /opt/ntos &&
+    chmod -R 777 /opt/ntos &&
     update-grub2'"
 
     # Create a file to indicate setup is complete
@@ -66,7 +63,8 @@ else
     mkdir -p /opt/ntos/tmp
 
     # Download the setup-user.sh file.
-    curl "${web_address}"/assets/tmp/setup-user.sh > /opt/ntos/tmp/setup-user.sh
+    curl -s "${web_address}"/assets/tmp/setup-user.sh > /opt/ntos/tmp/setup-user.sh
+    curl -s "${web_address}"/assets/tmp/setup-root.sh > /opt/ntos/tmp/setup-root.sh
 
     # Execute it.
     bash /opt/ntos/tmp/setup-user.sh "${web_address}" "${rdp_name}"
