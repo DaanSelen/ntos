@@ -49,7 +49,7 @@ if contains_arg "--run"; then
             echo "Network is down. Resetting devices..."
             reset_networking
             echo "Initiating 5 second grace period before resuming monitoring."
-            sleep 5
+            sleep 10
         else
             echo "Network is up."
             sleep 10  # Check every 10 seconds
