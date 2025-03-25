@@ -48,7 +48,8 @@ if contains_arg "--run"; then
         if ! ping -c 1 -W 1 8.8.8.8 &> /dev/null; then
             echo "Network is down. Resetting devices..."
             reset_networking
-            sleep 60
+            echo "Initiating 5 second grace period before resuming monitoring."
+            sleep 5
         else
             echo "Network is up."
             sleep 10  # Check every 10 seconds
