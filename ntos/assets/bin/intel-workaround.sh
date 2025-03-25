@@ -27,7 +27,7 @@ reset_networking() {
     echo "Trying workaround..."
     echo "Turning it off and on again... here we go!"
     nmcli networking off
-    wait 2s
+    sleep 2
     nmcli networking on
 }
 
