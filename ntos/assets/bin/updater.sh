@@ -1,5 +1,8 @@
 #!/bin/bash
-
+#
+# Example usage:
+# su root -c "bash /opt/ntos/bin/updater.sh --update --cleanup"
+#
 args=("$@")
 
 # Setting environment variables for operation.
@@ -13,7 +16,7 @@ relevant_files=(
     "/opt/ntos/bin/credcon.sh"
     "/opt/ntos/bin/background-sync.sh"
     "/opt/ntos/bin/install-firmware.sh"
-    "/opt/ntos/bin/intel-i226-v-workaround.sh"
+    "/opt/ntos/bin/intel-workaround.sh"
     "/opt/ntos/bin/updater.sh"
     "/opt/ntos/panel-profile.tar.bz2"
     "/opt/ntos/desktop.png"
@@ -38,7 +41,7 @@ pull_latest_code() {
     curl -s "${ORIGIN}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh.new
     curl -s "${ORIGIN}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh.new
     curl -s "${ORIGIN}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh.new
-    curl -s "${ORIGIN}"/assets/bin/intel-i226-v-workaround.sh > /opt/ntos/bin/intel-i226-v-workaround.sh.new
+    curl -s "${ORIGIN}"/assets/bin/intel-workaround.sh > /opt/ntos/bin/intel-workaround.sh.new
     curl -s "${ORIGIN}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh.new
 
     # Bigger files what are not just text, therefor are downloaded with curl.

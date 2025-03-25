@@ -1,0 +1,11 @@
+[Unit]
+Description=Intel Workaround Bash Script
+Before=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /opt/ntos/bin/intel-workaround.sh --run
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
