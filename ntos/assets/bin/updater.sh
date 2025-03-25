@@ -13,6 +13,7 @@ relevant_files=(
     "/opt/ntos/bin/credcon.sh"
     "/opt/ntos/bin/background-sync.sh"
     "/opt/ntos/bin/install-firmware.sh"
+    "/opt/ntos/bin/intel-i226-v-workaround.sh"
     "/opt/ntos/bin/updater.sh"
     "/opt/ntos/panel-profile.tar.bz2"
     "/opt/ntos/desktop.png"
