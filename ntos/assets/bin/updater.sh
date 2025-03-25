@@ -37,6 +37,7 @@ pull_latest_code() {
     curl -s "${ORIGIN}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh.new
     curl -s "${ORIGIN}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh.new
     curl -s "${ORIGIN}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh.new
+    curl -s "${ORIGIN}"/assets/bin/intel-i226-v-workaround.sh > /opt/ntos/bin/intel-i226-v-workaround.sh.new
     curl -s "${ORIGIN}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh.new
 
     # Bigger files what are not just text, therefor are downloaded with curl.
