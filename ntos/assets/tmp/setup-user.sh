@@ -30,6 +30,7 @@ curl -s "${web_address}"/assets/bin/intel-workaround.sh > /opt/ntos/bin/intel-wo
 curl -s "${web_address}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh                    # NTOS update utility.
 
 # Temporary script files for when root executes.
+curl -s "${web_address}"/assets/intel-workaround.service > /opt/ntos/tmp/intel-workaround.service
 curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-backports.pref  # Aptitude preference for freerdp repositories.
 curl -s "${web_address}"/assets/VERSION > /opt/ntos/VERSION                                  # Set client version.
 

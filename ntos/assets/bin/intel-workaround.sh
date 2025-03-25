@@ -33,7 +33,7 @@ reset_networking() {
 
 if contains_arg "--install"; then
     echo "Installing workaround..."
-    curl "${ORIGIN}/assets/intel-workaround.service" > /etc/systemd/system/intel-workaround.service
+    mv /opt/ntos/tmp/intel-workaround.sh /etc/systemd/system/intel-workaround.service
 
     systemctl daemon-reload
     systemctl enable --now intel-workaround
