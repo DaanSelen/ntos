@@ -8,6 +8,7 @@
 # su root -c "bash /opt/ntos/bin/intel-workaround.sh --run"
 
 args=("$@")
+round=0
 
 # Setting environment variables for operation.
 source /opt/ntos/VERSION
@@ -25,15 +26,31 @@ contains_arg() {
 
 reset_networking() {
     echo "Trying workaround..."
-    echo "Turning it off and on again... here we go!"
-    nmcli networking off
-    sleep 2
-    nmcli networking on
+
+    if [[ $round -ge 10 ]]; then
+        echo "Reached looping point... giving up, need manual intervention."
+        exit 1
+    fi
+
+    if systemctl is-active --quiet NetworkManager && [[ $round -lt 10 ]]; then
+        round=0
+        echo "Turning it off and on again... here we go!"
+
+        nmcli networking off
+        sleep 2
+        nmcli networking on
+    else
+        round=$((round + 1))
+        echo "NetworkManager is not running. Waiting 2 seconds..."
+
+        sleep 2
+        reset_networking
+    fi
 }
 
 if contains_arg "--install"; then
     echo "Installing workaround..."
-    mv /opt/ntos/tmp/intel-workaround.sh /etc/systemd/system/intel-workaround.service
+    mv /opt/ntos/tmp/intel-workaround.service /etc/systemd/system/intel-workaround.service
 
     systemctl daemon-reload
     systemctl enable --now intel-workaround
