@@ -2,6 +2,7 @@
 
 # Some environmnet variables.
 rdpFile="/opt/ntos/remote-connection.rdp"
+yad_lock=0
 
 # A YAD loading bar to create the illusion that the system is doing something (which it is).
 # The reason is that a non-technical person might not understand the fact that the system is doing something in the background.
@@ -38,7 +39,7 @@ show_loading_bar() {
         fi
     done
 
-    if [ $freerdp_open -eq 0 ]; then
+    if [[ $freerdp_open -eq 0 ]] && [[ yad_lock -ne 1 ]]; then
         yad --title='Credcon Utility' \
             --text="\nSlow connection detected... Please wait.\n(The connection will start any second)" \
             --no-buttons \
@@ -130,6 +131,7 @@ main() {
         # If we exit the loop in under 30 seconds, it means xfreerdp terminated early, which likely means a failure to login/connect.
         echo "xfreerdp terminated early (less than '${threshold}' seconds)."
 
+        yad_lock=1
         # This is done to kill the loading bar process, because it will be followed-up by the "login_failed" dialogue.
         pkill -f yad
 
