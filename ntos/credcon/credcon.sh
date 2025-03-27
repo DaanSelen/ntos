@@ -99,6 +99,7 @@ main() {
         xfreerdp3 "$rdpFile" /u:"${username}" /p:"${password}" \
             /drive:hotplug,* /sound /microphone:format:1 /printer \
             /auth-pkg-list:!kerberos \
+            +auto-reconnect /auto-reconnect-max-retries:50 \
             /cert:ignore &
         # To enable floating bar (sticky) add: /floatbar:sticky:off,default:visible,show:fullscreen
         xfreerdp_pid=$!
