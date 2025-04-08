@@ -7,12 +7,12 @@ export PATH=/sbin:$PATH
 
 # End agent installation for remote management.
 
-sleep 1s # Add little pauses for the machine to process all.
+sleep 1 # Add little pauses for the machine to process all.
 
 printf 'What should the hostname be? '
 read -r new_hostname
 
-sleep 1s # Add little pauses for the machine to process all.
+sleep 1 # Add little pauses for the machine to process all.
 
 echo "Setting new hostname..."
 
@@ -20,7 +20,7 @@ hostname "${new_hostname}"
 echo "${new_hostname}" > /etc/hostname
 sed -i "s/^127\.0\.1\.1.*/127.0.1.1       $new_hostname/" /etc/hosts
 
-sleep 1s # Add little pauses for the machine to process all.
+sleep 1 # Add little pauses for the machine to process all.
 
 # Check if the source file exists before copying
 if [ -f '/home/user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml' ]; then
