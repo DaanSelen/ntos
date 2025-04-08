@@ -1,5 +1,7 @@
 # Intel NIC bug:
 
+The Intel I226-V and I225-V series do have issues with this software from my own testing. No guaranteerd fix is found, possible fixes are below.
+
 Fix: Add 
 ```
 pcie_port_pm=off pcie_aspm.policy=performance
