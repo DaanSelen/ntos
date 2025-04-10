@@ -25,12 +25,11 @@ curl -s "${web_address}"/assets/gtk.css > /home/user/.config/gtk-3.0/gtk.css    
 
 curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh                       # Credcon utility/tool.
 curl -s "${web_address}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh    # Background syncing tool.
+curl -s "${web_address}"/assets/bin/blocked-dialogue.sh > /opt/ntos/bin/blocked-dialogue.sh  # Blocked dialogue dialogue.
 curl -s "${web_address}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh  # Script utility to install extra firmware dependencies from kernel.org.
-curl -s "${web_address}"/assets/bin/intel-workaround.sh > /opt/ntos/bin/intel-workaround.sh  # Intel I226-V Series NIC workaround script.
-curl -s "${web_address}"/assets/bin/updater.sh > /opt/ntos/bin/updater.sh                    # NTOS update utility.
+curl -s "${web_address}"/assets/bin/code-refresh.sh > /opt/ntos/bin/code-refresh.sh                    # NTOS update utility.
 
 # Temporary script files for when root executes.
-curl -s "${web_address}"/assets/intel-workaround.service > /opt/ntos/tmp/intel-workaround.service
 curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-backports.pref  # Aptitude preference for freerdp repositories.
 curl -s "${web_address}"/assets/VERSION > /opt/ntos/VERSION                                  # Set client version.
 
@@ -38,6 +37,14 @@ curl -s "${web_address}"/assets/VERSION > /opt/ntos/VERSION                     
 curl -s -o /opt/ntos/panel-profile.tar.bz2 "${web_address}/assets/panel-profile.tar.bz2" # Panel profile.
 curl -s -o /opt/ntos/desktop.png "${web_address}/assets/desktop.png"                     # Desktop background.
 curl -s -o /opt/ntos/tmp/connect.zip "${web_address}/assets/third_party/connect.zip"     # Cool looking plymouth theme.
+
+# Blocking default MIME applications.
+curl -s "${web_address}"/assets/mime-blocks/blocked-FileManager.desktop > /home/user/.local/share/xfce4/helpers/blocked-FileManager.desktop
+curl -s "${web_address}"/assets/mime-blocks/blocked-MailReader.desktop > /home/user/.local/share/xfce4/helpers/blocked-MailReader.desktop
+curl -s "${web_address}"/assets/mime-blocks/blocked-TermEmu.desktop > /home/user/.local/share/xfce4/helpers/blocked-TermEmu.desktop
+curl -s "${web_address}"/assets/mime-blocks/blocked-WebBrowser.desktop > /home/user/.local/share/xfce4/helpers/blocked-WebBrowser.desktop
+
+curl -s "${web_address}"/assets/mime-blocks/helpers.rc > /home/user/.config/xfce4/helpers.rc
 
 # Customize desktop environment.
 

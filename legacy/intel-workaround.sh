@@ -10,9 +10,6 @@
 args=("$@")
 round=0
 
-# Setting environment variables for operation.
-source /opt/ntos/VERSION
-
 # Function to check cmd arguments.
 contains_arg() {
     local search="$1"

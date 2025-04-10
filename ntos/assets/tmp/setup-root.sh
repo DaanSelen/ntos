@@ -53,6 +53,9 @@ echo "Configuring boot images to make it apply... This can take multiple minutes
 update-initramfs -u -k all
 update-grub2
 
+# Setting a link for ease of use.
+ln -sf /opt/ntos/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+
 # Replace default desktop image.
 cp /opt/ntos/desktop.png /usr/share/images/desktop-base/default
 
