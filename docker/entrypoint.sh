@@ -9,6 +9,7 @@ ln -sv /data/assets /var/www/localhost/htdocs/assets
 ln -sv /data/configs /var/www/localhost/htdocs/configs 
 ln -sv /data/credcon /var/www/localhost/htdocs/credcon 
 ln -sv /data/rdp /var/www/localhost/htdocs/rdp
+ln -sv /data/vers-diff /var/www/localhost/htdocs/vers-diff
 ln -sv /data/VERSION /var/www/localhost/htdocs/VERSION
 
 echo "Done. Starting Apache2 webserver..."

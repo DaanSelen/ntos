@@ -1,7 +1,8 @@
 # Script to apply changes from version 1.1 to 1.1.1.
 
 version_file="/opt/ntos/VERSION"
-source $version_file
+# shellcheck source=/opt/ntos/VERSION
+source "${version_file}"
 
 # Downloading new files.
 echo "Downloading new files..."
