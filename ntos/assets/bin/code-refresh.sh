@@ -59,9 +59,13 @@ upgrade_all() {
         old_file="${file}.old"
 
         if [ -f "$file" ]; then
-            echo "Updating: $file"
-            mv "$file" "$old_file"
-            mv "$new_file" "$file"
+            if grep -q "^#CUSTOM" "$file"; then
+                echo "Not changing ${file} due to #CUSTOM flag. Current latest version is placed at ${file}.new"
+            else
+                echo "Updating: $file"
+                mv "$file" "$old_file"
+                mv "$new_file" "$file"
+            fi
         else
             echo "Installing: $file"
             mv -v "$new_file" "$file"
@@ -71,8 +75,12 @@ upgrade_all() {
 
 cleanup_old() {
     for file in "${relevant_files[@]}"; do
-        echo "Removing remaining: ${file}.old"
-        rm "${file}.old"
+        if [ -f "$file" ]; then
+            echo "Removing remaining: ${file}.old"
+            rm "${file}.old"
+        else
+            echo "${file} does not exist"
+        fi
     done
 }
 
