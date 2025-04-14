@@ -7,6 +7,7 @@ source "${version_file}"
 # Downloading new files.
 echo "Downloading new files..."
 
+mkdir -p /home/user/.local/share/xfce4/helpers
 curl -s "${ORIGIN}"/assets/mime-blocks/blocked-FileManager.desktop > /home/user/.local/share/xfce4/helpers/blocked-FileManager.desktop
 curl -s "${ORIGIN}"/assets/mime-blocks/blocked-MailReader.desktop > /home/user/.local/share/xfce4/helpers/blocked-MailReader.desktop
 curl -s "${ORIGIN}"/assets/mime-blocks/blocked-TermEmu.desktop > /home/user/.local/share/xfce4/helpers/blocked-TermEmu.desktop
@@ -29,4 +30,4 @@ mv /opt/ntos/tmp/debian-backports.pref /etc/apt/preferences.d/debian-backports.p
 [[ -f /etc/systemd/system/intel-workaround.service ]] && rm /etc/systemd/system/intel-workaround.service
 
 # Standard version bumping
-sed -i 's/"VERSION=1.1"/"VERSION=1.1.1"/' $version_file
+sed -i 's/^VERSION=1\.1$/VERSION=1.1.1/' "$version_file"

@@ -9,7 +9,6 @@ args=("$@")
 source /opt/ntos/VERSION
 #local_version=$VERSION
 #remote_version=$(curl -s "${ORIGIN}"/VERSION | grep "VERSION=" | cut -d "=" -f2-)
-local_rdp=$RDP
 
 relevant_files=(
     "/opt/ntos/bin/background-sync.sh"

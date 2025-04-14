@@ -39,6 +39,7 @@ curl -s -o /opt/ntos/desktop.png "${web_address}/assets/desktop.png"            
 curl -s -o /opt/ntos/tmp/connect.zip "${web_address}/assets/third_party/connect.zip"     # Cool looking plymouth theme.
 
 # Blocking default MIME applications.
+mkdir -p /home/user/.local/share/xfce4/helpers
 curl -s "${web_address}"/assets/mime-blocks/blocked-FileManager.desktop > /home/user/.local/share/xfce4/helpers/blocked-FileManager.desktop
 curl -s "${web_address}"/assets/mime-blocks/blocked-MailReader.desktop > /home/user/.local/share/xfce4/helpers/blocked-MailReader.desktop
 curl -s "${web_address}"/assets/mime-blocks/blocked-TermEmu.desktop > /home/user/.local/share/xfce4/helpers/blocked-TermEmu.desktop
