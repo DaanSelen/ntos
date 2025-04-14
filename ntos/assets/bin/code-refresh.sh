@@ -32,11 +32,6 @@ contains_arg() {
     return 1  # Not found
 }
 
-check_custom_tag() {
-    # This function needs to check if the file is custom.
-    echo "Empty function"
-}
-
 pull_latest_code() {
     echo -e '\nDownloading needed files...'
 
