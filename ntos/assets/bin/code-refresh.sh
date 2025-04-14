@@ -83,7 +83,7 @@ cleanup_old() {
                 rm "${file}.old"
             fi
         else
-            echo "${file} does not exist"
+            echo "Not cleaning up old file: ${file} does not exist."
         fi
     done
 }
