@@ -40,8 +40,6 @@ check_custom_tag() {
 pull_latest_code() {
     echo -e '\nDownloading needed files...'
 
-    curl -s "${ORIGIN}"/rdp/"${local_rdp}".rdp > /opt/ntos/remote-connection.rdp.new
-
     curl -s "${ORIGIN}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh.new
     curl -s "${ORIGIN}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh.new
     curl -s "${ORIGIN}"/assets/bin/blocked-dialogue.sh > /opt/ntos/bin/blocked-dialogue.sh.new
