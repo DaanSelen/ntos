@@ -44,7 +44,7 @@ pull_latest_code() {
 
     curl -s "${ORIGIN}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh.new
     curl -s "${ORIGIN}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh.new
-    curl -s "${ORIGIN}"/assets/bin/blocked-dialogue.sh > /opt/ntos/bin/blocked-dialogue.sh
+    curl -s "${ORIGIN}"/assets/bin/blocked-dialogue.sh > /opt/ntos/bin/blocked-dialogue.sh.new
     curl -s "${ORIGIN}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh.new
     curl -s "${ORIGIN}"/assets/bin/code-refresh.sh > /opt/ntos/bin/code-refresh.sh.new
 
