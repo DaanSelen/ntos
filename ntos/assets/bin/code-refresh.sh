@@ -66,9 +66,11 @@ upgrade_all() {
                 mv "$file" "$old_file"
                 mv "$new_file" "$file"
             fi
-        else
+        elif [[ -f "$new_file" ]] && [ ! -f "$file" ]; then
             echo "Installing: $file"
             mv -v "$new_file" "$file"
+        else
+            echo "Weird situation, doing nothing... suggest manual intervention."
         fi
     done
 }
@@ -77,7 +79,9 @@ cleanup_old() {
     for file in "${relevant_files[@]}"; do
         if [ -f "$file" ]; then
             echo "Removing remaining: ${file}.old"
-            rm "${file}.old"
+            if [ -f "${file}.old" ]; then
+                rm "${file}.old"
+            fi
         else
             echo "${file} does not exist"
         fi
