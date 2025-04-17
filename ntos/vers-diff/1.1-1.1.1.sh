@@ -20,8 +20,8 @@ curl -s "${ORIGIN}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-backport
 # Remaining tasks
 echo "Applying change..."
 
-ln -sf /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /opt/ntos/xfce4-panel.xml
-mv /opt/ntos/tmp/debian-backports.pref /etc/apt/preferences.d/debian-backports.pref
+su root -c 'ln -sf /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /opt/ntos/xfce4-panel.xml \
+    && mv /opt/ntos/tmp/debian-backports.pref /etc/apt/preferences.d/debian-backports.pref'
 
 # Cleanup
 
