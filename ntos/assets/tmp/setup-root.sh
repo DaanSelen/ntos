@@ -84,6 +84,4 @@ fi
 
 chmod -R 755 /opt/ntos
 
-echo -e '\nPending reboot, press any key to reboot.'
-read -r
-/sbin/reboot now
+echo "Please make any cosmetic changes now, and then initiate a reboot."
