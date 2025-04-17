@@ -83,5 +83,6 @@ if [ -f /opt/ntos/tmp/connect.zip ]; then
 fi
 
 chmod -R 755 /opt/ntos
+chown -R user:user /opt/ntos
 
 echo "Please make any cosmetic changes now, and then initiate a reboot."
