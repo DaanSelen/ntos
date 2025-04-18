@@ -28,6 +28,8 @@ if [ ! -f "/etc/setup_done" ]; then
     DEBIAN_FRONTEND=noninteractive apt-get install -y -t bookworm-backports \
         freerdp3-x11 linux-image-amd64 &&
 
+    DEBIAN_FRONTEND=noninteractive apt-get autoremove -y
+
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
     sed -i \"s/127.0.1.1.*/127.0.1.1       Unconfigured-NTOS/\" /etc/hosts &&
     sed -i \"s/quiet/quiet loglevel=3 splash i915.modeset=1/\" /etc/default/grub &&
