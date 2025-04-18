@@ -25,10 +25,9 @@ if [ ! -f "/etc/setup_done" ]; then
     DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups dbus-x11 network-manager-gnome ssh system-config-printer \
         unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager yad &&
 
-    DEBIAN_FRONTEND=noninteractive apt-get install -y -t bookworm-backports \
-        freerdp3-x11 linux-image-amd64 &&
-
     DEBIAN_FRONTEND=noninteractive apt-get autoremove -y
+    DEBIAN_FRONTEND=noninteractive apt-get install -y -t bookworm-backports \
+        freerdp3-x11 linux-image-amd64;
 
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
     sed -i \"s/127.0.1.1.*/127.0.1.1       Unconfigured-NTOS/\" /etc/hosts &&
