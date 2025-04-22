@@ -1,0 +1,10 @@
+[Desktop Entry]
+NoDisplay=true
+Version=1.0
+Encoding=UTF-8
+Type=X-XFCE-Helper
+X-XFCE-Category=TerminalEmulator
+X-XFCE-CommandsWithParameter=/opt/ntos/bin/blocked-dialogue.sh "%s"
+Icon=blocked-dialogue.sh
+Name=blocked-dialogue.sh
+X-XFCE-Commands=/opt/ntos/bin/blocked-dialogue.sh

@@ -11,7 +11,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/httpd.conf \
   && mkdir /app \
   && mkdir /data
 
-COPY entrypoint.sh /entrypoint.sh
+COPY ./docker/entrypoint.sh /entrypoint.sh
 COPY ntos /app
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

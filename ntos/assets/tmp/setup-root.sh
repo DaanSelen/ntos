@@ -53,6 +53,9 @@ echo "Configuring boot images to make it apply... This can take multiple minutes
 update-initramfs -u -k all
 update-grub2
 
+# Setting a link for ease of use.
+ln -sf /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /opt/ntos/xfce4-panel.xml
+
 # Replace default desktop image.
 cp /opt/ntos/desktop.png /usr/share/images/desktop-base/default
 
@@ -80,7 +83,6 @@ if [ -f /opt/ntos/tmp/connect.zip ]; then
 fi
 
 chmod -R 755 /opt/ntos
+chown -R user:user /opt/ntos
 
-echo -e '\nPending reboot, press any key to reboot.'
-read -r
-/sbin/reboot now
+echo "Please make any cosmetic changes now, and then initiate a reboot."

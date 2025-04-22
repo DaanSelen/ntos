@@ -18,14 +18,16 @@ if [ ! -f "/etc/setup_done" ]; then
     echo \"deb http://ftp.de.debian.org/debian bookworm-backports main non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
     apt-get update &&
 
-    rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/* /usr/share/icons/* /var/cache/*
+    rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/* /usr/share/icons/* /var/tmp/* /tmp/* &&
+    apt-get clean &&
     echo -e path-exclude=/usr/share/doc/*\\npath-exclude=/usr/share/man/*\\npath-exclude=/usr/share/locale/*\\npath-exclude=/usr/share/icons/* | tee /etc/dpkg/dpkg.cfg.d/excludes &&
 
-    DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups dbus-x11 network-manager-gnome system-config-printer \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y alsa-utils chrony cups dbus-x11 network-manager-gnome ssh system-config-printer \
         unzip xfce4 xfce4-goodies xfce4-panel-profiles xfce4-power-manager yad &&
 
+    DEBIAN_FRONTEND=noninteractive apt-get purge -y $(dpkg -l 'linux-image-[0-9]*' | awk '/^ii/{print $2}' | grep -v "$(uname -r)" | sort -V | head -n 1) &&
     DEBIAN_FRONTEND=noninteractive apt-get install -y -t bookworm-backports \
-        freerdp3-x11 linux-image-amd64 &&
+        freerdp3-x11 linux-image-amd64;
 
     echo \"Unconfigured-NTOS\" > /etc/hostname &&
     sed -i \"s/127.0.1.1.*/127.0.1.1       Unconfigured-NTOS/\" /etc/hosts &&
