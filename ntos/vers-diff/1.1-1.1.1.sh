@@ -1,4 +1,5 @@
-# Script to apply changes from version 1.1 to 1.1.1.
+#!/bin/bash
+# Script to apply changes from version 1.1 to 1.1.1
 
 version_file="/opt/ntos/VERSION"
 # shellcheck source=/opt/ntos/VERSION
