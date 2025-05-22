@@ -15,7 +15,7 @@ if [ ! -f "/etc/setup_done" ]; then
     sed -i \"/^deb cdrom:/s/^/#/\" /etc/apt/sources.list &&
     systemctl restart systemd-timesyncd || true;
 
-    echo \"deb http://ftp.de.debian.org/debian bookworm-backports main non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
+    echo \"deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware\" | tee /etc/apt/sources.list.d/debian-backports.list &&
     apt-get update &&
 
     rm -rf /usr/share/doc/* /usr/share/locale/* /usr/share/man/* /var/tmp/* /tmp/* &&
