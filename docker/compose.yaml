@@ -1,6 +1,6 @@
 services:
   ntos-server:
-    image: docker.io/dselen/ntos-server:latest
+    image: docker.io/dselen/ntos:latest
     container_name: ntos-server
     restart: unless-stopped
     ports:
