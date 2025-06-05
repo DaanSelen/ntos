@@ -89,7 +89,7 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: cves
-          image: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_NAME }}:main
+          image: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ GITHUB_REPO_OWNER }}/${{ env.DOCKER_NAME }}:main
           only-severities: critical,high
           only-fixed: true
           write-comment: true
@@ -101,8 +101,8 @@ jobs:
         with:
           command: compare
           # Set to Github for maximum compat
-          image: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_NAME }}:main
-          to: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_NAME }}:latest
+          image: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ GITHUB_REPO_OWNER }}/${{ env.DOCKER_NAME }}:main
+          to: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ GITHUB_REPO_OWNER }}/${{ env.DOCKER_NAME }}:latest
           only-severities: critical,high
           ignore-unchanged: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
