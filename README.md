@@ -1,3 +1,6 @@
+[![Docker Build and Push](https://github.com/DaanSelen/ntos/actions/workflows/docker.yml/badge.svg)](https://github.com/DaanSelen/ntos/actions/workflows/docker.yml)
+[![CodeQL Advanced](https://github.com/DaanSelen/ntos/actions/workflows/codeql.yml/badge.svg)](https://github.com/DaanSelen/ntos/actions/workflows/codeql.yml)
+
 > [!NOTE]
 > *If you experience issues or have suggestions, submit an issue! https://github.com/DaanSelen/ntos/issues I'll respond ASAP!*
 
