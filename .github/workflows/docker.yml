@@ -14,7 +14,8 @@ on:
 env:
   DOCKERHUB_PREFIX: docker.io
   GITHUB_CONTAINER_PREFIX: ghcr.io
-  DOCKER_IMAGE: dselen/ntos
+  GITHUB_REPO_OWNER: daanselen
+  DOCKER_NAME: ntos
 
 jobs:
   docker_build:
@@ -55,14 +56,11 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.DOCKERHUB_PREFIX }}/${{ env.DOCKER_IMAGE }}
-            ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_IMAGE }}
+            ${{ env.DOCKERHUB_PREFIX }}/dselen/${{ secrets.DOCKER_HUB_USERNAME }}${{ env.DOCKER_NAME }}
+            ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.GITHUB_REPO_OWNER }}/${{ env.DOCKER_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=tag
-
-      - name: Print a message
-        run: echo "${{ steps.meta.outputs.tags }}"
 
       - name: Build and export (multi-arch)
         uses: docker/build-push-action@v6
@@ -91,7 +89,7 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: cves
-          image: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_IMAGE }}:main
+          image: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_NAME }}:main
           only-severities: critical,high
           only-fixed: true
           write-comment: true
@@ -103,8 +101,8 @@ jobs:
         with:
           command: compare
           # Set to Github for maximum compat
-          image: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_IMAGE }}:main
-          to: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_IMAGE }}:latest
+          image: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_NAME }}:main
+          to: ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.DOCKER_NAME }}:latest
           only-severities: critical,high
           ignore-unchanged: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
