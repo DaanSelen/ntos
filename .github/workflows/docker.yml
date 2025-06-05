@@ -14,7 +14,7 @@ on:
 env:
   DOCKERHUB_PREFIX: docker.io
   GITHUB_CONTAINER_PREFIX: ghcr.io
-  DOCKER_IMAGE: dselen/ntos
+  DOCKER_IMAGE: dselen/ntos-server
 
 jobs:
   docker_build:
