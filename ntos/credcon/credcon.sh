@@ -85,7 +85,7 @@ main() {
         nohup bash -c 'touch /tmp/credcon.lock; sleep 1s; rm /tmp/credcon.lock' &
         show_credential_dialogue
     else
-        echo "Credcon lock is active, wait 2 seconds."
+        echo "Credcon lock is active, wait 1 second(s)."
         exit 0
     fi
 
