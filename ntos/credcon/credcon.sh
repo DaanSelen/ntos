@@ -88,8 +88,11 @@ credcon_lock() {
 # Main loop, because I am a bit used to that programming structure.
 main() {
     if [[ ! -f /tmp/credcon.lock ]]; then
-        credcon_lock
+        credcon_lock &
         show_credential_dialogue
+    else
+        echo "Credcon lock is active, wait 2 seconds."
+        exit 0
     fi
 
     # Check if the input fields from the credential prompt are populated.
