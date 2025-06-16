@@ -6,7 +6,7 @@ version_file="/opt/ntos/VERSION"
 source "${version_file}"
 
 # Adding the contrib to the apt sources
-sed -i '/^deb .*bookworm-backports/ s/\bmain\b/& contrib/' /etc/apt/sources.list.d/debian-backports.list
+sed -i '/^deb .*bookworm-backports/ {/contrib/! s/\bmain\b/& contrib/}' /etc/apt/sources.list.d/debian-backports.list
 
 # Fetching new Credcon code.
 curl -s "${ORIGIN}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh
