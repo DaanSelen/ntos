@@ -32,6 +32,7 @@ su root -c 'ln -sf /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /op
 [[ -f /opt/ntos/intel-workaround.service ]] && rm /opt/ntos/intel-workaround.service
 [[ -f /etc/systemd/system/intel-workaround.service ]] && rm /etc/systemd/system/intel-workaround.service
 
+sed -i '/^CUSTOM=/d' "$version_file"
+
 # Standard version bumping
 sed -i 's/^VERSION=1\.1$/VERSION=1.1.1/' "$version_file"
-sed -i '/^CUSTOM=/d' "$version_file"
