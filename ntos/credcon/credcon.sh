@@ -79,16 +79,10 @@ show_connection_failure() {
         --height=225
 }
 
-credcon_lock() {
-    touch /tmp/credcon.lock
-    sleep 2s
-    rm /tmp/credcon.lock
-}
-
 # Main loop, because I am a bit used to that programming structure.
 main() {
     if [[ ! -f /tmp/credcon.lock ]]; then
-        nohup credcon_lock &
+        nohup bash -c 'touch /tmp/credcon.lock; sleep 2s; rm /tmp/credcon.lock' &
         show_credential_dialogue
     else
         echo "Credcon lock is active, wait 2 seconds."
