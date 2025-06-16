@@ -79,9 +79,17 @@ show_connection_failure() {
         --height=225
 }
 
+credcon_lock() {
+    touch /tmp/credcon.lock
+    sleep 2s
+    rm /tmp/credcon.lock
+}
+
 # Main loop, because I am a bit used to that programming structure.
 main() {
-    show_credential_dialogue
+    if [[ ! -f /tmp/credcon.lock ]]; then
+        show_credential_dialogue
+    fi
 
     # Check if the input fields from the credential prompt are populated.
     if [ "$result" -eq 0 ]; then
