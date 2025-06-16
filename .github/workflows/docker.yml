@@ -56,7 +56,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.DOCKERHUB_PREFIX }}/dselen/${{ secrets.DOCKER_HUB_USERNAME }}${{ env.DOCKER_NAME }}
+            ${{ env.DOCKERHUB_PREFIX }}/dselen/${{ env.DOCKER_NAME }}-server
             ${{ env.GITHUB_CONTAINER_PREFIX }}/${{ env.GITHUB_REPO_OWNER }}/${{ env.DOCKER_NAME }}
           tags: |
             type=ref,event=branch
