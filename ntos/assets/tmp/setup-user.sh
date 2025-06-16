@@ -27,7 +27,7 @@ curl -s "${web_address}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh          
 curl -s "${web_address}"/assets/bin/background-sync.sh > /opt/ntos/bin/background-sync.sh    # Background syncing tool.
 curl -s "${web_address}"/assets/bin/blocked-dialogue.sh > /opt/ntos/bin/blocked-dialogue.sh  # Blocked dialogue dialogue.
 curl -s "${web_address}"/assets/bin/install-firmware.sh > /opt/ntos/bin/install-firmware.sh  # Script utility to install extra firmware dependencies from kernel.org.
-curl -s "${web_address}"/assets/bin/code-refresh.sh > /opt/ntos/bin/code-refresh.sh                    # NTOS update utility.
+curl -s "${web_address}"/assets/bin/code-refresh.sh > /opt/ntos/bin/code-refresh.sh          # NTOS update utility.
 
 # Temporary script files for when root executes.
 curl -s "${web_address}"/assets/debian-backports.pref > /opt/ntos/tmp/debian-backports.pref  # Aptitude preference for freerdp repositories.

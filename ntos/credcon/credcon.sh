@@ -81,7 +81,13 @@ show_connection_failure() {
 
 # Main loop, because I am a bit used to that programming structure.
 main() {
-    show_credential_dialogue
+    if [[ ! -f /tmp/credcon.lock ]]; then
+        nohup bash -c 'touch /tmp/credcon.lock; sleep 1s; rm /tmp/credcon.lock' > /dev/null 2>&1 &
+        show_credential_dialogue
+    else
+        echo "Credcon lock is active, wait 1 second(s)."
+        exit 0
+    fi
 
     # Check if the input fields from the credential prompt are populated.
     if [ "$result" -eq 0 ]; then
