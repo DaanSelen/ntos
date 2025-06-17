@@ -1,163 +1,268 @@
-[![Docker Build and Push](https://github.com/DaanSelen/ntos/actions/workflows/docker.yml/badge.svg)](https://github.com/DaanSelen/ntos/actions/workflows/docker.yml)
-[![CodeQL Advanced](https://github.com/DaanSelen/ntos/actions/workflows/codeql.yml/badge.svg)](https://github.com/DaanSelen/ntos/actions/workflows/codeql.yml)
-
 > [!NOTE]
-> *If you experience issues or have suggestions, submit an issue! https://github.com/DaanSelen/ntos/issues I'll respond ASAP!*
+> If you experience issues or have suggestions, submit an issue: https://github.com/DaanSelen/ntos/issues — I'll respond ASAP!
 
-# Glossary (README.md)
+# NTOS (Nerthus Thin Operating System)
 
-Nerthus Thin Operating System (NTOS).<br>
-What is it? What problem does it solve?<br>
-NTOS tries to solve the problem where enterprise-grade ThinClient operating systems cost a lot of money for relatively less features (in my opinion).<br>
+**NTOS** is a lightweight, Debian-based ThinClient OS built as a free, minimal, and secure alternative to complex enterprise solutions.
 
-This is where NTOS comes in: - it is based on Debian for stability and security - it can run on as small of a harddrive as 4GB with 2GB RAM (tested) - and it is very minimal.<br>
-It (NTOS) specifically uses a Debian installation with a customized Desktop Environment (DE) (XFCE4) to minimize the points of "trouble" a user can cause.<br>
+## 🌟 About the Project
 
-It offers a way to connect to cloud environments (currently only RDP-based) in a easy and straight-to-the-point method using the Credcon (Bash script) 😁.<br>
+Hi there! Thanks for your interest in NTOS. This project began from a need for a simpler, more open, and cost-effective ThinClient solution in real-world IT environments.
 
-I added ways to set-up a server for installation (perhaps I can add PXE in the future). And a guide to get started! Feel free to open an issue or email me.<br>
+As a student and young professional, I wanted to create something **production-ready**, **easily manageable**, and built on **open standards**. The result: NTOS.
 
-# How to Install:
+* **Nerthus** – the domain: [nerthus.nl](https://nerthus.nl)
+* **Thin** – for ThinClients
+* **OS** – Operating System
 
-The following section explains how to apply this.<br>
-I also made a YouTube video [here](https://www.youtube.com/watch?v=IZEBjlq8x00):
+---
 
-### Prerequisites:
-- A configured remote management system, such as MeshCentral (the installation of such a system is beyond the scope of NTOS).<br>
-Such a remote management system often provides a way to install an agent. To incorporate this into the NTOS installation do:<br>
-Paste your installation commands into the root part, for example: `./configs/minimal/finish.sh at line 84 to 87`.
+## ✅ Why NTOS?
 
-    > If you do not configure a remote management system, then your system will be hard to debug or trouble-shoot (because of the fool-proof nature).<br>
-    > Personally I've used MeshCentral which is free and works great! Link is [here](https://github.com/Ylianst/MeshCentral)
+* **Debian-based** for stability and long-term support
+* **Lightweight**: Runs on just **2GB RAM / 4GB storage**
+* **XFCE4 Desktop**: Fast, clean, and resource-friendly
+* **Credcon.sh**: Connects to remote desktops with a simple user prompt
+* **Remote management** ready using tools like [MeshCentral](https://github.com/Ylianst/MeshCentral) with my [Meshbook](https://github.com/DaanSelen/meshbook) or other tools.
 
-- A Debian installation medium, such as an USB-stick with Debian net(work)-inst(allation) or the CD/DVD media flashed onto it. (For flashing see: [rufus](https://rufus.ie/) / [Balena Etcher](https://www.balena.io/etcher))<br>
+## 🔧 Getting Started
 
-- Networking connectivity. (DHCP is easiest and fastest)
+**Requirements:**
 
-### How to Install a NTOS-Server using a webserver:
+* A ThinClient or PC with internet and basic specs
+* Debian installer (via [Rufus](https://rufus.ie/) or [Etcher](https://www.balena.io/etcher))
+* Optional but recommended: a remote management agent installation in `setup-root.sh` (lines 6-8) in `./ntos/assets/tmp`
 
-1.  To set everything up, execute the `install.sh` bash script and answer its questions.<br>
-    Once that's done, you can verify that with (configure to your own situation):<br>
-    `curl http://localhost/configs/minimal/preseed.cfg`. Look at the webserver structure below for more info.<br>
-    This should output the Debian preseed for the minimal configuration.<br>
+**Dependencies:**
 
-### How to Install a NTOS-Client:
+* [FreeRDP](https://github.com/FreeRDP/FreeRDP)
+* [yad](https://github.com/v1cont/yad)
 
-1.  To install an NTOS-Client machine, first setup the NTOS-Server and make sure its reachable from the candidate machine.<br>
-    After that boot from the Debian ISO image and select from the advanced options the (Graphical) Automated Install.<br>
-    Now wait for it to get ready, and after that enter the address of NTOS-Server with the path of the configuration (look at the webserver structure below for reference).<br>
-    The partitioning has to be done manually, if you have around 4GB you need to do some manual configurations but if you have more, you can safely do a guided install.<br>
-    Now wait for the system to fully install itself, you'll know its done when you see the default XFCE4 Desktop Environment (DE).<br>
+## ⚙️ Deployment & Use
 
-2.  Open a Terminal window (you can select the one from the bottom dock). And execute the `finish.sh` script of your configuration.<br>
-    Normally done through `bash <(curl <your-NTOS-Server-address>/configs/<your-config>/finish.sh)` (You might need to install curl first with apt).<br>
-    Once you have done the previous bash command answer the questions given, and all should be configured.
+NTOS is built for **easy deployment** at scale.
+I’ve used it in production across multiple machines, with minimal training required—even by non-IT users.
 
-### Setting a Custom Boot-up (Plymouth) Animation:
+---
 
-To finish this all up, set a nice looking boot-up animation. My personal preference is to choose a theme from: [adi1090x/plymouth-themes](https://github.com/adi1090x/plymouth-themes).<br>
-To set this up correctly follow the configuration for you specific hardware vendors, see the resources below:
+## 💡 Customization
 
-- [Debian Plymouth Wiki](https://wiki.debian.org/plymouth)
-- [Arch Plymouth Wiki (for information)](https://wiki.archlinux.org/title/Plymouth). This is listed here for information. NTOS is based on Debian.
-- [Third-party Guide to set Plymouth up](https://donjajo.com/plymouth-installing-configuring-boot-screen-debian/)
+NTOS is flexible by design. You can:
 
-If there are more cool animations. Let me know.
+* Replace RDP with other protocols like VNC or Citrix
+* Create kiosk-style launchers
+* Automate deployment via preseeded ISOs or centralized scripts
 
-# How to Debug?
+## 🖥️ Installation Guide
 
-### RDP-related
+### 1. Set Up NTOS Server
 
-If you are encountering issues with - most likely connecting the actual RDP-session. Follow these steps!<br>
-Make sure you have exported the correct DISPLAY environment variable. Usually this is `DESKTOP=:0`.<br>
-The way I do this - is in MeshCentral I enter the `Terminal` tab and enter `export DISPLAY=:0` as the user (latest `finish.sh` scripts append this to `~/.bashrc`).<br>
-
-> This makes sure all graphical apps pop-up on the actual monitor!
-
-Then if you want to debug `credcon.sh` with logs do the following:
-
-```shell
-bash /opt/ntos/credcon.sh
+Run the setup script:
+```bash
+bash install.sh
 ```
 
-This will print the output to the current terminal, while keeping the GUI/Dialogue boxes on the monitor!
+Verify the server:
 
-Example output:
-```text
-user@NTOS:/opt/ntos# bash credcon.sh 
+```bash
+curl http://localhost/configs/default/preseed.cfg
+```
+
+This should retrieve the Debian default preseed config.
+Ensure the structure matches your network and use case.
+
+---
+### 2. Install NTOS Client
+
+1. Boot a client using a Debian ISO.
+2. Choose “Graphical Automated Install” from advanced options.
+3. When prompted, provide the NTOS-Server address and path to the config (e.g., `https://<your-NTOS-server-address>/configs/minimal/preseed.cfg`).
+4. Proceed with partitioning:
+
+   * **4GB storage**: Manual partitioning required
+   * **8GB+ storage**: Use guided install
+5. After installation completes (XFCE desktop should appear), run this inside the terminal as the user:
+
+```bash
+bash <(curl <your-NTOS-server-address>/configs/<your-config>/finish.sh)
+```
+
+---
+
+## 🎨 Optional: Set Custom Boot Animation
+
+For a more polished boot experience, use Plymouth themes:
+
+* Choose a theme: [adi1090x/plymouth-themes](https://github.com/adi1090x/plymouth-themes)
+* Follow guides:
+
+  * [Debian Plymouth Wiki](https://wiki.debian.org/plymouth)
+  * [Third-party Plymouth setup](https://donjajo.com/plymouth-installing-configuring-boot-screen-debian/)
+  * [Arch Wiki (for reference)](https://wiki.archlinux.org/title/Plymouth)
+
+---
+
+## 📬 Feedback & Contribution
+
+Feel free to contribute via pull requests or by opening an issue. You can also reach me by email (see GitHub profile).
+
+---
+
+## 📹 Video Guide
+
+Watch the full walkthrough: [YouTube Link](https://www.youtube.com/watch?v=IZEBjlq8x00)
+
+## 🛠️ How to Debug
+
+### 🔌 RDP-Related Issues
+
+If you're experiencing problems when connecting to the RDP session, follow these steps to debug effectively:
+
+#### ✅ Ensure the DISPLAY Variable Is Set
+
+Make sure the correct `DISPLAY` environment variable is set. Typically, this should be:
+
+```bash
+export DISPLAY=:0
+```
+
+You can set this via the **Terminal tab** (or in a management application such as: **MeshCentral**). As of the latest `finish.sh` scripts, this is also automatically appended to the user's `~/.bashrc`, so future sessions will apply it automatically.
+
+> Setting this ensures that all graphical applications appear on the physical monitor, not just in the background or headlessly.
+
+#### 🧪 Debugging `credcon.sh` with Output Logs
+
+To run `credcon.sh` with output directly to the terminal (while GUI dialogs still appear on the desktop), use:
+
+```bash
+bash /opt/ntos/credcon.sh
+```
+Run the above as the user, something which can be done with `su user` (as root).
+
+This will output real-time logs, which are useful for diagnosing connection problems. For example:
+
+```
+user@NTOS:/opt/ntos# bash credcon.sh
 Starting loading bar
 # 1%
 # 2%
 # 3%
-# 4%
 [16:39:02:892] [8315:8327] [ERROR][com.freerdp.core] - freerdp_tcp_connect:freerdp_set_last_error_ex ERRCONNECT_DNS_NAME_NOT_FOUND [0x00020005]
-# 5%
+# 4%
 [16:39:02:946] [8315:8327] [ERROR][com.freerdp.core] - rdg_establish_data_connection:freerdp_set_last_error_ex ERRCONNECT_ACCESS_DENIED [0x00020016]
-[16:39:02:891] [8315:8327] [INFO][com.freerdp.core.nego] - Detecting if host can be reached locally. - This might take some time.
-[16:39:02:891] [8315:8327] [INFO][com.freerdp.core.nego] - To disable auto detection use /gateway-usage-method:direct
-[16:39:02:891] [8315:8327] [INFO][com.freerdp.core.nego] - Detecting if host can be reached locally. - This might take some time.
-[16:39:02:891] [8315:8327] [INFO][com.freerdp.core.nego] - To disable auto detection use /gateway-usage-method:direct
-# 6%
-# 7%
-# 8%
-# 9%
+...
 # 10%
 xfreerdp terminated early (less than '30' seconds).
-# 11%
-...counting up (omitted because it takes up more space than needed.)
 # 23%
 ```
 
-The above example shows a `ACCESS_DENIED` error. 
+#### 🧩 Common Errors Explained
 
-### Desktop Environment related:
+* `ERRCONNECT_DNS_NAME_NOT_FOUND`: The hostname cannot be resolved. Check your RDP server address.
+* `ERRCONNECT_ACCESS_DENIED`: Access was denied. Verify your credentials and user permissions.
 
-When encountering an off-sync background image, which can happen when you install the system fully with one monitor and connect a second one after.<br>
-Do the following:
-```shell
-su user -c "bash /opt/ntos/bg-sync.sh"
+---
+
+### 🖼️ Desktop Environment (XFCE4) Issues
+
+Sometimes, when connecting an additional monitor **after** installation, the desktop background may not sync correctly across displays.
+
+To fix this, run the background sync script:
+
+```bash
+su user -c "bash /opt/ntos/background-sync.sh"
 ```
-This will sync the image present at /opt/ntos/desktop.png to all connected monitors.
 
-# Images:
+This command syncs the background image located at:
 
+```
+/opt/ntos/desktop.png
+```
+
+...across all currently connected monitors.
+Since recent versions of NTOS, this should be fixed by replacing the default image.
+
+---
+
+## 🌐 NTOS Web Server File Structure
+
+This outlines how key files are mapped when `copy_ntos_files()` places NTOS content into a web-accessible directory (e.g., `/var/www/html/ntos` or similar).
+
+---
+
+### 📁 `/assets/` – User Interface & Scripts
+
+| Path                              | Description                                                                                        |
+| --------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `/assets/desktop.png`             | Default background image applied to the XFCE4 desktop. Replace carefully (exact name + extension). |
+| `/assets/gtk.css`                 | UI stylesheet to modernize appearance of GTK elements.                                             |
+| `/assets/panel-profile.tar.bz2`   | XFCE4 panel profile archive; sets panel layout and shortcuts.                                      |
+| `/assets/bin/background-sync.sh`  | Syncs background across multiple monitors (fixes multi-display misalignments).                     |
+| `/assets/bin/blocked-dialogue.sh` | Script to show a "blocked" message when restricted apps are launched.                              |
+| `/assets/bin/code-refresh.sh`     | Script to refresh config or system code from source.                                               |
+| `/assets/bin/install-firmware.sh` | Script to assist with firmware package installation.                                               |
+
+---
+
+### 🔐 `/credcon/` – Credential Manager
+
+| Path                  | Description                                                                                        |
+| --------------------- | -------------------------------------------------------------------------------------------------- |
+| `/credcon/credcon.sh` | Bash script prompting the user for RDP credentials, with basic validation and feedback mechanisms. |
+
+---
+
+### ⚙️ `/configs/` – Deployment Presets
+
+| Path                           | Description                                                                                          |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `/configs/minimal/preseed.cfg` | Debian preseed file for lightweight installs (targeting \~4GB storage).                              |
+| `/configs/default/preseed.cfg` | Default preseed configuration (more general use).                                                    |
+| `/configs/minimal/finish.sh`   | Post-install script for minimal installs; includes tweaks for low-storage environments.              |
+| `/configs/default/finish.sh`   | Default finish script applied after installation. Insert remote management setup here (lines 84–87). |
+
+---
+
+### 🖥 `/rdp/` – Remote Desktop Configs
+
+| Path         | Description                                                                                                                    |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `/rdp/*.rdp` | Pre-made `.rdp` files for automatic connections. You must populate this folder manually with your environment’s RDP templates. |
+
+---
+
+### 🚫 `/assets/mime-blocks/` – Application Restrictions
+
+| Path                                    | Description                                                                                                                  |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `/assets/mime-blocks/blocked-*.desktop` | XFCE `.desktop` entries that redirect to a block notice instead of launching restricted apps (e.g., Terminal, File Manager). |
+| `/assets/mime-blocks/helpers.rc`        | Supporting config for the blocked app launchers.                                                                             |
+
+---
+
+### 🧪 `/vers-diff/` – Version-Specific Updates
+
+| Path                      | Description                                                                                        |
+| ------------------------- | -------------------------------------------------------------------------------------------------- |
+| `/vers-diff/1.1-1.1.1.sh` | Script to update from version 1.1 to 1.1.1. Useful for applying incremental updates in production. |
+
+---
+
+### 📄 Miscellaneous
+
+| Path       | Description                                                                  |
+| ---------- | ---------------------------------------------------------------------------- |
+| `/VERSION` | Defines the current NTOS version. Referenced during updates and deployments. |
+
+---
+
+## Images:
 <img src="./assets/images/preseed.jpeg" alt="Preseed-screen" width="600"/><br>
 <img src="./assets/images/partitioner.jpeg" alt="Partitioner screen" width="600"/><br>
 <img src="./assets/images/firstboot.jpeg" alt="First-boot desktop" width="600"/><br>
 <img src="./assets/images/finish_sh.jpeg" alt="Executing finish.sh" width="600"/><br>
 
-## Webserver Endpoint-structure:
-
-The Bash `install.sh`-scripts are there for copying the needed files to the specificied location on the system, preferably from a webserver root into the /opt/ntos directory.
-
-The following endpoints are available by default after installing using `install.sh` (assuming success). This is needed for the new machine to set itself up.
-
-```shell
---- Complimentary Assets
-/assets/bg-sync.sh              # This bash script can sync the background images. Sometimes images are off-sync when connecting a second monitor.
-/assets/desktop.png 	        # This file will be used as the background for the installed device. Replacing must be done by exactly coping the name + filename extension.
-/aseets/gtk.css                 # This file applies some styling to make the UI look more modern and appealing.
-/assets/panel-profile.tar.bz2   # XFCE4 Panel profile.
-
---- Credcon
-/credcon/credcon.sh             # Bash script for asking user credentials (for the RDP connection).
-
---- Configs
-/configs/minimal/preseed.cfg    # The Debian preseed file for the minimal configuration (~4GB).
-/configs/default/preseed.cfg    # The default Debian preseed file.
-/configs/minimal/finish.sh      # The Bash script that applies all settings with a modification for support on small drives.
-/configs/default/finish.sh      # The default bash script.
-
---- RDP Directory
-/rdp/<your-rdp-templates>       # Directory endpoint for premade '.rdp' files (for example /rdp/demo.rdp). You NEED to populate this yourself.
-
-```
-
-The above `/rdp` endpoint requires you to place premade `.rdp` files in the directory before running `setup.sh`.<br>
-Then the finish script will ask for which one to pick.
-
 # Epilogue
-
-I am happy I am finally able to present something I am actually very fond of, this project.<br>
-I've tried to make this environment as fool-proof as possible so that non-technical people can work with this. I always appreciate feedback.<br>
-Thanks<br>
+I am happy I am finally able to present something I am actually very fond of, this project.
+I've tried to make this environment as fool-proof as possible so that non-technical people can work with this. I always appreciate feedback.
+Thanks
