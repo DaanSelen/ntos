@@ -1,3 +1,6 @@
+[![Docker Build and Push](https://github.com/DaanSelen/ntos/actions/workflows/docker.yml/badge.svg)](https://github.com/DaanSelen/ntos/actions/workflows/docker.yml)
+[![CodeQL Advanced](https://github.com/DaanSelen/ntos/actions/workflows/codeql.yml/badge.svg)](https://github.com/DaanSelen/ntos/actions/workflows/codeql.yml)
+
 > [!NOTE]
 > If you experience issues or have suggestions, submit an issue: https://github.com/DaanSelen/ntos/issues — I'll respond ASAP!
 
@@ -43,19 +46,19 @@ As a student and young professional, I wanted to create something **production-r
 NTOS is built for **easy deployment** at scale.
 I’ve used it in production across multiple machines, with minimal training required—even by non-IT users.
 
----
-
 ## 💡 Customization
 
 NTOS is flexible by design. You can:
 
-* Replace RDP with other protocols like VNC or Citrix
+* Replace RDP with other protocols like VNC or Citrix, depending on Linux clients.
 * Create kiosk-style launchers
 * Automate deployment via preseeded ISOs or centralized scripts
 
+Examples [Citrix Workspace](https://www.citrix.com/downloads/workspace-app/linux/) and [TigerVNC](https://github.com/TigerVNC/tigervnc)/[RealVNC](https://www.realvnc.com/en)
+
 ## 🖥️ Installation Guide
 
-### 1. Set Up NTOS Server
+### 1. (Bare-Metal/VM) Set Up NTOS Server
 
 Run the setup script:
 ```bash
@@ -70,6 +73,14 @@ curl http://localhost/configs/default/preseed.cfg
 
 This should retrieve the Debian default preseed config.
 Ensure the structure matches your network and use case.
+
+### 2. Docker/Kubernetes
+
+```bash
+docker compose -f ./docker/compose.yaml up -d
+```
+
+This should start the container following the `./docker/compose.yaml` specifications. Look at those to be safe.
 
 ---
 ### 2. Install NTOS Client
@@ -86,6 +97,8 @@ Ensure the structure matches your network and use case.
 ```bash
 bash <(curl <your-NTOS-server-address>/configs/<your-config>/finish.sh)
 ```
+
+This process on older hardware can take up to like 40 minutes. Because its just 2 action 'sessions' and lots of stuff in between.
 
 ---
 
