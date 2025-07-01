@@ -12,3 +12,5 @@ sed -i '/^deb .*bookworm-backports/ {/contrib/! s/\bmain\b/& contrib/}' /etc/apt
 curl -s "${ORIGIN}"/credcon/credcon.sh > /opt/ntos/bin/credcon.sh
 
 sed -i 's/^VERSION=1\.1\.1$/VERSION=1.1.2/' "$version_file"
+
+su user -c "xfconf-query -c displays -np '/Notify' -t 'int' -s '3'"

@@ -91,6 +91,9 @@ xfconf-query -c xfce4-panel -np '/panels/panel-1/span-monitors' -t 'bool' -s 'tr
 xfconf-query -c thunar-volman -np '/automount-drives/enabled' -t 'bool' -s 'true'
 xfconf-query -c thunar-volman -np '/automount-media/enabled' -t 'bool' -s 'true'
 
+# Set default action for Displays.
+xfconf-query -c displays -np '/Notify' -t 'int' -s '3'
+
 # Set a nice looking background.
 for x in $(xfconf-query -c xfce4-desktop -lv | grep last-image | awk '{print $1}')
 do
